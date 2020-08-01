@@ -139,7 +139,8 @@ let alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, 
 
 localStorage.setItem('name',tempInfoName.value.toUpperCase());
 localStorage.setItem('menor', tempInfoMenor.checked);
-
+alertResponsavel = '';
+alertCpfresp = '';
 if (tempInfoMenor.checked)
 {
   if (isEmpty(tempInfoResponsavel.value)) alertResponsavel = `\n[Responsável não informado]`;
@@ -147,10 +148,6 @@ if (tempInfoMenor.checked)
   if (tempInfoCpfresp.value.length != 14 && tempInfoCpfresp.value.length != 0) alertCpfresp = `\n[CPF resp. ${tempInfoCpfresp.value}]`;
   else if (isEmpty(tempInfoCpfresp.value)) alertCpfresp = `\n[CPF resp. não informado]`;
   else  alertCpfresp = ''; 
-}
-else {
-  alertResponsavel = '';
-  alertCpfresp = '';
 }
 localStorage.setItem('responsavel', tempInfoResponsavel.value.toUpperCase());
 localStorage.setItem('cpfresp', tempInfoCpfresp.value); 
@@ -201,31 +198,11 @@ localStorage.setItem('cidade',tempInfoCidade.value);
 
 if (alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
 { 
-  /*alert(`Dados gravados com inconsistências:\n${alertResponsavel }\n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`); */
-  toastr["warning"](`\n${alertResponsavel }\n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`, "Informações salvas com dados inconsistentes!"); 
+  alert(`Dados gravados com inconsistências:\n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`); 
 }
-else { /* alert('Estou aqui.'); */
-/*
-Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Your work has been saved',
-  showConfirmButton: false,
-  timer: 1500
-})
-*/
-/* toastr["success"]("", "Informações salvas!"); */
-}
+else alert('Dados salvos!'); 
 DisableAll();
 }
-
-Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Your work has been saved',
-  showConfirmButton: false,
-  timer: 1500
-})
 
 
 function EnableAll(){
