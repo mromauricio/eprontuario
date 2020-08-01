@@ -4,26 +4,12 @@
 
 # Enhancement
 
-(  ) Git para controle de versões - 
-
 (  ) Array para gravar no localStorage
-
-(  ) Angular
 
 (  ) Toastr ou Sweetheart2 no GravaInfo
 
 (  ) Histórico do paciente
 
-(  )
-
 ( ) Acrescentar foto 3x4 paciente
 
 
-
-git init 
-cria repositoria
-
-
-git status
-
-git log
