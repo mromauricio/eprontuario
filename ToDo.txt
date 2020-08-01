@@ -1,0 +1,26 @@
+# Error
+
+# Format
+
+# Enhancement
+
+(  ) Array para gravar no localStorage
+
+(  ) Angular
+
+(  ) Toastr ou Sweetheart2 no GravaInfo
+
+(  ) Histórico do paciente
+
+(  )
+
+( ) Acrescentar foto 3x4 paciente
+
+
+
+git init 
+cria repositoria
+
+
+git status
+
