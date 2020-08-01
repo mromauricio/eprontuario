@@ -4,6 +4,8 @@
 
 # Enhancement
 
+(  ) Git para controle de versões - 
+
 (  ) Array para gravar no localStorage
 
 (  ) Angular
@@ -24,3 +26,4 @@ cria repositoria
 
 git status
 
+git log
