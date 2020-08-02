@@ -48,7 +48,7 @@ tempInfoResponsavel.addEventListener('blur', function() {
   this.value = this.value.toUpperCase();
   if (isEmpty(this.value)) {
     this.setAttribute('style','color: red;');
-    toastr["warning"]("", "Quem é o responsável?");
+    MsgTop('warning', 'Informe o responsável!');
    }
   else this.removeAttribute('style');  
 });
@@ -57,7 +57,7 @@ tempInfoCpfresp.addEventListener('blur', function(){
   this.value = ValidaCpf(this.value); 
   if ((this.value.length != 14 && this.value.length != 0)||isEmpty(this.value)) {
     this.setAttribute('style','color: red;');
-    toastr["error"]("", "CPF responsável inválido");
+    MsgTop('error', 'CPF responsável inválido!');
   }
   else this.removeAttribute('style');
 });
@@ -66,7 +66,7 @@ tempInfoCpf.addEventListener('blur', function(){
 this.value = ValidaCpf(this.value); 
 if (this.value.length != 14 && this.value.length != 0||isEmpty(this.value)) {
   this.setAttribute('style','color: red;');
-  toastr["error"]("", "CPF inválido");
+  MsgTop('error', 'CPF inválido!');
 }
 else tempInfoCpf.removeAttribute('style');
 });
@@ -75,7 +75,7 @@ tempInfoCns.addEventListener('blur', function(){
   this.value = ValidaCns(this.value);
 if (this.value.length != 18 && this.value.length != 0) {
   this.setAttribute('style','color: red;');  
-  toastr["error"]("", "CNS inválido"); 
+  MsgTop('error', 'CNS inválido!');
 }
 else this.removeAttribute('style');
 });
@@ -84,7 +84,7 @@ tempInfoRegistro.addEventListener('blur', function(){
   this.value = ValidaRegistro(this.value);
   if (this.value.length != 9 && this.value.length != 0) {
     this.setAttribute('style','color: red;');  
-    toastr["error"]("", "Registro inválido"); 
+    MsgTop('error', 'Registro inválido!');
   }
   else this.removeAttribute('style');
 });
@@ -93,7 +93,7 @@ tempInfoTel.addEventListener('blur', function(){
   this.value = ValidaTel(this.value);
   if (this.value.length !=14 && this.value.length != 0) {
     this.setAttribute('style','color: red;'); 
-    toastr["error"]("", "Telefone inválido"); 
+    MsgTop('error', 'Telefone inválido!');
   }
   else this.removeAttribute('style');  
 });
@@ -102,7 +102,7 @@ tempInfoCel.addEventListener('blur', function(){
   this.value = ValidaCel(this.value);
   if (this.value.length !=15 && this.value.length != 0) {
     this.setAttribute('style','color: red;');  
-    toastr["error"]("", "Celular inválido"); 
+    MsgTop('error', 'Celular inválido!');
   }
   else this.removeAttribute('style');  
 });
@@ -111,14 +111,13 @@ tempInfoCep.addEventListener('blur', function(){
   this.value = ValidaCep(this.value);
   if (this.value.length !=9 && this.value.length != 0) {
     this.setAttribute('style','color: red;');  
-    toastr["error"]("", "CEP inválido"); 
+    MsgTop('error', 'CEP inválido!');
   }
   else this.removeAttribute('style');  
 });
 /****** END Linsteners ***********/  
 
 DisableAll();
-/* tempInfoName.removeAttribute('disable'); */
 tempInfoName.focus();
 
 function SearchRegister(){
