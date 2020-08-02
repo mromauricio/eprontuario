@@ -26,14 +26,34 @@
         toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
     })
-    
     Toast.fire({
       icon: type,
       title: message
     })
+    event.preventDefault();
   }
  
+function MsgCenter (type, title){
+  Swal.fire({
+    position: 'center',
+    icon: type,
+    title: title,
+    showConfirmButton: false,
+    timer: 1500
+  })
+  event.preventDefault();
+}
 
+function MsgCenterButtonText(type, title, message){
+  Swal.fire({
+    position: 'center',
+    icon: type,
+    title: title,
+    text: message,
+    showConfirmButton: true,
+  })
+  event.preventDefault();
+}
 
 function ValidaCpf(cpf)
 {

@@ -21,7 +21,7 @@ let tempInfoCidade = document.querySelector('#aligned-cidade');
 let buttonGravar = document.querySelector('#gravar');
 const isEmpty = str => !str.trim().length;
 
-
+tempInfoName.focus(); 
 
 /* Listeners */
 buttonGravar.addEventListener('click', GravaLocalInfo);
@@ -29,6 +29,11 @@ buttonGravar.addEventListener('click', GravaLocalInfo);
 tempInfoName.addEventListener("keyup", function(event) {
 if (event.keyCode === 13) {
   event.preventDefault();
+  if (isEmpty(this.value)) {
+    this.setAttribute('style','color: red;');
+    MsgTop('warning', 'Informe o nome!');
+   }
+  else this.removeAttribute('style');  
   SearchRegister();
 }
 });
@@ -118,7 +123,7 @@ tempInfoCep.addEventListener('blur', function(){
 /****** END Linsteners ***********/  
 
 DisableAll();
-tempInfoName.focus();
+
 
 function SearchRegister(){
   tempInfoName.value = tempInfoName.value.toUpperCase();
@@ -128,6 +133,7 @@ function SearchRegister(){
     {
       ShowData();
     } 
+    else ClearData();
   }
   EnableAll(); 
 }
@@ -197,9 +203,12 @@ localStorage.setItem('cidade',tempInfoCidade.value);
 
 if (alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
 { 
-  alert(`Dados gravados com inconsistências:\n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`); 
+  MsgCenterButtonText('warning','Dados gravados!',`Inconsistências: \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
+/*  alert(`Dados gravados com inconsistências:\n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`); */
 }
-else alert('Dados salvos!'); 
+else { /* alert('Dados gravados!'); */
+MsgCenter('success','Dados gravados!', false);
+}
 DisableAll();
 }
 
@@ -267,6 +276,27 @@ function ShowData(){
   tempInfoCidade.value = localStorage.cidade;
 }
 
+function ClearData(){
+  tempInfoMenor.checked=false;
+  tempInfoResponsavel.value = '';
+  tempInfoCpfresp.value = '';
+  tempInfoCpf.value = '';
+  tempInfoCns.value = '';
+  tempInfoRegistro.value = '';
+  tempInfonacionalidade.value = '';
+  tempInfoNascimento.value = '';
+  tempInfoGenero.value = '';
+  tempInfoTel.value = '';
+  tempInfoCel.value = '';
+  tempInfoWhatsapp.checked=false;
+  tempInfoEmail.value = '';
+  tempInfoEndereco.value = '';
+  tempInfoCep.value = '';
+  tempInfoBairro.value = '';
+  tempInfoUf.value = '';
+  tempInfoCidade.value = '';
+}
+
 function DisableAll(){
   tempInfoMenor.setAttribute('disabled'," ");
   tempInfoResponsavel.setAttribute('disabled'," ");
@@ -288,9 +318,6 @@ function DisableAll(){
   tempInfoCidade.setAttribute('disabled'," ");
   buttonGravar.setAttribute('disabled'," ");
 }
-
-
-
 
 class Paciente {
   constructor(name, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,  genero,
