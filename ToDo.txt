@@ -3,10 +3,9 @@
 # Format
 
 # Enhancement
+(  ) <meta> add image paperclip 128px
 
 (  ) Array para gravar no localStorage
-
-(  ) Toastr ou Sweetheart2 no GravaInfo
 
 (  ) Histórico do paciente
 
