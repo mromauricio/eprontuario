@@ -19,7 +19,33 @@ let tempInfoBairro = document.querySelector('#aligned-bairro');
 let tempInfoUf = document.querySelector('#stacked-uf');
 let tempInfoCidade = document.querySelector('#aligned-cidade');
 let buttonGravar = document.querySelector('#gravar');
+
 const isEmpty = str => !str.trim().length;
+
+class Paciente {
+  constructor(name, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,genero,
+    tel, cel, whatsapp, email, endereco, cep, bairro, uf, cidade){
+    this.name = name;
+    this.menor = menor;
+    this.responsavel = responsavel;
+    this.cpfresp = cpfresp;
+    this.cpf = cpf;
+    this.cns = cns;
+    this.registro = registro;
+    this.nacionalidade = nacionalidade;
+    this.nascimento = nascimento;
+    this.genero = genero;
+    this.tel = tel;
+    this.cel = cel;
+    this.whatsapp = whatsapp;
+    this.email = email;
+    this.endereco = endereco;
+    this.cep = cep;
+    this.bairro = bairro;
+    this.uf = uf;
+    this.cidade = cidade;
+  }
+}
 
 tempInfoName.focus(); 
 
@@ -27,16 +53,16 @@ tempInfoName.focus();
 buttonGravar.addEventListener('click', GravaLocalInfo);
 
 tempInfoName.addEventListener("keyup", function(event) {
-if (event.keyCode === 13) {
-  event.preventDefault();
-  if (isEmpty(this.value)) {
-    this.setAttribute('style','color: red;');
-    MsgTop('warning', 'Informe o nome!');
-   }
-  else this.removeAttribute('style');  
-  SearchRegister();
-}
-});
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    if (isEmpty(this.value)) {
+      this.setAttribute('style','color: red;');
+      MsgTop('warning', 'Informe o nome!');
+     }
+    else this.removeAttribute('style');  
+    SearchRegister();
+  }
+  });
 
 tempInfoMenor.addEventListener('click', function(){
   if (this.checked) {
@@ -67,7 +93,7 @@ tempInfoCpfresp.addEventListener('blur', function(){
   else this.removeAttribute('style');
 });
 
-tempInfoCpf.addEventListener('blur', function(){
+tempInfoCpf.addEventListener('focusout', function(){
 this.value = ValidaCpf(this.value); 
 if (this.value.length != 14 && this.value.length != 0||isEmpty(this.value)) {
   this.setAttribute('style','color: red;');
@@ -124,7 +150,6 @@ tempInfoCep.addEventListener('blur', function(){
 
 DisableAll();
 
-
 function SearchRegister(){
   tempInfoName.value = tempInfoName.value.toUpperCase();
   if (localStorage.getItem('name') != null)
@@ -133,11 +158,9 @@ function SearchRegister(){
     {
       ShowData();
     } 
-    else ClearData();
   }
   EnableAll(); 
 }
-
 
 function GravaLocalInfo(){  
 let alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
@@ -175,12 +198,10 @@ localStorage.setItem('nacionalidade', tempInfonacionalidade.value);
 localStorage.setItem('nascimento', tempInfoNascimento.value);
 localStorage.setItem('genero',tempInfoGenero.value);
 
-
 if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) {
   localStorage.setItem('tel', tempInfoTel.value); 
   alertTel = `\n[Tel. ${tempInfoTel.value}]`;}
 else { localStorage.setItem('tel', tempInfoTel.value);  alertTel = ''; }   
-
 
 if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) { 
   localStorage.setItem('cel', tempInfoCel.value); 
@@ -190,7 +211,6 @@ else { localStorage.setItem('cel', tempInfoCel.value);  alertCel = ''; }
 localStorage.setItem('whatsapp', tempInfoWhatsapp.checked);
 localStorage.setItem('email',tempInfoEmail.value);
 localStorage.setItem('endereco',tempInfoEndereco.value);
-
 
 if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) { 
   localStorage.setItem('cep', tempInfoCep.value); 
@@ -202,16 +222,134 @@ localStorage.setItem('uf',tempInfoUf.value);
 localStorage.setItem('cidade',tempInfoCidade.value);
 
 if (alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
-{ 
-  MsgCenterButtonText('warning','Dados gravados!',`Inconsistências: \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
-/*  alert(`Dados gravados com inconsistências:\n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`); */
-}
-else { /* alert('Dados gravados!'); */
-MsgCenter('success','Dados gravados!', false);
-}
-DisableAll();
+  { 
+  MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
+  if (alertResponsavel!='') tempInfoResponsavel.focus();
+  else if (alertCpfresp!='') tempInfoCpfresp.focus();
+  else if (alertCpf!='') { tempInfoCpf.focus(); event.preventDefault(); }
+  }
+else { 
+  let paciente = new Paciente(localStorage.name, localStorage.menor, 
+  localStorage.responsavel, localStorage.cpfresp,localStorage.cpf, 
+  localStorage.cns, localStorage.registro, localStorage.nacionalidade,
+  localStorage.nascimento, localStorage.genero, localStorage.tel, 
+  localStorage.cel,localStorage.whatsapp, localStorage.email, 
+  localStorage.endereco, localStorage.cep,localStorage.bairro, 
+  localStorage.uf, localStorage.cidade);
+
+  jsonPaciente = JSON.stringify(paciente);
+  console.log('paciente: '+typeof(jsonPaciente)+' (json)');
+  console.log(jsonPaciente);
+  event.preventDefault();
+
+  //RequestHTTP('GET'); 
+  (RequestHTTP('POST', jsonPaciente) == 1) ? MsgCenter('success','Dados enviados!', false) : MsgCenterButtonText('error','Falha no envio!', 'Tente novamente');
+  //FetchGetText();
+ //FetchGetJson();
+  
+  //FetchPost(jsonPaciente);
+  //FetchPostAsync(jsonPaciente);
+  //GetHTTPjQuery();
+  //PostHTTPjQuery(jsonPaciente);
+  //FetchGetTextAsync();
+  //FetchGetJsonAsync();
+  DisableAll();
+  ClearData();
+  }
 }
 
+function RequestHTTP(action, jsonContent){ 
+  let url = new URL('http://localhost:3000');
+  if (action == 'POST')  url.href += 'paciente';
+  let xhttp = new XMLHttpRequest();
+  xhttp.open(action, url, false); /* How to obtain response when async is true ????  */
+  xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  (action == 'GET') ? xhttp.send() : xhttp.send(jsonContent);
+  console.log(xhttp);
+  if (xhttp.readyState == 4 && xhttp.status>=200 && xhttp.status<=299) return(1);  /* if async is true status returns 0 */
+  else return(0); 
+  //xhttp.responseType = 'text';  /* only works if async is true  */
+  //xhttp.withCredentials = true; /* make cross-origin requests, using the same CORS policy as fetch. */
+  //xhttp.setRequestHeader('Access-Control-Allow-Origin',url); /* add verbo OPTIONS */
+ // xhttp.onload = function() {console.log(xhttp)};
+}
+
+function FetchGetJson(){
+  let url =  new URL('http://localhost:3000/jsonserver');
+  fetch(url)
+  .then(response => response.json())
+  .then(data => console.log(data));
+}
+
+async function FetchGetJsonAsync(){
+  let url =  new URL('http://localhost:3000/jsonserver');
+  fetch(url)
+  await function() {response.json()}
+  await function() {console.log(data)}
+}
+
+async function FetchGetTextAsync() {
+  let url =  new URL('http://localhost:3000');
+  fetch(url);
+  await function(){response.text()};
+  await function(){console.log(data);}
+}
+
+function FetchGetText(){
+  let url =  new URL('http://localhost:3000');
+  fetch(url)
+  .then(response => response.text())
+  .then(data => console.log(data));
+}
+
+function FetchPost(jsonContent){
+  let result;
+  let url =  new URL('http://localhost:3000/paciente');
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: jsonContent
+  })
+  //.then(response => console.log(response.text()))
+  .then(response => response.text())
+  .then(data => {
+    console.log('Success:', data); 
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  })
+}
+
+async function FetchPostAsync (jsonContent){
+  let result;
+  let url =  new URL('http://localhost:3000/paciente');
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: jsonContent
+  })
+  //.then(response => console.log(response.text()))
+  await function() { response.text()}
+  await function() { console.log('Success:', data); }
+}
+
+function GetHTTPjQuery(){
+  let url = new URL('http://localhost:3000');
+  $.get(url, function(data, status){
+    console.log("Data: " + data + "\nStatus: " + status);
+  });
+}
+
+function PostHTTPjQuery(jsonContent){
+  let url = new URL('http://localhost:3000/paciente');
+  $.post(url, jsonContent, function(data, status){
+    console.log("Data: " + data + "\nStatus: " + status);
+  });
+}
 
 function EnableAll(){
   tempInfoMenor.removeAttribute('disabled');
@@ -277,21 +415,31 @@ function ShowData(){
 }
 
 function ClearData(){
+  tempInfoName.value = '';
+  tempInfoName.removeAttribute('style'); 
   tempInfoMenor.checked=false;
   tempInfoResponsavel.value = '';
+  tempInfoResponsavel.removeAttribute('style'); 
   tempInfoCpfresp.value = '';
+  tempInfoCpfresp.removeAttribute('style'); 
   tempInfoCpf.value = '';
+  tempInfoCpf.removeAttribute('style'); 
   tempInfoCns.value = '';
+  tempInfoCns.removeAttribute('style'); 
   tempInfoRegistro.value = '';
+  tempInfoRegistro.removeAttribute('style'); 
   tempInfonacionalidade.value = '';
   tempInfoNascimento.value = '';
   tempInfoGenero.value = '';
   tempInfoTel.value = '';
+  tempInfoTel.removeAttribute('style'); 
   tempInfoCel.value = '';
+  tempInfoCel.removeAttribute('style'); 
   tempInfoWhatsapp.checked=false;
   tempInfoEmail.value = '';
   tempInfoEndereco.value = '';
   tempInfoCep.value = '';
+  tempInfoCep.removeAttribute('style'); 
   tempInfoBairro.value = '';
   tempInfoUf.value = '';
   tempInfoCidade.value = '';
@@ -319,93 +467,9 @@ function DisableAll(){
   buttonGravar.setAttribute('disabled'," ");
 }
 
-class Paciente {
-  constructor(name, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,  genero,
-             tel, cel, whatsapp, email, endereco, cep, bairro, uf, cidade ){
-    this.name = name;
-    this.menor = menor;
-    this.responsavel = responsavel;
-    this.cpfresp = cpfresp;
-    this.cpf = cpf;
-    this.cns = cns;
-    this.registro = registro;
-    this.nacionalidade = nacionalidade;
-    this.nascimento = nascimento;
-    this.genero = genero;
-    this.tel = tel;
-    this.cel = cel;
-    this.whatsapp = whatsapp;
-    this.email = email;
-    this.endereco = endereco;
-    this.cep = cep;
-    this.bairro = bairro;
-    this.uf = uf;
-    this.cidade = cidade;
-  }
-}
+//tempInfoName.focus();
 
 
-let paciente = new Paciente(localStorage.name, localStorage.menor, 
-  localStorage.responsavel, localStorage.cpfresp,
-  localStorage.cpf, 
-  localStorage.cns, localStorage.registro, localStorage.nacionalidade,
-  localStorage.nascimento, localStorage.genero, localStorage.tel, localStorage.cel,
-  localStorage.whatsapp, localStorage.email, localStorage.endereco, localStorage.cep,
-  localStorage.bairro, localStorage.uf, localStorage.cidade)
 
-  console.log('paciente: '+typeof(paciente));  
-  console.log (paciente);
-  
-  jsonPaciente = JSON.stringify(paciente);
-  console.log('paciente: '+typeof(jsonPaciente)+' (json)');
-  console.log(jsonPaciente);
-  
 
-/*
 
-class Paciente {
-  constructor( ){
-    this.name = [];
-    this.menor = [];
-    this.responsavel = [];
-    this.cpfresp = [];
-    this.cpf = [];
-    this.cns = [];
-    this.registro = [];
-    this.nacionalidade = [];
-    this.nascimento = [];
-    this.genero = [];
-    this.tel = [];
-    this.cel = [];
-    this.whatsapp = [];
-    this.email = [];
-    this.endereco = [];
-    this.cep = [];
-    this.bairro = [];
-    this.uf = [];
-    this.cidade = [];
-  }
-  push(element){
-    this.name.push(element);
-    this.menor.push(element);
-    this.responsavel.push(element);
-    this.cpfresp.push(element);
-    this.cpf.push(element);
-    this.cns.push(element);
-    this.registro.push(element);
-    this.nacionalidade.push(element);
-    this.nascimento.push(element);
-    this.genero.push(element);
-    this.tel.push(element);
-    this.cel.push(element);
-    this.whatsapp.push(element);
-    this.email.push(element);
-    this.endereco.push(element);
-    this.cep.push(element);
-    this.bairro.push(element);
-    this.uf.push(element);
-    this.cidade.push(element);
-  }
-}
-
-/* let paciente = new Paciente; */

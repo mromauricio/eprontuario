@@ -14,7 +14,7 @@
     $cep.mask('00000-000', {reverse: false});
   });
 
-  function MsgTop(type, message){
+function MsgTop(type, message){
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -30,8 +30,8 @@
       icon: type,
       title: message
     })
-    event.preventDefault();
-  }
+   // event.preventDefault();
+}
  
 function MsgCenter (type, title){
   Swal.fire({
@@ -39,9 +39,9 @@ function MsgCenter (type, title){
     icon: type,
     title: title,
     showConfirmButton: false,
-    timer: 1500
+    timer: 2500
   })
-  event.preventDefault();
+ // event.preventDefault();
 }
 
 function MsgCenterButtonText(type, title, message){
@@ -89,7 +89,6 @@ if (cpfnum[9] == conta2) {
 return (cpf);
 }
 
-/*************************************************************/ 
 function ValidaCns(cns){
 cns = cns.replace(/[^0-9\'']+/g,'');
 if ( (cns.length>=1 && cns.length != 15) || (cns.length == 0) ) return(cns);
@@ -98,7 +97,6 @@ else { /* máscara 000.0000.0000.0000 */
   return (cns); }
 }
 
-/*************************************************************/ 
 function ValidaRegistro(registro){
 registro = registro.replace(/[^0-9\'']+/g,'');
 if ((registro.length>=1 && registro.length != 7) || registro.length == 0) return(registro);
@@ -107,7 +105,6 @@ else { /* máscara 0.000.000  */
   return (registro); }
 }
 
-/*************************************************************/ 
 function ValidaTel(tel){
 tel = tel.replace(/[^0-9\'']+/g,'');
 if ((tel.length>=1 && tel.length != 8 && tel.length !=10) || tel.length == 0) return(tel);
@@ -119,7 +116,6 @@ else { /* (99) 99999-9999  */
   return (tel);  }
 }
 
-/*************************************************************/ 
 function ValidaCel(cel){
 cel = cel.replace(/[^0-9\'']+/g,'');
 if ((cel.length>=1 && cel.length != 9 && cel.length !=11) || cel.length == 0) return(cel);
@@ -131,7 +127,6 @@ else { /* máscara (99) 99999-9999   */
   return (cel);  }
 }
 
-/*************************************************************/ 
 function ValidaCep(cep){
 cep = cep.replace(/[^0-9\'']+/g,'');
 if ((cep.length>=1 && cep.length != 8) || cep.length == 0) return(cep);

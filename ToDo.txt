@@ -1,14 +1,19 @@
 # Error
 
-# Format
+
 
 # Enhancement
-(  ) <meta> add image paperclip 128px
 
-(  ) Array para gravar no localStorage
+(  ) fetch POST com retorno para mensagem de sucesso
 
 (  ) Histórico do paciente
 
-( ) Acrescentar foto 3x4 paciente
+(  ) Acrescentar foto 3x4 paciente
+
+
+# How to?
+(  ) Foco no primeiro campo inconsistente, ao clicar Enviar foca, porém ao
+dar OK na mensagem de alerta perde o foco.
+
 
 

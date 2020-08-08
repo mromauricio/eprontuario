@@ -43,17 +43,14 @@
                 <div class="pure-control-group">
                     <label for="aligned-name">Nome</label>
                     <input type="text" class="pure-input-1-3" id="aligned-name" placeholder="digite o nome e tecle [Enter]"/>
-                    <span> *</span>
                     <label for="menor">
                         <input type="checkbox" id="menor" />menor de idade</label>
                 </div>
-
-               
                 <div class="pure-control-group">
                     <label for="aligned-responsavel">Responsável</label>
-                    <input type="text" class="pure-input-1-3" id="aligned-responsavel" placeholder="nome completo"/><span> *</span>
+                    <input type="text" class="pure-input-1-3" id="aligned-responsavel" placeholder="nome completo"/>
                     <label for="aligned-cpfresp">CPF responsável</label>
-                    <input type="text" class="pure-input-17 cpf" id="aligned-cpfresp" placeholder="números" /><span> *</span>
+                    <input type="text" class="pure-input-17 cpf" id="aligned-cpfresp" placeholder="números" />
                 </div>
                 <div class="pure-control-group">
                     <label for="aligned-cpf">CPF</label>
@@ -129,20 +126,35 @@
                     <input type="text" class="pure-input-1-4" id="aligned-cidade" placeholder=""/>
                 </div>
                 <div class="pure-controls">
-                    <button type="submit" class="pure-button button-large" id="gravar">Gravar</button>
+                    <button type="button" class="pure-button button-large" id="gravar">Enviar</button><span><sup> *</sup></span>
                 </div>
                 <div>
-                    <p class="msg-rodape"><sup>*</sup> Informação obrigatória.</p>
+                    <p class="msg-rodape"><sup>*</sup> Enquanto houver algum dado inválido o envio não será realizado.</p>
                 </div>
             </fieldset>
         </form>
     </main>
 </div>
 <script src="../script/sweetalert2.all.min.js"></script>
+<!--Estrangeiro para os alertas Sweetalert2 (sem alterações do original)-->
+
 <script type="text/javascript" src="../script/jquery351.js"></script>
+<!--Estrangeiro necessário ao sweetalert2 e jquery.mask (sem alterações do original)-->
+
 <script type="text/javascript" src="../script/jquery.mask.min.js"></script>
+<!--Estrangeiro para controlar o preenchimento de campos pelo usuário em tempo real, aplicando máscara
+    e evitando ingresso de conteúdo inadequado (ex.: caracter onde somente números são aceitos)
+    (sem alterações do original)-->
+
 <script type="text/javascript" src="../script/ui.js"></script>
+<!--Oriundo do Pure.css para ativar menu hambúrguer (sem alterações do original)-->
+
 <script type="text/javascript" src="../script/info-grava.js"></script>
-<script type="text/javascript" src="../script/valida.js"></script>
+<!--Obtém dados do formulário, valida os campos cabíveis (valida.js) e em caso de sucesso 
+    faz uma requisição POST HTTP -->
+
+<script type="text/javascript" src="../script/valida.js"></script> 
+<!--Funções com validação de campos do formulário, regras com máscaras (ex.: CPF) e funções 
+    para as mensagens exibidas.-->
 </body>
 </html>
