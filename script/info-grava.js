@@ -257,11 +257,11 @@ else {
   })
 
   //RequestHTTP('GET'); 
-  // (RequestHTTP('POST', jsonPaciente) == 1) ? MsgCenter('success','Dados enviados!', false) : MsgCenterButtonText('error','Falha no envio!', 'Tente novamente');
+  //(RequestHTTP('POST', jsonPaciente) == 1) ? MsgCenter('success','Dados enviados!', false) : MsgCenterButtonText('error','Falha no envio!', 'Tente novamente');
   //FetchGetText();
- //FetchGetJson();
+  //FetchGetJson();
   
-//  (FetchPost(jsonPaciente)  == 1) ? MsgCenter('success','Dados enviados!', false) : MsgCenterButtonText('error','Falha no envio!', 'Tente novamente');
+  //(FetchPost(jsonPaciente)
 
   //FetchPostAsync(jsonPaciente);
   //GetHTTPjQuery();

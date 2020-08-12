@@ -32,7 +32,7 @@ function FetchGetText(){
 
 function FetchPost(jsonContent){
   let url =  new URL('http://localhost:3000/paciente');
-  fetch(url, {
+  return fetch(url, {
     method: 'POST',
     headers: {'Content-Type': 'application/json;charset=utf-8'},
     body: jsonContent
@@ -40,9 +40,10 @@ function FetchPost(jsonContent){
   //.then(response => console.log(response.text()))
   // .then(response => response.text())
   .then(response => { console.log('Success:', response);
-        console.log(response.ok);
+        return(1);})
   .catch((error) => {
     console.error('Error:', error);
+    return(0);
   })
 }
 
