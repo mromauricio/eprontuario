@@ -19,8 +19,8 @@ let tempInfoBairro = document.querySelector('#aligned-bairro');
 let tempInfoUf = document.querySelector('#stacked-uf');
 let tempInfoCidade = document.querySelector('#aligned-cidade');
 let buttonGravar = document.querySelector('#gravar');
-let buttonGet = document.querySelector('#get');
-let buttonPut = document.querySelector('#put');
+let buttonGet = document.querySelector('#get'); // TEMP
+let buttonPut = document.querySelector('#put'); // TEMP
 
 const isEmpty = str => !str.trim().length;
 
@@ -53,8 +53,8 @@ tempInfoName.focus();
 
 /* Listeners */
 
-buttonGet.addEventListener('click', GetCpfServer);
-buttonPut.addEventListener('click', PutCpfServer);
+buttonGet.addEventListener('click', GetCpfServer); // TEMP
+buttonPut.addEventListener('click', PutCpfServer); // TEMP
 
 buttonGravar.addEventListener('click', GravaLocalInfo);
 
@@ -244,8 +244,6 @@ else {
   localStorage.uf, localStorage.cidade);
 
   jsonPaciente = JSON.stringify(paciente);
-  // console.info('paciente: '+typeof(jsonPaciente)+' (json)');
-  // console.info(jsonPaciente);
   event.preventDefault();
 
 
@@ -262,28 +260,12 @@ else {
     MsgCenterButtonText('error','Falha no envio!', 'Tente novamente');
   })
 
-  // let url =  new URL('http://localhost:3000/jsonserver');
-  // url.href += (`/id${paciente.cpf.replace(/[^0-9\'']+/g,'')}`);
-  // paciente.cpf=('171.355.137-09');
-  // jsonPaciente = JSON.stringify(paciente);
-  // console.log(jsonPaciente);
-  // fetch(url, {
-  //   method: 'PUT',
-  //   headers: {'Content-Type': 'application/json;charset=utf-8'},
-  //   body: jsonPaciente
-  // })
-  // .then(response => { console.log(response);})
-  // .catch((error) => {
-  //   console.error('Error:', error);
-  // })
-
-
   DisableAll();
   ClearData();
   }
 }
 
-function GetCpfServer(){
+function GetCpfServer(){  // TEMP
   let cpfSearch = prompt('Informe o CPF para pesquisa no servidor:');
   let url =  new URL('http://localhost:3000/jsonserver');
   url.href += (`/?cpf=${cpfSearch}`);
@@ -292,7 +274,7 @@ function GetCpfServer(){
   .then(data => console.log(data));
 }
 
-function PutCpfServer(){
+function PutCpfServer(){  // TEMP
   let cpfSearch = prompt('Informe o CPF a ser modificado:');
   let cpfModify = prompt('Informe o novo CPF:');
   let url =  new URL('http://localhost:3000/jsonserver');
@@ -427,7 +409,6 @@ function DisableAll(){
   buttonGravar.setAttribute('disabled'," ");
 }
 
-//tempInfoName.focus();
 
 
 
