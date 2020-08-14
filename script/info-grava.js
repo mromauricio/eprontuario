@@ -19,6 +19,8 @@ let tempInfoBairro = document.querySelector('#aligned-bairro');
 let tempInfoUf = document.querySelector('#stacked-uf');
 let tempInfoCidade = document.querySelector('#aligned-cidade');
 let buttonGravar = document.querySelector('#gravar');
+let buttonGet = document.querySelector('#get');
+let buttonPut = document.querySelector('#put');
 
 const isEmpty = str => !str.trim().length;
 
@@ -50,6 +52,10 @@ class Paciente {
 tempInfoName.focus(); 
 
 /* Listeners */
+
+buttonGet.addEventListener('click', GetCpfServer);
+buttonPut.addEventListener('click', PutCpfServer);
+
 buttonGravar.addEventListener('click', GravaLocalInfo);
 
 tempInfoName.addEventListener("keyup", function(event) {
@@ -238,41 +244,72 @@ else {
   localStorage.uf, localStorage.cidade);
 
   jsonPaciente = JSON.stringify(paciente);
-  console.info('paciente: '+typeof(jsonPaciente)+' (json)');
-  console.info(jsonPaciente);
+  // console.info('paciente: '+typeof(jsonPaciente)+' (json)');
+  // console.info(jsonPaciente);
   event.preventDefault();
 
 
-  let url =  new URL('http://localhost:3000/paciente');
+  let url =  new URL('http://localhost:3000/jsonserver');
   fetch(url, {
     method: 'POST',
     headers: {'Content-Type': 'application/json;charset=utf-8'},
     body: jsonPaciente
   })
-  .then(response => { console.log('Success:', response);
+  .then(response => { console.log(response);
         MsgCenter('success','Dados enviados!', false);})
   .catch((error) => {
     console.error('Error:', error);
     MsgCenterButtonText('error','Falha no envio!', 'Tente novamente');
   })
 
-  //RequestHTTP('GET'); 
-  //(RequestHTTP('POST', jsonPaciente) == 1) ? MsgCenter('success','Dados enviados!', false) : MsgCenterButtonText('error','Falha no envio!', 'Tente novamente');
-  //FetchGetText();
-  //FetchGetJson();
-  
-  //(FetchPost(jsonPaciente)
+  // let url =  new URL('http://localhost:3000/jsonserver');
+  // url.href += (`/id${paciente.cpf.replace(/[^0-9\'']+/g,'')}`);
+  // paciente.cpf=('171.355.137-09');
+  // jsonPaciente = JSON.stringify(paciente);
+  // console.log(jsonPaciente);
+  // fetch(url, {
+  //   method: 'PUT',
+  //   headers: {'Content-Type': 'application/json;charset=utf-8'},
+  //   body: jsonPaciente
+  // })
+  // .then(response => { console.log(response);})
+  // .catch((error) => {
+  //   console.error('Error:', error);
+  // })
 
-  //FetchPostAsync(jsonPaciente);
-  //GetHTTPjQuery();
-  //PostHTTPjQuery(jsonPaciente);
-  //FetchGetTextAsync();
-  //FetchGetJsonAsync();
+
   DisableAll();
   ClearData();
   }
 }
 
+function GetCpfServer(){
+  let cpfSearch = prompt('Informe o CPF para pesquisa no servidor:');
+  let url =  new URL('http://localhost:3000/jsonserver');
+  url.href += (`/?cpf=${cpfSearch}`);
+  fetch(url)
+  .then(response => response.text())
+  .then(data => console.log(data));
+}
+
+function PutCpfServer(){
+  let cpfSearch = prompt('Informe o CPF a ser modificado:');
+  let cpfModify = prompt('Informe o novo CPF:');
+  let url =  new URL('http://localhost:3000/jsonserver');
+  url.href += (`/id${cpfSearch.replace(/[^0-9\'']+/g,'')}`);
+  CpfJson = {'cpf':cpfModify};
+  CpfJson = JSON.stringify(CpfJson);
+  console.log(CpfJson);
+  fetch(url, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json;charset=utf-8'},
+    body: CpfJson
+  })
+  .then(response => { console.log(response);})
+  .catch((error) => {
+    console.error('Error:', error);
+  })
+}
 
 function EnableAll(){
   tempInfoMenor.removeAttribute('disabled');

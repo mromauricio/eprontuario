@@ -24,7 +24,7 @@ function FetchGetJson(){
 }
 
 function FetchGetText(){
-  let url =  new URL('http://localhost:3000');
+  let url =  new URL('http://localhost:3000/jsonserver');
   fetch(url)
   .then(response => response.text())
   .then(data => console.log(data));
