@@ -246,7 +246,6 @@ else {
   jsonPaciente = JSON.stringify(paciente);
   event.preventDefault();
 
-
   let url =  new URL('http://localhost:3000/jsonserver');
   fetch(url, {
     method: 'POST',
@@ -275,22 +274,34 @@ function GetCpfServer(){  // TEMP
 }
 
 function PutCpfServer(){  // TEMP
-  let cpfSearch = prompt('Informe o CPF a ser modificado:');
-  let cpfModify = prompt('Informe o novo CPF:');
-  let url =  new URL('http://localhost:3000/jsonserver');
-  url.href += (`/id${cpfSearch.replace(/[^0-9\'']+/g,'')}`);
-  CpfJson = {'cpf':cpfModify};
-  CpfJson = JSON.stringify(CpfJson);
-  console.log(CpfJson);
-  fetch(url, {
-    method: 'PUT',
-    headers: {'Content-Type': 'application/json;charset=utf-8'},
-    body: CpfJson
-  })
-  .then(response => { console.log(response);})
-  .catch((error) => {
-    console.error('Error:', error);
-  })
+  (async () => {
+    const { value: formValues } = await Swal.fire({
+      title: 'CPF atual e novo',
+      html:
+        '<input id="swal-input1" class="swal2-input">' +
+        '<input id="swal-input2" class="swal2-input">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+          document.getElementById('swal-input2').value
+        ]
+      }
+    })
+    let url =  new URL('http://localhost:3000/jsonserver');
+    url.href += (`/id${formValues[0].replace(/[^0-9\'']+/g,'')}`);
+    CpfJson = {'cpf':formValues[1]};
+    CpfJson = JSON.stringify(CpfJson);
+    fetch(url, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json;charset=utf-8'},
+      body: CpfJson
+    })
+    .then(response => { console.log(response);})
+    .catch((error) => {
+      console.error('Error:', error);
+    })
+  })()
 }
 
 function EnableAll(){

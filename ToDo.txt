@@ -3,17 +3,10 @@
 
 
 # Exercise
-POST
-PUT
-GET
-DELETE
-
-(  ) Client-side: Request with header Authorization "xpto"
-Server-side: Response reject requests without Authorization (401 status code)
 
 
 # Enhancement
-(  ) Histórico do paciente
+(  ) Histórico clínico do paciente
 
 (  ) Acrescentar foto 3x4 paciente
 
