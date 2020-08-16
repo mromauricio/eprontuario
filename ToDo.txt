@@ -1,12 +1,28 @@
+
+
+
+
+
 # Error
+(  ) Tab Documento 
+> campo Data Nascimento por em formato dd.mm.yyy
+> campo Gênero por opçoes: Feminino e Masculino
 
-
-
-# Exercise
+(  ) Borda abaixo das Tabs não está com resize automático
+(  ) Scroll do formulário não fica atrás do h1
 
 
 # Enhancement
-(  ) Histórico clínico do paciente
+(  ) Campos da Tab Histórico Clínico
+> adicionar a classe Paciente
+> adicionar tempInfo...
+> adicionar DisableAll e EnableAll
+> adicionar GravaInfo
+
+(  ) Botão Save - dar vida
+
+(  ) Após coleta do nome, exibir o mesmo e data da última atualização
+     no header do formulário
 
 (  ) Acrescentar foto 3x4 paciente
 

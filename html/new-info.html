@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/forms.css">
     <link rel="stylesheet" href="../css/forms-r.css">
+
+    <link rel="stylesheet" type="text/css" href="../css/w2ui-1.5.rc1.css"/>
 </head>
 <body>
 
@@ -34,11 +36,11 @@
 
     <main> 
         <header class="header">
-            <h1>Informações</h1>
+            <h1>NEW Informações</h1>
             <h2>Conhecer o paciente é fundamental</h2>
         </header>
        
-        <form class="pure-form pure-form-aligned">
+        <!-- <form class="pure-form pure-form-aligned"
             <fieldset>
                 <div class="pure-control-group">
                     <label for="aligned-name">Nome</label>
@@ -129,9 +131,11 @@
                     <button type="button" class="pure-button button-large" id="gravar">Enviar</button>
                 </div>
             </fieldset>
-            <!-- TEMP --><button style="margin-inline-start: 50px; background-color: green; color: white" type="button" class="pure-button button-large" id="get">GET</button>
-            <!-- TEMP --><button style="background-color: red; color: white" type="button" class="pure-button button-large" id="put">PUT</button>
-        </form>
+           <button style="margin-inline-start: 50px; background-color: green; color: white" type="button" class="pure-button button-large" id="get">GET</button>
+           <button style="background-color: red; color: white" type="button" class="pure-button button-large" id="put">PUT</button>
+        </form> 
+      -->
+        <div id="form"></div>   
     </main>
 </div>
 
@@ -149,13 +153,13 @@
 <script type="text/javascript" src="../script/ui.js"></script>
 <!--Oriundo do Pure.css para ativar menu hambúrguer (sem alterações do original)-->
 
-<script type="text/javascript" src="../script/info-grava.js"></script>
-<!--Obtém dados do formulário, valida os campos cabíveis (valida.js) e em caso de sucesso 
-    faz uma requisição POST HTTP -->
-
 <script type="text/javascript" src="../script/valida.js"></script> 
 <!--Funções com validação de campos do formulário, regras com máscaras (ex.: CPF) e funções 
     para as mensagens exibidas.-->
+
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script> -->
+<script type="text/javascript" src="../script/w2ui-1.5.rc1.js"></script>
+<script type="text/javascript" src="../script/new-info.js"></script>
 
 </body>
 </html>

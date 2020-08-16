@@ -1,25 +1,87 @@
-let tempInfoName = document.querySelector('#aligned-name');
-let tempInfoResponsavel = document.querySelector('#aligned-responsavel');
-let tempInfoCpfresp = document.querySelector('input[id="aligned-cpfresp"]');
+
+
+
+$('#form').w2form({ 
+  name   : 'form',
+  header : `HEADER do formulário`,
+  url    : 'server/post',
+  tabs: [
+      { id: 'tab1', caption: 'Documento' },
+      { id: 'tab2', caption: 'Contato'},
+      { id: 'tab3', caption: 'Histórico clínico' },
+      { id: 'tab4', caption: 'Exames'}
+  ],
+  fields : [
+      { field: 'name', type: 'text',  html: { caption: 'Nome', page: 0, column: 0 } },
+      { field: 'menor', type: 'checkbox',  html: { caption: 'Menor de idade', page: 0, column: 1 } },
+      { field: 'cpf',  type: 'text', html: { caption: 'CPF', page: 0, column: 0 } },
+      { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 0 } },
+      { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 0 } },
+      { field: 'nacionalidade', type: 'text',  html: { caption: 'Nacionalidade', page: 0, column: 0 } },
+      { field: 'datanascimento', type: 'date', html: { caption: 'Data nascimento', page: 0, column: 0 } },
+      { field: 'genero', type: 'text',  html: { caption: 'Gênero', page: 0, column: 0 } },
+
+      { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 0 } },
+      { field: 'cpfresp',  type: 'text', html: { caption: 'CPF responsável', page: 0, column: 0} },
+
+      { field: 'email',  type: 'email', html: { caption: 'E-mail', page: 1, column: 0, group: 'Comunicação'} },
+      { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 1, column: 0 } },
+      { field: 'whatsapp',  type: 'checkbox', html: { caption: 'WhatsApp', page: 1, column: 0} },
+      { field: 'tel', type: 'text',  html: { caption: 'Telefone', page: 1, column: 0 } },
+
+      
+      { field: 'endereco', type: 'text', html: { caption: 'Rua', page: 1, column: 0, group: 'Endereço' } },
+      { field: 'bairro', type: 'text', html: { caption: 'Bairro', page: 1, column: 0 } },
+      { field: 'cep', type: 'text', html: { caption: 'CEP', page: 1, column: 0 } },
+      { field: 'uf', type: 'text', html: { caption: 'UF', page: 1, column: 0 } },
+      { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 1, column: 0 } },
+
+      { field: 'short_bio', type: 'textarea', html: { caption: 'Histórico', page: 2, column: 0, attr: 'style="width: 300px; height:150px"' } },
+      { field: 'talk_name', type: 'textarea', html: { caption: 'Medicamentos', page: 2, column: 1, attr: 'style="width: 300px; height:150px"' } },
+      { field: 'description', type: 'textarea', html: { caption: 'Cirurgias', page: 2, column: 0, attr: 'style="width: 300px; height:150px"' } },
+      { field: 'description', type: 'textarea', html: { caption: 'Traumas', page: 2, column: 1, attr: 'style="width: 300px; height:150px"' } },
+      { field: 'short_bio', type: 'text', html: { caption: 'Anexar PDF', page: 3 } },
+      { field: 'talk_name', type: 'text', html: { caption: 'Anexar JPG/PNG', page: 3 } },
+      { field: 'description', type: 'text', html: { caption: 'Colar link', page: 3 } },
+      { field: 'description', type: 'textarea', html: { caption: 'Texto livre', page: 3 } }
+  ],
+  actions: {
+      reset: function () {
+          this.clear();
+      },
+      save: function () {
+          this.save();
+      }
+  }
+});
+
+
+////////////////////
+
+let tempInfoName = document.querySelector('#name');
+let tempInfoResponsavel = document.querySelector('#responsavel');
+let tempInfoCpfresp = document.querySelector('#cpfresp');
 let tempInfoMenor = document.querySelector('#menor');
-let tempInfoCpf = document.querySelector('input[id="aligned-cpf"]');
-let tempInfoCns = document.querySelector('#aligned-cns');
-let tempInfoRegistro = document.querySelector('#aligned-registro');
-let tempInfonacionalidade = document.querySelector('#aligned-nacionalidade');
-let tempInfoNascimento = document.querySelector('#aligned-datanascimento');
-let tempInfoGenero = document.querySelector('#stacked-genero');
-let tempInfoTel = document.querySelector('#aligned-tel');
-let tempInfoCel = document.querySelector('#aligned-cel');
+let tempInfoCpf = document.querySelector('#cpf');
+let tempInfoCns = document.querySelector('#cns');
+let tempInfoRegistro = document.querySelector('#registro');
+let tempInfonacionalidade = document.querySelector('#nacionalidade');
+let tempInfoNascimento = document.querySelector('#datanascimento');
+let tempInfoGenero = document.querySelector('#genero');
+let tempInfoTel = document.querySelector('#tel');
+let tempInfoCel = document.querySelector('#cel');
 let tempInfoWhatsapp = document.querySelector('#whatsapp');
-let tempInfoEmail = document.querySelector('#aligned-email');
-let tempInfoEndereco = document.querySelector('#aligned-endereco');
-let tempInfoCep = document.querySelector('#aligned-cep');
-let tempInfoBairro = document.querySelector('#aligned-bairro');
-let tempInfoUf = document.querySelector('#stacked-uf');
-let tempInfoCidade = document.querySelector('#aligned-cidade');
-let buttonGravar = document.querySelector('#gravar');
-let buttonGet = document.querySelector('#get'); // TEMP
-let buttonPut = document.querySelector('#put'); // TEMP
+let tempInfoEmail = document.querySelector('#email');
+let tempInfoEndereco = document.querySelector('#endereco');
+let tempInfoCep = document.querySelector('#cep');
+let tempInfoBairro = document.querySelector('#bairro');
+let tempInfoUf = document.querySelector('#uf');
+let tempInfoCidade = document.querySelector('#cidade');
+// let buttonGravar = document.querySelector('#gravar');
+// let buttonGet = document.querySelector('#get'); // TEMP
+// let buttonPut = document.querySelector('#put'); // TEMP
+
+
 
 const isEmpty = str => !str.trim().length;
 
@@ -52,10 +114,10 @@ tempInfoName.focus();
 
 /* Listeners */
 
-buttonGet.addEventListener('click', GetCpfServer); // TEMP
-buttonPut.addEventListener('click', PutCpfServer); // TEMP
+// buttonGet.addEventListener('click', GetCpfServer); // TEMP
+// buttonPut.addEventListener('click', PutCpfServer); // TEMP
 
-buttonGravar.addEventListener('click', GravaLocalInfo);
+// buttonGravar.addEventListener('click', GravaLocalInfo);
 
 tempInfoName.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
@@ -65,6 +127,7 @@ tempInfoName.addEventListener("keyup", function(event) {
       MsgTop('warning', 'Informe o nome!');
      }
     else this.removeAttribute('style');  
+    nomePacienteHeader = tempInfoName;
     SearchRegister();
   }
   });
@@ -305,26 +368,45 @@ function PutCpfServer(){  // TEMP
 
 function EnableAll(){
   tempInfoMenor.removeAttribute('disabled');
+  tempInfoMenor.removeAttribute('style');
   if (tempInfoMenor.checked) { 
     tempInfoResponsavel.removeAttribute('disabled');
+    tempInfoResponsavel.removeAttribute('style');
     tempInfoCpfresp.removeAttribute('disabled');
+    tempInfoCpfresp.removeAttribute('style');
   }
   tempInfoCpf.removeAttribute('disabled');
+  tempInfoCpf.removeAttribute('style');
   tempInfoCns.removeAttribute('disabled');
+  tempInfoCns.removeAttribute('style');
   tempInfoRegistro.removeAttribute('disabled');
+  tempInfoRegistro.removeAttribute('style');
   tempInfonacionalidade.removeAttribute('disabled');
+  tempInfonacionalidade.removeAttribute('style');
   tempInfoNascimento.removeAttribute('disabled');
+  tempInfoNascimento.removeAttribute('style');
   tempInfoGenero.removeAttribute('disabled');
+  tempInfoGenero.removeAttribute('style');
   tempInfoTel.removeAttribute('disabled');
+  tempInfoTel.removeAttribute('style');
   tempInfoCel.removeAttribute('disabled');
+  tempInfoCel.removeAttribute('style');
   tempInfoWhatsapp.removeAttribute('disabled');
+  tempInfoWhatsapp.removeAttribute('style');
   tempInfoEmail.removeAttribute('disabled');
+  tempInfoEmail.removeAttribute('style');
   tempInfoEndereco.removeAttribute('disabled');
+  tempInfoEndereco.removeAttribute('style');
   tempInfoCep.removeAttribute('disabled');
+  tempInfoCep.removeAttribute('style');
   tempInfoBairro.removeAttribute('disabled');
+  tempInfoBairro.removeAttribute('style');
   tempInfoUf.removeAttribute('disabled');
+  tempInfoUf.removeAttribute('style');
   tempInfoCidade.removeAttribute('disabled');
-  buttonGravar.removeAttribute('disabled');
+  tempInfoCidade.removeAttribute('style');
+  // buttonGravar.removeAttribute('disabled');
+  // buttonGravar.removeAttribute('style');
 }
 
 function ShowData(){
@@ -399,24 +481,42 @@ function ClearData(){
 
 function DisableAll(){
   tempInfoMenor.setAttribute('disabled'," ");
+  tempInfoMenor.setAttribute('style','background-color: #333');
   tempInfoResponsavel.setAttribute('disabled'," ");
+  tempInfoResponsavel.setAttribute('style','background-color: #333');
   tempInfoCpfresp.setAttribute('disabled'," ");
+  tempInfoCpfresp.setAttribute('style','background-color: #333');
   tempInfoCpf.setAttribute('disabled'," ");
+  tempInfoCpf.setAttribute('style','background-color: #333')
   tempInfoCns.setAttribute('disabled'," ");
+  tempInfoCns.setAttribute('style','background-color: #333');
   tempInfoRegistro.setAttribute('disabled'," ");
+  tempInfoRegistro.setAttribute('style','background-color: #333');
   tempInfonacionalidade.setAttribute('disabled'," ");
+  tempInfonacionalidade.setAttribute('style','background-color: #333');
   tempInfoNascimento.setAttribute('disabled'," ");
+  tempInfoNascimento.setAttribute('style','background-color: #333');
   tempInfoGenero.setAttribute('disabled'," ");
+  tempInfoGenero.setAttribute('style','background-color: #333');
   tempInfoTel.setAttribute('disabled'," ");
+  tempInfoTel.setAttribute('style','background-color: #333');
   tempInfoCel.setAttribute('disabled'," ");
+  tempInfoCel.setAttribute('style','background-color: #333');
   tempInfoWhatsapp.setAttribute('disabled'," ");
+  tempInfoWhatsapp.setAttribute('style','background-color: #333');
   tempInfoEmail.setAttribute('disabled'," ");
+  tempInfoEmail.setAttribute('style','background-color: #333');
   tempInfoEndereco.setAttribute('disabled'," ");
+  tempInfoEndereco.setAttribute('style','background-color: #333');
   tempInfoCep.setAttribute('disabled'," ");
+  tempInfoCep.setAttribute('style','background-color: #333');
   tempInfoBairro.setAttribute('disabled'," ");
+  tempInfoBairro.setAttribute('style','background-color: #333');
   tempInfoUf.setAttribute('disabled'," ");
+  tempInfoUf.setAttribute('style','background-color: #333');
   tempInfoCidade.setAttribute('disabled'," ");
-  buttonGravar.setAttribute('disabled'," ");
+  tempInfoCidade.setAttribute('style','background-color: #333');
+  // buttonGravar.setAttribute('disabled'," ");
 }
 
 
