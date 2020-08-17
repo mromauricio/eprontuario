@@ -3,8 +3,8 @@
 
 $('#form').w2form({ 
   name   : 'form',
-  header : `HEADER do formulário`,
-  url    : 'server/post',
+  header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
+  url    : 'http://localhost:3000/jsonserver',
   tabs: [
       { id: 'tab1', caption: 'Documento' },
       { id: 'tab2', caption: 'Contato'},
@@ -12,45 +12,43 @@ $('#form').w2form({
       { id: 'tab4', caption: 'Exames'}
   ],
   fields : [
-      { field: 'name', type: 'text',  html: { caption: 'Nome', page: 0, column: 0 } },
-      { field: 'menor', type: 'checkbox',  html: { caption: 'Menor de idade', page: 0, column: 1 } },
+      { field: 'name', type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente' } },
+      { field: 'menor', type: 'checkbox',  html: { caption: 'Menor de idade', page: 0, column: 0 } },
       { field: 'cpf',  type: 'text', html: { caption: 'CPF', page: 0, column: 0 } },
       { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 0 } },
       { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 0 } },
       { field: 'nacionalidade', type: 'text',  html: { caption: 'Nacionalidade', page: 0, column: 0 } },
       { field: 'datanascimento', type: 'date', html: { caption: 'Data nascimento', page: 0, column: 0 } },
       { field: 'genero', type: 'text',  html: { caption: 'Gênero', page: 0, column: 0 } },
-
-      { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 0 } },
+      { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 0, group:'Responsável - preencher para paciente menor de idade' } },
       { field: 'cpfresp',  type: 'text', html: { caption: 'CPF responsável', page: 0, column: 0} },
 
       { field: 'email',  type: 'email', html: { caption: 'E-mail', page: 1, column: 0, group: 'Comunicação'} },
       { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 1, column: 0 } },
       { field: 'whatsapp',  type: 'checkbox', html: { caption: 'WhatsApp', page: 1, column: 0} },
       { field: 'tel', type: 'text',  html: { caption: 'Telefone', page: 1, column: 0 } },
-
-      
       { field: 'endereco', type: 'text', html: { caption: 'Rua', page: 1, column: 0, group: 'Endereço' } },
       { field: 'bairro', type: 'text', html: { caption: 'Bairro', page: 1, column: 0 } },
       { field: 'cep', type: 'text', html: { caption: 'CEP', page: 1, column: 0 } },
       { field: 'uf', type: 'text', html: { caption: 'UF', page: 1, column: 0 } },
       { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 1, column: 0 } },
 
-      { field: 'short_bio', type: 'textarea', html: { caption: 'Histórico', page: 2, column: 0, attr: 'style="width: 300px; height:150px"' } },
-      { field: 'talk_name', type: 'textarea', html: { caption: 'Medicamentos', page: 2, column: 1, attr: 'style="width: 300px; height:150px"' } },
-      { field: 'description', type: 'textarea', html: { caption: 'Cirurgias', page: 2, column: 0, attr: 'style="width: 300px; height:150px"' } },
-      { field: 'description', type: 'textarea', html: { caption: 'Traumas', page: 2, column: 1, attr: 'style="width: 300px; height:150px"' } },
-      { field: 'short_bio', type: 'text', html: { caption: 'Anexar PDF', page: 3 } },
-      { field: 'talk_name', type: 'text', html: { caption: 'Anexar JPG/PNG', page: 3 } },
-      { field: 'description', type: 'text', html: { caption: 'Colar link', page: 3 } },
-      { field: 'description', type: 'textarea', html: { caption: 'Texto livre', page: 3 } }
+      { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 2, column: 0, attr: 'style="width: 300px; height:150px"' } },
+      { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 2, column: 1, attr: 'style="width: 300px; height:150px"' } },
+      { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 2, column: 0, attr: 'style="width: 300px; height:150px"' } },
+      { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 2, column: 1, attr: 'style="width: 300px; height:150px"' } },
+      
+      { field: 'pdf', type: 'checkbox', html: { caption: 'Anexar PDF', page: 3 } },
+      { field: 'imagem', type: 'checkbox', html: { caption: 'Anexar JPG/PNG', page: 3 } },
+      { field: 'link', type: 'text', html: { caption: 'Link', page: 3 } },
+      { field: 'texto', type: 'textarea', html: { caption: 'Texto livre', page: 3, attr: 'style="width: 300px; height:150px"' } }
   ],
   actions: {
       reset: function () {
           this.clear();
       },
       save: function () {
-          this.save();
+          this.save(NewGravaLocalInfo(),function(){console.log('callbak')});
       }
   }
 });
@@ -77,6 +75,13 @@ let tempInfoCep = document.querySelector('#cep');
 let tempInfoBairro = document.querySelector('#bairro');
 let tempInfoUf = document.querySelector('#uf');
 let tempInfoCidade = document.querySelector('#cidade');
+let tempInfoHistorico = document.querySelector('#historico');
+tempInfoHistorico.placeholder='Acontecimentos relevantes em ordem cronológica.'
+let tempInfoMedicamento = document.querySelector('#medicamento');
+tempInfoMedicamento.placeholder='Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso'
+let tempInfoCirurgia = document.querySelector('#cirurgia');
+let tempInfoTrauma = document.querySelector('#trauma');
+
 // let buttonGravar = document.querySelector('#gravar');
 // let buttonGet = document.querySelector('#get'); // TEMP
 // let buttonPut = document.querySelector('#put'); // TEMP
@@ -87,7 +92,8 @@ const isEmpty = str => !str.trim().length;
 
 class Paciente {
   constructor(name, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,genero,
-    tel, cel, whatsapp, email, endereco, cep, bairro, uf, cidade){
+    tel, cel, whatsapp, email, endereco, cep, bairro, uf, cidade, historico, medicamento, cirurgia,
+    trauma){
     this.name = name;
     this.menor = menor;
     this.responsavel = responsavel;
@@ -107,6 +113,10 @@ class Paciente {
     this.bairro = bairro;
     this.uf = uf;
     this.cidade = cidade;
+    this.historico = historico;
+    this.medicamento = medicamento;
+    this.cirurgia = cirurgia;
+    this.trauma = trauma;
   }
 }
 
@@ -135,11 +145,15 @@ tempInfoName.addEventListener("keyup", function(event) {
 tempInfoMenor.addEventListener('click', function(){
   if (this.checked) {
     tempInfoResponsavel.removeAttribute('disabled'); 
+    tempInfoResponsavel.removeAttribute('style'); 
     tempInfoCpfresp.removeAttribute('disabled'); 
+    tempInfoCpfresp.removeAttribute('style'); 
    }
   else { 
     tempInfoResponsavel.setAttribute('disabled'," ");
+    tempInfoResponsavel.setAttribute('style','background-color: #333');
     tempInfoCpfresp.setAttribute('disabled'," ");
+    tempInfoCpfresp.setAttribute('style','background-color: #333');
   }
 });
 
@@ -154,19 +168,21 @@ tempInfoResponsavel.addEventListener('blur', function() {
 
 tempInfoCpfresp.addEventListener('blur', function(){
   this.value = ValidaCpf(this.value); 
-  if ((this.value.length != 14 && this.value.length != 0)||isEmpty(this.value)) {
+  if ((this.value.length != 14 && this.value.length != 0)) {
     this.setAttribute('style','color: red;');
     MsgTop('error', 'CPF responsável inválido!');
   }
+  else if (isEmpty(this.value)) {  MsgTop('warning', 'Informe o CPF do responsável!');}
   else this.removeAttribute('style');
 });
 
 tempInfoCpf.addEventListener('focusout', function(){
 this.value = ValidaCpf(this.value); 
-if (this.value.length != 14 && this.value.length != 0||isEmpty(this.value)) {
+if (this.value.length != 14 && this.value.length != 0) {
   this.setAttribute('style','color: red;');
   MsgTop('error', 'CPF inválido!');
 }
+else if (isEmpty(this.value)) {  MsgTop('warning', 'Informe o CPF!');}
 else tempInfoCpf.removeAttribute('style');
 });
 
@@ -230,6 +246,91 @@ function SearchRegister(){
   EnableAll(); 
 }
 
+function NewGravaLocalInfo(){  
+  let alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
+  
+  localStorage.setItem('name',tempInfoName.value.toUpperCase());
+  localStorage.setItem('menor', tempInfoMenor.checked);
+  alertResponsavel = '';
+  alertCpfresp = '';
+  if (tempInfoMenor.checked)
+  {
+    if (isEmpty(tempInfoResponsavel.value)) alertResponsavel = `\n[Responsável não informado]`;
+    else alertResponsavel = '';
+    if (tempInfoCpfresp.value.length != 14 && tempInfoCpfresp.value.length != 0) alertCpfresp = `\n[CPF resp. ${tempInfoCpfresp.value}]`;
+    else if (isEmpty(tempInfoCpfresp.value)) alertCpfresp = `\n[CPF resp. não informado]`;
+    else  alertCpfresp = ''; 
+  }
+  localStorage.setItem('responsavel', tempInfoResponsavel.value.toUpperCase());
+  localStorage.setItem('cpfresp', tempInfoCpfresp.value); 
+  
+  if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `\n[CPF ${tempInfoCpf.value}]`;
+  else alertCpf = '';  
+  localStorage.setItem('cpf', tempInfoCpf.value); 
+  
+  if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) {
+    localStorage.setItem('cns', tempInfoCns.value); 
+    alertCns = `\n[CNS ${tempInfoCns.value}]`;}
+  else { localStorage.setItem('cns', tempInfoCns.value);  alertCns = ''; }
+  
+  if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) { 
+    localStorage.setItem('registro', tempInfoRegistro.value); 
+    alertRegistro = `\n[Registro ${tempInfoRegistro.value}]`;}
+  else { localStorage.setItem('registro', tempInfoRegistro.value);  alertRegistro = ''; }    
+  
+  localStorage.setItem('nacionalidade', tempInfonacionalidade.value);
+  localStorage.setItem('nascimento', tempInfoNascimento.value);
+  localStorage.setItem('genero',tempInfoGenero.value);
+  
+  if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) {
+    localStorage.setItem('tel', tempInfoTel.value); 
+    alertTel = `\n[Tel. ${tempInfoTel.value}]`;}
+  else { localStorage.setItem('tel', tempInfoTel.value);  alertTel = ''; }   
+  
+  if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) { 
+    localStorage.setItem('cel', tempInfoCel.value); 
+    alertCel = `\n[Cel. ${tempInfoCel.value}]`;}
+  else { localStorage.setItem('cel', tempInfoCel.value);  alertCel = ''; }   
+  
+  localStorage.setItem('whatsapp', tempInfoWhatsapp.checked);
+  localStorage.setItem('email',tempInfoEmail.value);
+  localStorage.setItem('endereco',tempInfoEndereco.value);
+  
+  if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) { 
+    localStorage.setItem('cep', tempInfoCep.value); 
+    alertCep = `\n[CEP ${tempInfoCep.value}]`;}
+  else { localStorage.setItem('cep', tempInfoCep.value);  alertCep = ''; } 
+  
+  localStorage.setItem('bairro',tempInfoBairro.value);
+  localStorage.setItem('uf',tempInfoUf.value);
+  localStorage.setItem('cidade',tempInfoCidade.value);
+  
+  localStorage.setItem('historico',tempInfoHistorico.value);
+  localStorage.setItem('medicamento',tempInfoMedicamento.value);
+  localStorage.setItem('cirurgia',tempInfoCirurgia.value);
+  localStorage.setItem('trauma',tempInfoTrauma.value);
+  
+  if (alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
+    { 
+    MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
+    if (alertResponsavel!='') tempInfoResponsavel.focus();
+    else if (alertCpfresp!='') tempInfoCpfresp.focus();
+    else if (alertCpf!='') { tempInfoCpf.focus(); event.preventDefault(); }
+    }
+  else { 
+    let paciente = new Paciente(localStorage.name, localStorage.menor, 
+    localStorage.responsavel, localStorage.cpfresp,localStorage.cpf, 
+    localStorage.cns, localStorage.registro, localStorage.nacionalidade,
+    localStorage.nascimento, localStorage.genero, localStorage.tel, 
+    localStorage.cel,localStorage.whatsapp, localStorage.email, 
+    localStorage.endereco, localStorage.cep,localStorage.bairro, 
+    localStorage.uf, localStorage.cidade, localStorage.historico,
+    localStorage.medicamento, localStorage.cirurgia, localStorage.trauma);
+  
+    return JSON.stringify(paciente);
+    }
+  }
+
 function GravaLocalInfo(){  
 let alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
 
@@ -289,6 +390,11 @@ localStorage.setItem('bairro',tempInfoBairro.value);
 localStorage.setItem('uf',tempInfoUf.value);
 localStorage.setItem('cidade',tempInfoCidade.value);
 
+localStorage.setitem('historico',tempInfoHistorico.value);
+localStorage.setitem('medicamento',tempInfoMedicamento.value);
+localStorage.setitem('cirurgia',tempInfoCirurgia.value);
+localStorage.setitem('trauma',tempInfoTrauma.value);
+
 if (alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
   { 
   MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
@@ -303,7 +409,8 @@ else {
   localStorage.nascimento, localStorage.genero, localStorage.tel, 
   localStorage.cel,localStorage.whatsapp, localStorage.email, 
   localStorage.endereco, localStorage.cep,localStorage.bairro, 
-  localStorage.uf, localStorage.cidade);
+  localStorage.uf, localStorage.cidade, localStorage.historico,
+  localStorage.medicamento, localStorage.cirurgia, localStorage.trauma);
 
   jsonPaciente = JSON.stringify(paciente);
   event.preventDefault();
@@ -405,6 +512,14 @@ function EnableAll(){
   tempInfoUf.removeAttribute('style');
   tempInfoCidade.removeAttribute('disabled');
   tempInfoCidade.removeAttribute('style');
+  tempInfoHistorico.removeAttribute('disabled');
+  tempInfoHistorico.removeAttribute('style');
+  tempInfoMedicamento.removeAttribute('disabled');
+  tempInfoMedicamento.removeAttribute('style');
+  tempInfoCirurgia.removeAttribute('disabled');
+  tempInfoCirurgia.removeAttribute('style');
+  tempInfoTrauma.removeAttribute('disabled');
+  tempInfoTrauma.removeAttribute('style');
   // buttonGravar.removeAttribute('disabled');
   // buttonGravar.removeAttribute('style');
 }
@@ -446,6 +561,11 @@ function ShowData(){
   tempInfoBairro.value = localStorage.bairro;
   tempInfoUf.value = localStorage.uf;
   tempInfoCidade.value = localStorage.cidade;
+
+  tempInfoHistorico.value = localStorage.historico;
+  tempInfoMedicamento.value = localStorage.medicamento;
+  tempInfoCirurgia.value = localStorage.cirurgia;
+  tempInfoTrauma.value = localStorage.trauma;
 }
 
 function ClearData(){
@@ -477,6 +597,10 @@ function ClearData(){
   tempInfoBairro.value = '';
   tempInfoUf.value = '';
   tempInfoCidade.value = '';
+  tempInfoHistorico.value = '';
+  tempInfoMedicamento.value = '';
+  tempInfoCirurgia.value = '';
+  tempInfoTrauma.value = '';
 }
 
 function DisableAll(){
@@ -516,6 +640,14 @@ function DisableAll(){
   tempInfoUf.setAttribute('style','background-color: #333');
   tempInfoCidade.setAttribute('disabled'," ");
   tempInfoCidade.setAttribute('style','background-color: #333');
+  tempInfoHistorico.setAttribute('disabled'," ");
+  tempInfoHistorico.setAttribute('style','background-color: #333');
+  tempInfoMedicamento.setAttribute('disabled'," ");
+  tempInfoMedicamento.setAttribute('style','background-color: #333');
+  tempInfoCirurgia.setAttribute('disabled'," ");
+  tempInfoCirurgia.setAttribute('style','background-color: #333');
+  tempInfoTrauma.setAttribute('disabled'," ");
+  tempInfoTrauma.setAttribute('style','background-color: #333');
   // buttonGravar.setAttribute('disabled'," ");
 }
 

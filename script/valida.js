@@ -1,16 +1,16 @@
 
   $(document).ready(function () { 
-    let $cpf = $('.cpf');
+    let $cpf = $('#cpf');
     $cpf.mask('000.000.000-00', {reverse: false});
-    let $cns = $('#aligned-cns');
+    let $cns = $('#cns');
     $cns.mask('000.0000.0000.0000', {reverse: false});
-    let $registro = $('#aligned-registro');
+    let $registro = $('#registro');
     $registro.mask('0.000.000', {reverse: false});
-    let $tel = $('#aligned-tel');
+    let $tel = $('#tel');
     $tel.mask('(00) 0000-0000', {reverse: true});
-    let $cel = $('#aligned-cel');
+    let $cel = $('#cel');
     $cel.mask('(00) 00000-0000', {reverse: true});
-    let $cep = $('#aligned-cep');
+    let $cep = $('#cep');
     $cep.mask('00000-000', {reverse: false});
   });
 

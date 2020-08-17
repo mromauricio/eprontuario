@@ -1,4 +1,4 @@
-#name, #responsavel, #email, #endereco{
+#name, #responsavel, #email, #endereco, #link{
   width: 270px;
 }
 #datanascimento{
@@ -509,7 +509,7 @@ input[type=checkbox].w2ui-toggle:focus {
   border: none;
   border-radius: 0px;
   background-color: transparent !important;
-  color: #888;
+  color: #888; 
   box-shadow: none;
   text-shadow: none;
 }
@@ -887,7 +887,8 @@ button.w2ui-btn-small:focus:before {
   position: relative;
   color: #000000;
   /* background-color: #f2f2f2;  MRO */
-  border: 1px solid #c0c0c0;
+ /*  border: 1px solid #c0c0c0;  */
+ border: 1px solid cyan;
   border-radius: 3px;
   padding: 0px;
   overflow: hidden !important;
@@ -900,7 +901,7 @@ button.w2ui-btn-small:focus:before {
   position: absolute;
   left: 0;
   right: 0;
-  /* border-bottom: 1px solid #99bbe8 !important;  MRO */
+  /*border-bottom: 1px solid #99bbe8 !important; MRO */
   overflow: hidden;
  /* color: #444444;  MRO */
   color: #888;   /* MRO */
@@ -915,8 +916,8 @@ button.w2ui-btn-small:focus:before {
   background-image: linear-gradient(#dae6f3, #c2d5ed);
   */
   filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffdae6f3', endColorstr='#ffc2d5ed', GradientType=0);
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  /* border-top-left-radius: 3px;
+  border-top-right-radius: 3px;  */
 }
 .w2ui-form .w2ui-form-toolbar {
   position: absolute;
@@ -924,7 +925,7 @@ button.w2ui-btn-small:focus:before {
   right: 0px;
   margin: 0px;
   padding: 6px 3px;
-  border-bottom: 1px solid #d5d8d8;
+  border-bottom: 1px solid red;  /* #d5d8d8;  */
 }
 .w2ui-form .w2ui-form-tabs {
   margin: 0px;
@@ -993,7 +994,7 @@ background-color: rgb(97, 95, 95);  /* MRO */
   /* background-color: #f9f9f9;  MRO */
   margin: 5px 0px 10px 0px;
   padding: 10px 5px;
-  border-top: 1px solid #dcdcdc;
+  border-top: 1px dotted #dcdcdc; 
   /* border-bottom: 1px solid #dcdcdc;  MRO */
   width: 406px;  /* add - MRO */
 }
@@ -2854,7 +2855,7 @@ background-color: rgb(97, 95, 95);  /* MRO */
   padding-top: 0px !important;
 }
 .w2ui-tabs table {
-  border-bottom: 1px solid silver;
+  border-bottom: 1px solid silver;  /* MRO modify resize auto */
   padding: 0px 7px;
 }
 .w2ui-tabs .w2ui-tab {

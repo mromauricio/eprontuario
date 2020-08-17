@@ -8,8 +8,8 @@
 > campo Data Nascimento por em formato dd.mm.yyy
 > campo Gênero por opçoes: Feminino e Masculino
 
-(  ) Borda abaixo das Tabs não está com resize automático
-(  ) Scroll do formulário não fica atrás do h1
+(  ) Borda abaixo das Tabs não está com resize automático linha 2858
+(  ) Scroll do formulário não fica escondido atrás do h1
 
 
 # Enhancement
