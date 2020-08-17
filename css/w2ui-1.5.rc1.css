@@ -4,6 +4,17 @@
 #datanascimento{
   width: 80px;
 }
+#gravar{
+  margin-block-start: 10px;
+  margin-inline-start: 180px;
+}
+.btntemp{
+  border-radius: 5px;
+}
+
+.header-relative{
+  position: relative;
+}
 
 /* All above created by MRO */
 

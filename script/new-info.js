@@ -6,7 +6,7 @@ $('#form').w2form({
   header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
   url    : 'http://localhost:3000/jsonserver',
   tabs: [
-      { id: 'tab1', caption: 'Documento' },
+      { id: 'tab1', caption: 'Identificação' },
       { id: 'tab2', caption: 'Contato'},
       { id: 'tab3', caption: 'Histórico clínico' },
       { id: 'tab4', caption: 'Exames'}
@@ -33,10 +33,10 @@ $('#form').w2form({
       { field: 'uf', type: 'text', html: { caption: 'UF', page: 1, column: 0 } },
       { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 1, column: 0 } },
 
-      { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 2, column: 0, attr: 'style="width: 300px; height:150px"' } },
-      { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 2, column: 1, attr: 'style="width: 300px; height:150px"' } },
-      { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 2, column: 0, attr: 'style="width: 300px; height:150px"' } },
-      { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 2, column: 1, attr: 'style="width: 300px; height:150px"' } },
+      { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 2, column: 0, attr: 'placeholder="Acontecimentos relevantes em ordem cronológica."' } },
+      { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 2, column: 1, attr: 'placeholder="Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso"' } },
+      { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 2, column: 0, attr: '' } },
+      { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 2, column: 1, attr: '' } },
       
       { field: 'pdf', type: 'checkbox', html: { caption: 'Anexar PDF', page: 3 } },
       { field: 'imagem', type: 'checkbox', html: { caption: 'Anexar JPG/PNG', page: 3 } },
@@ -44,12 +44,12 @@ $('#form').w2form({
       { field: 'texto', type: 'textarea', html: { caption: 'Texto livre', page: 3, attr: 'style="width: 300px; height:150px"' } }
   ],
   actions: {
-      reset: function () {
-          this.clear();
-      },
-      save: function () {
-          this.save(NewGravaLocalInfo(),function(){console.log('callbak')});
-      }
+      // reset: function () {
+      //     this.clear();
+      // },
+      // save: function () {
+      //     this.save(NewGravaLocalInfo(),function(){console.log('callbak')});
+      // }
   }
 });
 
@@ -76,15 +76,13 @@ let tempInfoBairro = document.querySelector('#bairro');
 let tempInfoUf = document.querySelector('#uf');
 let tempInfoCidade = document.querySelector('#cidade');
 let tempInfoHistorico = document.querySelector('#historico');
-tempInfoHistorico.placeholder='Acontecimentos relevantes em ordem cronológica.'
 let tempInfoMedicamento = document.querySelector('#medicamento');
-tempInfoMedicamento.placeholder='Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso'
 let tempInfoCirurgia = document.querySelector('#cirurgia');
 let tempInfoTrauma = document.querySelector('#trauma');
 
-// let buttonGravar = document.querySelector('#gravar');
-// let buttonGet = document.querySelector('#get'); // TEMP
-// let buttonPut = document.querySelector('#put'); // TEMP
+let buttonGravar = document.querySelector('#gravar');
+let buttonGet = document.querySelector('#get'); // TEMP
+let buttonPut = document.querySelector('#put'); // TEMP
 
 
 
@@ -124,10 +122,10 @@ tempInfoName.focus();
 
 /* Listeners */
 
-// buttonGet.addEventListener('click', GetCpfServer); // TEMP
-// buttonPut.addEventListener('click', PutCpfServer); // TEMP
+buttonGet.addEventListener('click', GetCpfServer); // TEMP
+buttonPut.addEventListener('click', PutCpfServer); // TEMP
 
-// buttonGravar.addEventListener('click', GravaLocalInfo);
+buttonGravar.addEventListener('click', GravaLocalInfo);
 
 tempInfoName.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
@@ -390,10 +388,10 @@ localStorage.setItem('bairro',tempInfoBairro.value);
 localStorage.setItem('uf',tempInfoUf.value);
 localStorage.setItem('cidade',tempInfoCidade.value);
 
-localStorage.setitem('historico',tempInfoHistorico.value);
-localStorage.setitem('medicamento',tempInfoMedicamento.value);
-localStorage.setitem('cirurgia',tempInfoCirurgia.value);
-localStorage.setitem('trauma',tempInfoTrauma.value);
+localStorage.setItem('historico',tempInfoHistorico.value);
+localStorage.setItem('medicamento',tempInfoMedicamento.value);
+localStorage.setItem('cirurgia',tempInfoCirurgia.value);
+localStorage.setItem('trauma',tempInfoTrauma.value);
 
 if (alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
   { 
@@ -514,14 +512,18 @@ function EnableAll(){
   tempInfoCidade.removeAttribute('style');
   tempInfoHistorico.removeAttribute('disabled');
   tempInfoHistorico.removeAttribute('style');
+  tempInfoHistorico.setAttribute('style','width: 300px; height:150px');
   tempInfoMedicamento.removeAttribute('disabled');
   tempInfoMedicamento.removeAttribute('style');
+  tempInfoMedicamento.setAttribute('style','width: 300px; height:150px');
   tempInfoCirurgia.removeAttribute('disabled');
   tempInfoCirurgia.removeAttribute('style');
+  tempInfoCirurgia.setAttribute('style','width: 300px; height:150px');
   tempInfoTrauma.removeAttribute('disabled');
   tempInfoTrauma.removeAttribute('style');
-  // buttonGravar.removeAttribute('disabled');
-  // buttonGravar.removeAttribute('style');
+  tempInfoTrauma.setAttribute('style','width: 300px; height:150px');
+  buttonGravar.removeAttribute('disabled');
+  buttonGravar.removeAttribute('style');
 }
 
 function ShowData(){
@@ -641,14 +643,14 @@ function DisableAll(){
   tempInfoCidade.setAttribute('disabled'," ");
   tempInfoCidade.setAttribute('style','background-color: #333');
   tempInfoHistorico.setAttribute('disabled'," ");
-  tempInfoHistorico.setAttribute('style','background-color: #333');
+  tempInfoHistorico.setAttribute('style','background-color: #333; width: 300px; height:150px');
   tempInfoMedicamento.setAttribute('disabled'," ");
-  tempInfoMedicamento.setAttribute('style','background-color: #333');
+  tempInfoMedicamento.setAttribute('style','background-color: #333; width: 300px; height:150px');
   tempInfoCirurgia.setAttribute('disabled'," ");
-  tempInfoCirurgia.setAttribute('style','background-color: #333');
+  tempInfoCirurgia.setAttribute('style','background-color: #333; width: 300px; height:150px');
   tempInfoTrauma.setAttribute('disabled'," ");
-  tempInfoTrauma.setAttribute('style','background-color: #333');
-  // buttonGravar.setAttribute('disabled'," ");
+  tempInfoTrauma.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  buttonGravar.setAttribute('disabled'," ");
 }
 
 

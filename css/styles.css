@@ -9,6 +9,9 @@ body {
   background-color: #333;
   margin-top: 110px;   /* MRO - add - espaço rodapé */
 }
+#bodyinfo{
+  margin-top: 0px;
+}
 
 .pure-img-responsive {
   max-width: 100%;
