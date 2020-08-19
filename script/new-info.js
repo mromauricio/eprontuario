@@ -419,7 +419,8 @@ else {
     headers: {'Content-Type': 'application/json;charset=utf-8'},
     body: jsonPaciente
   })
-  .then(response => { console.log(response);
+  .then(response => response.text())
+  .then(data =>{console.log(data);
         MsgCenter('success','Dados enviados!', false);})
   .catch((error) => {
     console.error('Error:', error);
@@ -437,7 +438,7 @@ function GetCpfServer(){  // TEMP
   url.href += (`/?cpf=${cpfSearch}`);
   fetch(url)
   .then(response => response.text())
-  .then(data => console.log(data));
+  .then(data => console.log(data))
 }
 
 function PutCpfServer(){  // TEMP
@@ -464,7 +465,8 @@ function PutCpfServer(){  // TEMP
       headers: {'Content-Type': 'application/json;charset=utf-8'},
       body: CpfJson
     })
-    .then(response => { console.log(response);})
+    .then(response => response.text())
+    .then(data => console.log(data))
     .catch((error) => {
       console.error('Error:', error);
     })
