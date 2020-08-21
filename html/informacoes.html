@@ -40,107 +40,20 @@
             <h2>Conhecer o paciente é fundamental</h2>
         </header>
        
-        <!-- <form class="pure-form pure-form-aligned"
-            <fieldset>
-                <div class="pure-control-group">
-                    <label for="aligned-name">Nome</label>
-                    <input type="text" class="pure-input-1-3" id="aligned-name" placeholder="digite o nome e tecle [Enter]"/>
-                    <label for="menor">
-                        <input type="checkbox" id="menor" />menor de idade</label>
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-responsavel">Responsável</label>
-                    <input type="text" class="pure-input-1-3" id="aligned-responsavel" placeholder="nome completo"/>
-                    <label for="aligned-cpfresp">CPF responsável</label>
-                    <input type="text" class="pure-input-17 cpf" id="aligned-cpfresp" placeholder="números" />
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-cpf">CPF</label>
-                    <input type="text" class="pure-input-17 cpf" id="aligned-cpf" placeholder="números" />
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-cns">CNS</label>
-                    <input type="text" class="pure-input-17" id="aligned-cns" placeholder="números" />
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-registro">Registro</label>
-                    <input type="text" class="pure-input-17" id="aligned-registro" placeholder="números" />
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-nacionalidade">Nacionalidade</label>
-                    <input type="text" class="pure-input-17" id="aligned-nacionalidade" placeholder="pátria" />
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-datanascimento">Nascimento</label>
-                    <input type="date"  id="aligned-datanascimento" placeholder="dd/mm/aaaa" />
-                </div>
-                <div class="pure-form pure-control-group">
-                    <label for="stacked-genero">Gênero</label>
-                    <select id="stacked-genero" >
-                        <option>---------</option>
-                        <option>Feminino</option>
-                        <option>Masculino</option>
-                    </select>
-                </div>
-                
-                <hr>
-
-                <div class="pure-control-group">
-                    <label for="aligned-tel">Telefone fixo</label>
-                    <input type="tel"  id="aligned-tel" placeholder="ddd + número"/>
-                </div>
-                <div class="pure-control-group">
-                        <label for="aligned-cel">Celular</label>
-                        <input type="tel"  id="aligned-cel" placeholder="ddd + número"/>
-                        <label for="whatsapp">
-                            <input type="checkbox" id="whatsapp" />WhatsApp</label>
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-email">E-mail</label>
-                    <input type="email" class="pure-input-1-2" id="aligned-email" placeholder="use vírgula caso tenha mais de um e-mail" />
-                </div>
-
-                <hr>
-
-                <div class="pure-control-group">
-                    <label for="aligned-endereco-rua">Endereço</label>
-                    <input type="text" class="pure-input-1-2" id="aligned-endereco" placeholder="Rua + número" />
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-cep">CEP</label>
-                    <input type="text" class="pure-input-9" id="aligned-cep" placeholder="números"/>
-                    <label for="aligned-bairro">Bairro</label>
-                    <input type="text" class="pure-input-1-4" id="aligned-bairro" placeholder=""/>
-                </div>
-                <div class="pure-control-group">
-                    <label for="stacked-UF">UF</label>
-                    <select class="pure-input-9" id="stacked-uf" >
-                        <option>---</option>
-                        <option>(AC) Acre</option><option>(AL) Alagoas</option><option>(AP) Amapá</option><option>(AM) Amazonas</option>
-                        <option>(BA) Bahia</option><option>(CE) Ceará</option><option>(DF) Distrito Federal</option><option>(ES) Espírito Santo</option>
-                        <option>(GO) Goiás</option><option>(MA) Maranhão</option><option>(MT) Mato Grosso</option><option>(MS) Mato Grosso do Sul</option>
-                        <option>(MG) Minas Gerais</option><option>(PA) Pará</option><option>(PB) Paraíba</option><option>(PR) Paraná</option>
-                        <option>(PE) Pernambuco</option><option>(PI) Piauí</option><option>(RJ) Rio de Janeiro</option><option>(RN) Rio Grande do Norte</option>
-                        <option>(RS) Rio Grande do Sul</option><option>(RO) Rondônia</option><option>(RR) Roraima</option><option>(SC) Santa Catarina</option>
-                        <option>(SP) São Paulo</option><option>(SE) Sergipe</option><option>(TO) Tocantis</option>
-                    </select>
-                    <label for="aligned-cidade">Cidade</label>
-                    <input type="text" class="pure-input-1-4" id="aligned-cidade" placeholder=""/>
-                </div>
-                <div class="pure-controls">
-                    <button type="button" class="pure-button button-large" id="gravar">Enviar</button>
-                </div>
-            </fieldset>
-           <button style="margin-inline-start: 50px; background-color: green; color: white" type="button" class="pure-button button-large" id="get">GET</button>
-           <button style="background-color: red; color: white" type="button" class="pure-button button-large" id="put">PUT</button>
-        </form> 
-      -->
         <div id="form"></div>   
         <div class="pure-controls pure-form-aligned">
             <button type="button" class="pure-button button-large" id="gravar">POST</button>
-            <button style="margin-inline-start: 50px; background-color: green; color: white" type="button" class="pure-button button-large btntemp" id="get">GET</button>
-           <button style="background-color: red; color: white" type="button" class="pure-button button-large btntemp" id="put">PUT</button>
         </div>
+        <div>
+            <button style="margin-inline-start: 182px; margin-block-start: 10px; background-color: green; color: white" type="button" class="pure-button button-large btntemp" id="get">GET</button>
+            <input type="text" class="pure-input-17 cpf" id="getcpf" placeholder="CPF busca" />
+        </div>
+        <div>
+            <button style="margin-inline-start: 182px; margin-block-start: 10px; background-color: red; color: white" type="button" class="pure-button button-large btntemp" id="put">PUT</button>
+            <input type="text" class="pure-input-17 cpf" id="putcpfatual" placeholder="CPF atual" />
+            <input type="text" class="pure-input-17 cpf" id="putcpfnovo" placeholder="CPF novo" />
+        </div>
+        
     </main>
 </div>
 

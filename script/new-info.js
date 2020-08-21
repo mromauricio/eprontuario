@@ -82,7 +82,11 @@ let tempInfoTrauma = document.querySelector('#trauma');
 
 let buttonGravar = document.querySelector('#gravar');
 let buttonGet = document.querySelector('#get'); // TEMP
+let inputCpfGet = document.querySelector('#getcpf'); //TEMP
 let buttonPut = document.querySelector('#put'); // TEMP
+let inputCpfPutAtual = document.querySelector('#putcpfatual'); // TEMP
+let inputCpfPutNovo = document.querySelector('#putcpfnovo'); // TEMP
+
 
 
 
@@ -433,32 +437,32 @@ else {
 }
 
 function GetCpfServer(){  // TEMP
-  let cpfSearch = prompt('Informe o CPF para pesquisa no servidor:');
   let url =  new URL('http://localhost:3000/jsonserver');
-  url.href += (`/?cpf=${cpfSearch}`);
+  url.href += (`/?cpf=${inputCpfGet.value}`);
   fetch(url)
   .then(response => response.text())
   .then(data => console.log(data))
 }
 
 function PutCpfServer(){  // TEMP
-  (async () => {
-    const { value: formValues } = await Swal.fire({
-      title: 'CPF atual e novo',
-      html:
-        '<input id="swal-input1" class="swal2-input">' +
-        '<input id="swal-input2" class="swal2-input">',
-      focusConfirm: false,
-      preConfirm: () => {
-        return [
-          document.getElementById('swal-input1').value,
-          document.getElementById('swal-input2').value
-        ]
-      }
-    })
+  // (async () => {
+  //   const { value: formValues } = await Swal.fire({
+  //     title: 'CPF atual e novo',
+  //     html:
+  //       '<input id="swal-input1" class="swal2-input">' +
+  //       '<input id="swal-input2" class="swal2-input">',
+  //     focusConfirm: false,
+  //     preConfirm: () => {
+  //       return [
+  //         document.getElementById('swal-input1').value,
+  //         document.getElementById('swal-input2').value
+  //       ]
+  //     }
+  //   })
     let url =  new URL('http://localhost:3000/jsonserver');
-    url.href += (`/id${formValues[0].replace(/[^0-9\'']+/g,'')}`);
-    CpfJson = {'cpf':formValues[1]};
+    // url.href += (`/id${formValues[0].replace(/[^0-9\'']+/g,'')}`);
+    url.href += (`/id${inputCpfPutAtual.value}`);
+    CpfJson = {'cpf':inputCpfPutNovo.value};
     CpfJson = JSON.stringify(CpfJson);
     fetch(url, {
       method: 'PUT',
@@ -470,7 +474,7 @@ function PutCpfServer(){  // TEMP
     .catch((error) => {
       console.error('Error:', error);
     })
-  })()
+  // })()
 }
 
 function EnableAll(){

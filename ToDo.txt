@@ -1,7 +1,7 @@
 # Exercise
 
 
-Aplicar arquitetura padrão controller service dao
+Aplicar arquitetura padrão controller / service / dao
 
 
 
