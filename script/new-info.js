@@ -4,7 +4,7 @@
 $('#form').w2form({ 
   name   : 'form',
   header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
-  url    : 'http://localhost:3000/jsonserver',
+  url    : 'http://localhost:3000/infopaciente',
   tabs: [
       { id: 'tab1', caption: 'Identificação' },
       { id: 'tab2', caption: 'Contato'},
@@ -54,7 +54,7 @@ $('#form').w2form({
 });
 
 
-////////////////////
+
 
 let tempInfoName = document.querySelector('#name');
 let tempInfoResponsavel = document.querySelector('#responsavel');
@@ -86,9 +86,6 @@ let inputCpfGet = document.querySelector('#getcpf'); //TEMP
 let buttonPut = document.querySelector('#put'); // TEMP
 let inputCpfPutAtual = document.querySelector('#putcpfatual'); // TEMP
 let inputCpfPutNovo = document.querySelector('#putcpfnovo'); // TEMP
-
-
-
 
 const isEmpty = str => !str.trim().length;
 
@@ -417,64 +414,48 @@ else {
   jsonPaciente = JSON.stringify(paciente);
   event.preventDefault();
 
-  let url =  new URL('http://localhost:3000/jsonserver');
+  let url =  new URL('http://localhost:3000/infopaciente');
   fetch(url, {
     method: 'POST',
     headers: {'Content-Type': 'application/json;charset=utf-8'},
     body: jsonPaciente
   })
-  .then(response => response.text())
-  .then(data =>{console.log(data);
-        MsgCenter('success','Dados enviados!', false);})
+  .then(response => response.status)
+  .then(data =>(data==201) ? MsgCenter('success','Dados enviados!', false): MsgCenterButtonText('error','Falha no envio!', 'Tente novamente') )
   .catch((error) => {
     console.error('Error:', error);
-    MsgCenterButtonText('error','Falha no envio!', 'Tente novamente');
+    MsgCenterButtonText('error','Falha no envio!', error);
   })
 
   DisableAll();
-  ClearData();
+  ClearData(); 
   }
 }
 
 function GetCpfServer(){  // TEMP
-  let url =  new URL('http://localhost:3000/jsonserver');
-  url.href += (`/?cpf=${inputCpfGet.value}`);
+  cpfLimpo = inputCpfGet.value.replace(/[^0-9\'']+/g,'');
+  let url =  new URL('http://localhost:3000/infopaciente');
+  url.href += (`/?cpf=${cpfLimpo}`);
   fetch(url)
-  .then(response => response.text())
-  .then(data => console.log(data))
+  .then(response => response.status)
+  .then(data => (data==200)?console.log(`CPF ${cpfLimpo} encontrado no database`):console.error(`CPF ${cpfLimpo} não localizado no database`))
+  .catch((error) => { console.error('Error:', error); })
 }
 
 function PutCpfServer(){  // TEMP
-  // (async () => {
-  //   const { value: formValues } = await Swal.fire({
-  //     title: 'CPF atual e novo',
-  //     html:
-  //       '<input id="swal-input1" class="swal2-input">' +
-  //       '<input id="swal-input2" class="swal2-input">',
-  //     focusConfirm: false,
-  //     preConfirm: () => {
-  //       return [
-  //         document.getElementById('swal-input1').value,
-  //         document.getElementById('swal-input2').value
-  //       ]
-  //     }
-  //   })
-    let url =  new URL('http://localhost:3000/jsonserver');
-    // url.href += (`/id${formValues[0].replace(/[^0-9\'']+/g,'')}`);
-    url.href += (`/id${inputCpfPutAtual.value}`);
-    CpfJson = {'cpf':inputCpfPutNovo.value};
-    CpfJson = JSON.stringify(CpfJson);
-    fetch(url, {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json;charset=utf-8'},
-      body: CpfJson
-    })
-    .then(response => response.text())
-    .then(data => console.log(data))
-    .catch((error) => {
-      console.error('Error:', error);
-    })
-  // })()
+  let cpfLimpo = inputCpfPutAtual.value.replace(/[^0-9\'']+/g,'')
+  let url =  new URL('http://localhost:3000/infopaciente');
+  url.href += (`/id${cpfLimpo}`);
+  CpfJson = {'cpf':inputCpfPutNovo.value};
+  CpfJson = JSON.stringify(CpfJson);
+  fetch(url, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json;charset=utf-8'},
+    body: CpfJson
+  })
+  .then(response => response.status)
+  .then(data => (data==201)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF ${cpfLimpo } não consta no BD!`) )
+  .catch((error) => { console.error('Error:', error); })
 }
 
 function EnableAll(){

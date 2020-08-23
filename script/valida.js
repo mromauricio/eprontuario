@@ -30,7 +30,6 @@ function MsgTop(type, message){
       icon: type,
       title: message
     })
-   // event.preventDefault();
 }
  
 function MsgCenter (type, title){
@@ -41,7 +40,6 @@ function MsgCenter (type, title){
     showConfirmButton: false,
     timer: 2500
   })
- // event.preventDefault();
 }
 
 function MsgCenterButtonText(type, title, message){
@@ -52,7 +50,6 @@ function MsgCenterButtonText(type, title, message){
     text: message,
     showConfirmButton: true,
   })
-  event.preventDefault();
 }
 
 function ValidaCpf(cpf)
