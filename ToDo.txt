@@ -1,8 +1,9 @@
 # Exercise
 
+Criar SWITCH CASE para tratar opções de erro (return !=0 )
+Atualizar diagrama
 
-Aplicar arquitetura padrão controller / service / dao
-
+Trocar Array por MongoDB
 
 
 

@@ -421,7 +421,15 @@ else {
     body: jsonPaciente
   })
   .then(response => response.status)
-  .then(data =>(data==201) ? MsgCenter('success','Dados enviados!', false): MsgCenterButtonText('error','Falha no envio!', 'Tente novamente') )
+  .then(data => { switch (data) {
+    case 201:
+      MsgCenter('success','Dados enviados!', false); break;
+    case 400:
+      MsgCenterButtonText('error','Falha no envio!', 'Tente novamente'); break;
+    case 406:
+      MsgCenterButtonText('error','CPF não informado!', 'Corrija'); break;
+    } 
+  })
   .catch((error) => {
     console.error('Error:', error);
     MsgCenterButtonText('error','Falha no envio!', error);
@@ -454,7 +462,7 @@ function PutCpfServer(){  // TEMP
     body: CpfJson
   })
   .then(response => response.status)
-  .then(data => (data==201)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF ${cpfLimpo } não consta no BD!`) )
+  .then(data => (data==200)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF ${cpfLimpo } não consta no BD!`) )
   .catch((error) => { console.error('Error:', error); })
 }
 
