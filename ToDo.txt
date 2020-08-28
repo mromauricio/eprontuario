@@ -1,22 +1,28 @@
-# Exercise
+# Development
 
-Criar SWITCH CASE para tratar opções de erro (return !=0 )
-Atualizar diagrama
+( 0 ) GET exibir no console no Browser o resultado analítico
+( 0 ) GET receber retorno verdadeiro 
 
-Trocar Array por MongoDB
+( 1 ) Tratar eventual erro e confirmar sucesso do pacienteRecord.save em DBmodelInfoPaciente.js
+
 
 
 
 # Error
+
+(  ) [Testar isto após botão CONSULTAR] Quando carrega a primeira vez o site e o nome já existe no localStorage ao mudar de Tab limpa o input
+
+(  ) Não habilita Responsável e CPFResp quando o registro já existe e está marcado flag "menor"
+
+
+# Enhancement
+
 (  ) Tab "Identificação" 
 > campo Data Nascimento por em formato dd.mm.yyy
 > campo Gênero por opçoes: Feminino e Masculino
 
 (  ) Borda abaixo das Tabs não está com resize automático 
 ( linha 2858 Tab section w2ui-1.5.rc1.css )
-
-
-# Enhancement
 
 (  ) Após coleta do nome, exibir o mesmo e data da última atualização
      no header do formulário

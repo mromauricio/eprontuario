@@ -1,6 +1,4 @@
 
-
-
 $('#form').w2form({ 
   name   : 'form',
   header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
@@ -12,7 +10,7 @@ $('#form').w2form({
       { id: 'tab4', caption: 'Exames'}
   ],
   fields : [
-      { field: 'name', type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente' } },
+      { field: 'nome', type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente' } },
       { field: 'menor', type: 'checkbox',  html: { caption: 'Menor de idade', page: 0, column: 0 } },
       { field: 'cpf',  type: 'text', html: { caption: 'CPF', page: 0, column: 0 } },
       { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 0 } },
@@ -27,7 +25,7 @@ $('#form').w2form({
       { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 1, column: 0 } },
       { field: 'whatsapp',  type: 'checkbox', html: { caption: 'WhatsApp', page: 1, column: 0} },
       { field: 'tel', type: 'text',  html: { caption: 'Telefone', page: 1, column: 0 } },
-      { field: 'endereco', type: 'text', html: { caption: 'Rua', page: 1, column: 0, group: 'Endereço' } },
+      { field: 'endereco', type: 'text', html: { caption: 'Rua e n༠', page: 1, column: 0, group: 'Endereço' } },
       { field: 'bairro', type: 'text', html: { caption: 'Bairro', page: 1, column: 0 } },
       { field: 'cep', type: 'text', html: { caption: 'CEP', page: 1, column: 0 } },
       { field: 'uf', type: 'text', html: { caption: 'UF', page: 1, column: 0 } },
@@ -51,12 +49,11 @@ $('#form').w2form({
       //     this.save(NewGravaLocalInfo(),function(){console.log('callbak')});
       // }
   }
+  
 });
 
 
-
-
-let tempInfoName = document.querySelector('#name');
+let tempInfoNome = document.querySelector('#nome');
 let tempInfoResponsavel = document.querySelector('#responsavel');
 let tempInfoCpfresp = document.querySelector('#cpfresp');
 let tempInfoMenor = document.querySelector('#menor');
@@ -82,7 +79,7 @@ let tempInfoTrauma = document.querySelector('#trauma');
 
 let buttonGravar = document.querySelector('#gravar');
 let buttonGet = document.querySelector('#get'); // TEMP
-let inputCpfGet = document.querySelector('#getcpf'); //TEMP
+let inputQuery = document.querySelector('#query'); //TEMP
 let buttonPut = document.querySelector('#put'); // TEMP
 let inputCpfPutAtual = document.querySelector('#putcpfatual'); // TEMP
 let inputCpfPutNovo = document.querySelector('#putcpfnovo'); // TEMP
@@ -90,10 +87,10 @@ let inputCpfPutNovo = document.querySelector('#putcpfnovo'); // TEMP
 const isEmpty = str => !str.trim().length;
 
 class Paciente {
-  constructor(name, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,genero,
+  constructor(nome, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,genero,
     tel, cel, whatsapp, email, endereco, cep, bairro, uf, cidade, historico, medicamento, cirurgia,
     trauma){
-    this.name = name;
+    this.nome = nome;
     this.menor = menor;
     this.responsavel = responsavel;
     this.cpfresp = cpfresp;
@@ -119,24 +116,22 @@ class Paciente {
   }
 }
 
-tempInfoName.focus(); 
+tempInfoNome.focus(); 
 
 /* Listeners */
 
-buttonGet.addEventListener('click', GetCpfServer); // TEMP
+buttonGet.addEventListener('click', GetQueryServer); // TEMP
 buttonPut.addEventListener('click', PutCpfServer); // TEMP
 
 buttonGravar.addEventListener('click', GravaLocalInfo);
 
-tempInfoName.addEventListener("keyup", function(event) {
+tempInfoNome.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
     if (isEmpty(this.value)) {
-      this.setAttribute('style','color: red;');
       MsgTop('warning', 'Informe o nome!');
      }
     else this.removeAttribute('style');  
-    nomePacienteHeader = tempInfoName;
     SearchRegister();
   }
   });
@@ -234,106 +229,23 @@ tempInfoCep.addEventListener('blur', function(){
 DisableAll();
 
 function SearchRegister(){
-  tempInfoName.value = tempInfoName.value.toUpperCase();
-  if (localStorage.getItem('name') != null)
+  tempInfoNome.value = tempInfoNome.value.toUpperCase();
+  EnableAll(); 
+  if (localStorage.getItem('nome') != null)
   {
-    if (tempInfoName.value.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") == localStorage.name.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) 
+    if (tempInfoNome.value.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") == localStorage.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) 
     {
       ShowData();
     } 
   }
-  EnableAll(); 
 }
 
-function NewGravaLocalInfo(){  
-  let alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
-  
-  localStorage.setItem('name',tempInfoName.value.toUpperCase());
-  localStorage.setItem('menor', tempInfoMenor.checked);
-  alertResponsavel = '';
-  alertCpfresp = '';
-  if (tempInfoMenor.checked)
-  {
-    if (isEmpty(tempInfoResponsavel.value)) alertResponsavel = `\n[Responsável não informado]`;
-    else alertResponsavel = '';
-    if (tempInfoCpfresp.value.length != 14 && tempInfoCpfresp.value.length != 0) alertCpfresp = `\n[CPF resp. ${tempInfoCpfresp.value}]`;
-    else if (isEmpty(tempInfoCpfresp.value)) alertCpfresp = `\n[CPF resp. não informado]`;
-    else  alertCpfresp = ''; 
-  }
-  localStorage.setItem('responsavel', tempInfoResponsavel.value.toUpperCase());
-  localStorage.setItem('cpfresp', tempInfoCpfresp.value); 
-  
-  if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `\n[CPF ${tempInfoCpf.value}]`;
-  else alertCpf = '';  
-  localStorage.setItem('cpf', tempInfoCpf.value); 
-  
-  if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) {
-    localStorage.setItem('cns', tempInfoCns.value); 
-    alertCns = `\n[CNS ${tempInfoCns.value}]`;}
-  else { localStorage.setItem('cns', tempInfoCns.value);  alertCns = ''; }
-  
-  if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) { 
-    localStorage.setItem('registro', tempInfoRegistro.value); 
-    alertRegistro = `\n[Registro ${tempInfoRegistro.value}]`;}
-  else { localStorage.setItem('registro', tempInfoRegistro.value);  alertRegistro = ''; }    
-  
-  localStorage.setItem('nacionalidade', tempInfonacionalidade.value);
-  localStorage.setItem('nascimento', tempInfoNascimento.value);
-  localStorage.setItem('genero',tempInfoGenero.value);
-  
-  if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) {
-    localStorage.setItem('tel', tempInfoTel.value); 
-    alertTel = `\n[Tel. ${tempInfoTel.value}]`;}
-  else { localStorage.setItem('tel', tempInfoTel.value);  alertTel = ''; }   
-  
-  if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) { 
-    localStorage.setItem('cel', tempInfoCel.value); 
-    alertCel = `\n[Cel. ${tempInfoCel.value}]`;}
-  else { localStorage.setItem('cel', tempInfoCel.value);  alertCel = ''; }   
-  
-  localStorage.setItem('whatsapp', tempInfoWhatsapp.checked);
-  localStorage.setItem('email',tempInfoEmail.value);
-  localStorage.setItem('endereco',tempInfoEndereco.value);
-  
-  if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) { 
-    localStorage.setItem('cep', tempInfoCep.value); 
-    alertCep = `\n[CEP ${tempInfoCep.value}]`;}
-  else { localStorage.setItem('cep', tempInfoCep.value);  alertCep = ''; } 
-  
-  localStorage.setItem('bairro',tempInfoBairro.value);
-  localStorage.setItem('uf',tempInfoUf.value);
-  localStorage.setItem('cidade',tempInfoCidade.value);
-  
-  localStorage.setItem('historico',tempInfoHistorico.value);
-  localStorage.setItem('medicamento',tempInfoMedicamento.value);
-  localStorage.setItem('cirurgia',tempInfoCirurgia.value);
-  localStorage.setItem('trauma',tempInfoTrauma.value);
-  
-  if (alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
-    { 
-    MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
-    if (alertResponsavel!='') tempInfoResponsavel.focus();
-    else if (alertCpfresp!='') tempInfoCpfresp.focus();
-    else if (alertCpf!='') { tempInfoCpf.focus(); event.preventDefault(); }
-    }
-  else { 
-    let paciente = new Paciente(localStorage.name, localStorage.menor, 
-    localStorage.responsavel, localStorage.cpfresp,localStorage.cpf, 
-    localStorage.cns, localStorage.registro, localStorage.nacionalidade,
-    localStorage.nascimento, localStorage.genero, localStorage.tel, 
-    localStorage.cel,localStorage.whatsapp, localStorage.email, 
-    localStorage.endereco, localStorage.cep,localStorage.bairro, 
-    localStorage.uf, localStorage.cidade, localStorage.historico,
-    localStorage.medicamento, localStorage.cirurgia, localStorage.trauma);
-  
-    return JSON.stringify(paciente);
-    }
-  }
-
 function GravaLocalInfo(){  
-let alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
+let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
 
-localStorage.setItem('name',tempInfoName.value.toUpperCase());
+if (isEmpty(tempInfoNome.value)) alertNome = `\n[Nome não informado]`;
+else {localStorage.setItem('nome',tempInfoNome.value.toUpperCase()); alertNome = '';}
+
 localStorage.setItem('menor', tempInfoMenor.checked);
 alertResponsavel = '';
 alertCpfresp = '';
@@ -349,6 +261,7 @@ localStorage.setItem('responsavel', tempInfoResponsavel.value.toUpperCase());
 localStorage.setItem('cpfresp', tempInfoCpfresp.value); 
 
 if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `\n[CPF ${tempInfoCpf.value}]`;
+else if (isEmpty(tempInfoCpf.value)) alertCpf = `\n[CPF não informado]`;
 else alertCpf = '';  
 localStorage.setItem('cpf', tempInfoCpf.value); 
 
@@ -394,15 +307,15 @@ localStorage.setItem('medicamento',tempInfoMedicamento.value);
 localStorage.setItem('cirurgia',tempInfoCirurgia.value);
 localStorage.setItem('trauma',tempInfoTrauma.value);
 
-if (alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
+if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
   { 
-  MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
+  MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertNome} \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
   if (alertResponsavel!='') tempInfoResponsavel.focus();
   else if (alertCpfresp!='') tempInfoCpfresp.focus();
   else if (alertCpf!='') { tempInfoCpf.focus(); event.preventDefault(); }
   }
 else { 
-  let paciente = new Paciente(localStorage.name, localStorage.menor, 
+  let paciente = new Paciente(localStorage.nome, localStorage.menor, 
   localStorage.responsavel, localStorage.cpfresp,localStorage.cpf, 
   localStorage.cns, localStorage.registro, localStorage.nacionalidade,
   localStorage.nascimento, localStorage.genero, localStorage.tel, 
@@ -428,6 +341,8 @@ else {
       MsgCenterButtonText('error','Falha no envio!', 'Tente novamente'); break;
     case 406:
       MsgCenterButtonText('error','CPF não informado!', 'Corrija'); break;
+    case 500:
+      MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;  
     } 
   })
   .catch((error) => {
@@ -440,14 +355,43 @@ else {
   }
 }
 
-function GetCpfServer(){  // TEMP
-  cpfLimpo = inputCpfGet.value.replace(/[^0-9\'']+/g,'');
-  let url =  new URL('http://localhost:3000/infopaciente');
-  url.href += (`/?cpf=${cpfLimpo}`);
+async function GetQueryServer(){  // TEMP
+  cpforiginal = inputQuery.value
+  let url =  new URL('http://localhost:3000/infopaciente/consulta_temp');
+  url.href += (`/?cpf=${cpforiginal}`);
+  let response = await fetch(url);
+  let data = await response.json();
+  switch (response.status) {  
+    case 500:
+        console.log('Erro no servidor - contacte Suporte TI');break;
+    case 406:
+        console.log('Regra de negócio violada - CPF = 000');break;
+    case 404:
+        console.log('CPF buscado não existe no Banco de Dados'); break;    
+    case 200:{
+      for (i=0; i<data.length; i++){
+        console.log(`Nome: ${data[i].nome} - CPF: ${data[i].cpf}`);
+      }
+    }
+  }
+}
+
+function GetQueryServerPROMISE(){  // TEMP
+  cpforiginal = inputQuery.value
+  let url =  new URL('http://localhost:3000/infopaciente/consulta_temp');
+  url.href += (`/?cpf=${cpforiginal}`);
   fetch(url)
-  .then(response => response.status)
-  .then(data => (data==200)?console.log(`CPF ${cpfLimpo} encontrado no database`):console.error(`CPF ${cpfLimpo} não localizado no database`))
+  .then(response => response.json())
+  .then(data => console.log(data))
   .catch((error) => { console.error('Error:', error); })
+  
+  //cpfLimpo = inputCpfGet.value.replace(/[^0-9\'']+/g,'');
+  // url.href += (`/?cpf=${cpfLimpo}`);
+  //.then(data => console.log(data))
+  //.then(response => response.json())
+  //.then(data => console.log(data.campo,data.campo2))
+  // .then(data => (data==200)?console.log(`CPF ${cpfLimpo} encontrado no database`):console.error(`CPF ${cpfLimpo} não localizado no database`))
+  // .then(data => (data==200)?console.log(`CPF ${cpforiginal} encontrado no database`):console.error(`CPF ${cpforiginal} não localizado no database`))
 }
 
 function PutCpfServer(){  // TEMP
@@ -462,19 +406,25 @@ function PutCpfServer(){  // TEMP
     body: CpfJson
   })
   .then(response => response.status)
-  .then(data => (data==200)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF ${cpfLimpo } não consta no BD!`) )
+ .then(data => (data==200)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF ${cpfLimpo } não consta no BD!`) )
   .catch((error) => { console.error('Error:', error); })
 }
+
+
 
 function EnableAll(){
   tempInfoMenor.removeAttribute('disabled');
   tempInfoMenor.removeAttribute('style');
-  if (tempInfoMenor.checked) { 
+  
+// VERIFICAR BUG DO IF ABAIXO - apesar do field = true considera false
+  if (tempInfoMenor.checked) {
     tempInfoResponsavel.removeAttribute('disabled');
     tempInfoResponsavel.removeAttribute('style');
     tempInfoCpfresp.removeAttribute('disabled');
     tempInfoCpfresp.removeAttribute('style');
-  }
+  } 
+////////////////
+
   tempInfoCpf.removeAttribute('disabled');
   tempInfoCpf.removeAttribute('style');
   tempInfoCns.removeAttribute('disabled');
@@ -522,7 +472,7 @@ function EnableAll(){
 }
 
 function ShowData(){
-  tempInfoName.value = localStorage.name;
+ // tempInfoNome.value = localStorage.nome;
   (localStorage.menor == "false") ? tempInfoMenor.checked=false : tempInfoMenor.checked=true
   
   tempInfoResponsavel.value = localStorage.responsavel;
@@ -566,31 +516,23 @@ function ShowData(){
 }
 
 function ClearData(){
-  tempInfoName.value = '';
-  tempInfoName.removeAttribute('style'); 
+  tempInfoNome.value = '';
+  tempInfoNome.removeAttribute('style'); 
   tempInfoMenor.checked=false;
   tempInfoResponsavel.value = '';
-  tempInfoResponsavel.removeAttribute('style'); 
   tempInfoCpfresp.value = '';
-  tempInfoCpfresp.removeAttribute('style'); 
   tempInfoCpf.value = '';
-  tempInfoCpf.removeAttribute('style'); 
   tempInfoCns.value = '';
-  tempInfoCns.removeAttribute('style'); 
   tempInfoRegistro.value = '';
-  tempInfoRegistro.removeAttribute('style'); 
   tempInfonacionalidade.value = '';
   tempInfoNascimento.value = '';
   tempInfoGenero.value = '';
   tempInfoTel.value = '';
-  tempInfoTel.removeAttribute('style'); 
   tempInfoCel.value = '';
-  tempInfoCel.removeAttribute('style'); 
   tempInfoWhatsapp.checked=false;
   tempInfoEmail.value = '';
   tempInfoEndereco.value = '';
   tempInfoCep.value = '';
-  tempInfoCep.removeAttribute('style'); 
   tempInfoBairro.value = '';
   tempInfoUf.value = '';
   tempInfoCidade.value = '';
