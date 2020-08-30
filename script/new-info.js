@@ -41,17 +41,15 @@ $('#form').w2form({
       { field: 'link', type: 'text', html: { caption: 'Link', page: 3 } },
       { field: 'texto', type: 'textarea', html: { caption: 'Texto livre', page: 3, attr: 'style="width: 300px; height:150px"' } }
   ],
-  actions: {
-      // reset: function () {
-      //     this.clear();
-      // },
-      // save: function () {
-      //     this.save(NewGravaLocalInfo(),function(){console.log('callbak')});
-      // }
-  }
-  
+  // actions: {
+  //     reset: function () {
+  //         this.clear();
+  //     },
+  //     save: function () {
+  //         this.save(GravaLocalInfo(),function(){});
+  //     }
+  // }
 });
-
 
 let tempInfoNome = document.querySelector('#nome');
 let tempInfoResponsavel = document.querySelector('#responsavel');
@@ -120,18 +118,18 @@ tempInfoNome.focus();
 
 /* Listeners */
 
-buttonGet.addEventListener('click', GetQueryServer); // TEMP
+buttonGet.addEventListener('click', GetCpf); // TEMP
 buttonPut.addEventListener('click', PutCpfServer); // TEMP
 
 buttonGravar.addEventListener('click', GravaLocalInfo);
 
 tempInfoNome.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
-    event.preventDefault();
     if (isEmpty(this.value)) {
       MsgTop('warning', 'Informe o nome!');
-     }
+    }
     else this.removeAttribute('style');  
+    //event.preventDefault();
     SearchRegister();
   }
   });
@@ -231,14 +229,21 @@ DisableAll();
 function SearchRegister(){
   tempInfoNome.value = tempInfoNome.value.toUpperCase();
   EnableAll(); 
-  if (localStorage.getItem('nome') != null)
-  {
-    if (tempInfoNome.value.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") == localStorage.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) 
-    {
-      ShowData();
-    } 
-  }
+  ClearDataMinusNome();
+  GetDataFromNome(tempInfoNome.value);
 }
+
+// function SearchRegister(){
+//   tempInfoNome.value = tempInfoNome.value.toUpperCase();
+//   EnableAll(); 
+//   if (localStorage.getItem('nome') != null)
+//   {
+//     if (tempInfoNome.value.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") == localStorage.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) 
+//     {
+//       ShowData();
+//     } 
+//   }
+// }
 
 function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
@@ -325,7 +330,7 @@ else {
   localStorage.medicamento, localStorage.cirurgia, localStorage.trauma);
 
   jsonPaciente = JSON.stringify(paciente);
-  event.preventDefault();
+  //event.preventDefault();
 
   let url =  new URL('http://localhost:3000/infopaciente');
   fetch(url, {
@@ -349,18 +354,52 @@ else {
     console.error('Error:', error);
     MsgCenterButtonText('error','Falha no envio!', error);
   })
-
+  
   DisableAll();
-  ClearData(); 
   }
 }
 
-async function GetQueryServer(){  // TEMP
+async function GetDataFromNome(nome){  
+  let url =  new URL('http://localhost:3000/infopaciente/nome');
+  url.href += (`/?nome=${nome}`);
+  
+  // fetch(url)
+  // .then(response => response.json())
+  // .then(data => ShowDataGetNome(data))
+  // .catch((error) => { console.error('Error:', error); })
+  
+  let response = await fetch(url);
+  let data = await response.json();
+  switch (response.status) {  
+    case 500:
+        console.log('Erro no servidor - contacte Suporte TI');break;
+    case 406:
+        console.log('Regra de negócio violada - Nome não informado');break;
+    case 404:
+        console.log('Nome buscado não existe no Banco de Dados'); break;    
+    case 200:
+      for (i=0; i<data.length; i++){ 
+        // console.log(data[i])
+        console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].menor}, ${data[i].responsavel}, ${data[i].cpfresp}, ${data[i].cpf},
+        ${data[i].cns}, ${data[i].registro}, ${data[i].nacionalidade}, ${data[i].nascimento}, ${data[i].genero}, ${data[i].tel},
+        ${data[i].cel}, ${data[i].whatsapp}, ${data[i].email}, ${data[i].endereco}, ${data[i].cep}, ${data[i].bairro}, ${data[i].uf},
+        ${data[i].cidade}, ${data[i].historico}, ${data[i].medicamento}, ${data[i].cirurgia}, ${data[i].trauma}`);
+      }
+      ShowDataGetNome(data);
+      break;
+    }
+  }
+
+
+
+
+async function GetCpf(){  // TEMP
   cpforiginal = inputQuery.value
-  let url =  new URL('http://localhost:3000/infopaciente/consulta_temp');
+  let url =  new URL('http://localhost:3000/infopaciente/cpf');
   url.href += (`/?cpf=${cpforiginal}`);
   let response = await fetch(url);
   let data = await response.json();
+  
   switch (response.status) {  
     case 500:
         console.log('Erro no servidor - contacte Suporte TI');break;
@@ -369,12 +408,18 @@ async function GetQueryServer(){  // TEMP
     case 404:
         console.log('CPF buscado não existe no Banco de Dados'); break;    
     case 200:{
-      for (i=0; i<data.length; i++){
-        console.log(`Nome: ${data[i].nome} - CPF: ${data[i].cpf}`);
+      for (i=0; i<data.length; i++){ 
+        // console.log(data[i])
+        console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].menor}, ${data[i].responsavel}, ${data[i].cpfresp}, ${data[i].cpf},
+        ${data[i].cns}, ${data[i].registro}, ${data[i].nacionalidade}, ${data[i].nascimento}, ${data[i].genero}, ${data[i].tel},
+        ${data[i].cel}, ${data[i].whatsapp}, ${data[i].email}, ${data[i].endereco}, ${data[i].cep}, ${data[i].bairro}, ${data[i].uf},
+        ${data[i].cidade}, ${data[i].historico}, ${data[i].medicamento}, ${data[i].cirurgia}, ${data[i].trauma}`);
       }
+      //ShowDataGet(data);
     }
   }
 }
+
 
 function GetQueryServerPROMISE(){  // TEMP
   cpforiginal = inputQuery.value
@@ -395,9 +440,8 @@ function GetQueryServerPROMISE(){  // TEMP
 }
 
 function PutCpfServer(){  // TEMP
-  let cpfLimpo = inputCpfPutAtual.value.replace(/[^0-9\'']+/g,'')
   let url =  new URL('http://localhost:3000/infopaciente');
-  url.href += (`/id${cpfLimpo}`);
+  url.href += (`/id${inputCpfPutAtual.value}`);
   CpfJson = {'cpf':inputCpfPutNovo.value};
   CpfJson = JSON.stringify(CpfJson);
   fetch(url, {
@@ -406,11 +450,9 @@ function PutCpfServer(){  // TEMP
     body: CpfJson
   })
   .then(response => response.status)
- .then(data => (data==200)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF ${cpfLimpo } não consta no BD!`) )
+ .then(data => (data==200)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF  não consta no BD!`) )
   .catch((error) => { console.error('Error:', error); })
 }
-
-
 
 function EnableAll(){
   tempInfoMenor.removeAttribute('disabled');
@@ -515,6 +557,92 @@ function ShowData(){
   tempInfoTrauma.value = localStorage.trauma;
 }
 
+function ShowDataGet(data){
+  tempInfoNome.value = data[0].nome;
+  (data[0].menor) ? tempInfoMenor.checked=true : tempInfoMenor.checked=false
+  
+  tempInfoResponsavel.value = data[0].responsavel;
+
+  tempInfoCpfresp.value = data[0].cpfresp;
+
+  tempInfoCpf.value = data[0].cpf;
+  
+  tempInfoCns.value = data[0].cns;
+  if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
+
+  tempInfoRegistro.value = data[0].registro;
+  if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
+
+  tempInfonacionalidade.value = data[0].nacionalidade;
+  tempInfoNascimento.value = data[0].nascimento;
+  tempInfoGenero.value = data[0].genero;
+
+  tempInfoTel.value = data[0].tel;
+  if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
+
+  tempInfoCel.value = data[0].cel;
+  if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
+  
+  (data[0].whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
+  tempInfoEmail.value = data[0].email;
+  tempInfoEndereco.value = data[0].endereco;
+
+  tempInfoCep.value = data[0].cep;
+  if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
+  
+  tempInfoBairro.value = data[0].bairro;
+  tempInfoUf.value = data[0].uf;
+  tempInfoCidade.value = data[0].cidade;
+
+  tempInfoHistorico.value = data[0].historico;
+  tempInfoMedicamento.value = data[0].medicamento;
+  tempInfoCirurgia.value = data[0].cirurgia;
+  tempInfoTrauma.value = data[0].trauma;
+ }
+ 
+ function ShowDataGetNome(data){
+  //tempInfoNome.value = data[0].nome;
+  (data[0].menor) ? tempInfoMenor.checked=true : tempInfoMenor.checked=false
+  
+  tempInfoResponsavel.value = data[0].responsavel;
+
+  tempInfoCpfresp.value = data[0].cpfresp;
+
+  tempInfoCpf.value = data[0].cpf;
+  
+  tempInfoCns.value = data[0].cns;
+  if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
+
+  tempInfoRegistro.value = data[0].registro;
+  if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
+
+  tempInfonacionalidade.value = data[0].nacionalidade;
+  tempInfoNascimento.value = data[0].nascimento;
+  tempInfoGenero.value = data[0].genero;
+
+  tempInfoTel.value = data[0].tel;
+  if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
+
+  tempInfoCel.value = data[0].cel;
+  if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
+  
+  (data[0].whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
+  tempInfoEmail.value = data[0].email;
+  tempInfoEndereco.value = data[0].endereco;
+
+  tempInfoCep.value = data[0].cep;
+  if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
+  
+  tempInfoBairro.value = data[0].bairro;
+  tempInfoUf.value = data[0].uf;
+  tempInfoCidade.value = data[0].cidade;
+
+  tempInfoHistorico.value = data[0].historico;
+  tempInfoMedicamento.value = data[0].medicamento;
+  tempInfoCirurgia.value = data[0].cirurgia;
+  tempInfoTrauma.value = data[0].trauma;
+ }
+ 
 function ClearData(){
   tempInfoNome.value = '';
   tempInfoNome.removeAttribute('style'); 
@@ -542,7 +670,35 @@ function ClearData(){
   tempInfoTrauma.value = '';
 }
 
+function ClearDataMinusNome(){
+  //tempInfoNome.value = '';
+  tempInfoNome.removeAttribute('style'); 
+  tempInfoMenor.checked=false;
+  tempInfoResponsavel.value = '';
+  tempInfoCpfresp.value = '';
+  tempInfoCpf.value = '';
+  tempInfoCns.value = '';
+  tempInfoRegistro.value = '';
+  tempInfonacionalidade.value = '';
+  tempInfoNascimento.value = '';
+  tempInfoGenero.value = '';
+  tempInfoTel.value = '';
+  tempInfoCel.value = '';
+  tempInfoWhatsapp.checked=false;
+  tempInfoEmail.value = '';
+  tempInfoEndereco.value = '';
+  tempInfoCep.value = '';
+  tempInfoBairro.value = '';
+  tempInfoUf.value = '';
+  tempInfoCidade.value = '';
+  tempInfoHistorico.value = '';
+  tempInfoMedicamento.value = '';
+  tempInfoCirurgia.value = '';
+  tempInfoTrauma.value = '';
+}
+
 function DisableAll(){
+  ClearData();
   tempInfoMenor.setAttribute('disabled'," ");
   tempInfoMenor.setAttribute('style','background-color: #333');
   tempInfoResponsavel.setAttribute('disabled'," ");
