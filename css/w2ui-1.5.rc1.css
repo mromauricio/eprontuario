@@ -1,5 +1,5 @@
 #nome, #responsavel, #email, #endereco, #link{
-  width: 270px;
+  width: 300px;
 }
 #datanascimento{
   width: 80px;
@@ -1005,7 +1005,7 @@ background-color: rgb(97, 95, 95);  /* MRO */
   /* background-color: #f9f9f9;  MRO */
   margin: 5px 0px 10px 0px;
   padding: 10px 5px;
-  border-top: 1px dotted #dcdcdc; 
+  /*border-top: 1px dashed #dcdcdc; MRO */
   /* border-bottom: 1px solid #dcdcdc;  MRO */
   width: 406px;  /* add - MRO */
 }

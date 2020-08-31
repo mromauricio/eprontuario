@@ -104,6 +104,12 @@ else { /* máscara 0.000.000  */
   return (registro); }
 }
 
+async function ValidaExistenciaRegistroDB(registro){
+let retorno = await GetRegistro(registro);
+if (retorno == 0 || retorno == 1 || idDb==retorno[0]._id ) return 0
+return retorno
+}
+
 function ValidaTel(tel){
 tel = tel.replace(/[^0-9\'']+/g,'');
 if ((tel.length>=1 && tel.length != 8 && tel.length !=10) || tel.length == 0) return(tel);

@@ -4,53 +4,54 @@ $('#form').w2form({
   header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
   url    : 'http://localhost:3000/infopaciente',
   tabs: [
-      { id: 'tab1', caption: 'Identificação' },
-      { id: 'tab2', caption: 'Contato'},
-      { id: 'tab3', caption: 'Histórico clínico' },
-      { id: 'tab4', caption: 'Exames'}
+      { id: 'tab1', caption: 'Dados' },
+   //   { id: 'tab2', caption: 'Contato'},
+      { id: 'tab2', caption: 'Histórico clínico' },
+      { id: 'tab3', caption: 'Anexos'}
   ],
   fields : [
-      { field: 'nome', type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente' } },
+      { field: 'nome', required: true, type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente' } },
       { field: 'menor', type: 'checkbox',  html: { caption: 'Menor de idade', page: 0, column: 0 } },
-      { field: 'cpf',  type: 'text', html: { caption: 'CPF', page: 0, column: 0 } },
-      { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 0 } },
-      { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 0 } },
       { field: 'nacionalidade', type: 'text',  html: { caption: 'Nacionalidade', page: 0, column: 0 } },
       { field: 'datanascimento', type: 'date', html: { caption: 'Data nascimento', page: 0, column: 0 } },
       { field: 'genero', type: 'text',  html: { caption: 'Gênero', page: 0, column: 0 } },
-      { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 0, group:'Responsável - preencher para paciente menor de idade' } },
-      { field: 'cpfresp',  type: 'text', html: { caption: 'CPF responsável', page: 0, column: 0} },
+      { field: 'cpf', required: true, type: 'text', html: { caption: 'CPF', page: 0, column: 1, group:'Documentos' } },
+      { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 1 } },
+      { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 1 } },
+      { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 1 /*, group:'Responsável - preencher para paciente menor de idade' */ } },
+      { field: 'cpfresp',  type: 'text', html: { caption: 'CPF Resp.', page: 0, column: 1} },
 
-      { field: 'email',  type: 'email', html: { caption: 'E-mail', page: 1, column: 0, group: 'Comunicação'} },
-      { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 1, column: 0 } },
-      { field: 'whatsapp',  type: 'checkbox', html: { caption: 'WhatsApp', page: 1, column: 0} },
-      { field: 'tel', type: 'text',  html: { caption: 'Telefone', page: 1, column: 0 } },
-      { field: 'endereco', type: 'text', html: { caption: 'Rua e n༠', page: 1, column: 0, group: 'Endereço' } },
-      { field: 'bairro', type: 'text', html: { caption: 'Bairro', page: 1, column: 0 } },
-      { field: 'cep', type: 'text', html: { caption: 'CEP', page: 1, column: 0 } },
-      { field: 'uf', type: 'text', html: { caption: 'UF', page: 1, column: 0 } },
-      { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 1, column: 0 } },
+      { field: 'email',  type: 'email', html: { caption: 'E-mail', page: 0, column: 0, group: 'Comunicação'} },
+      { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 0, column: 0 } },
+      { field: 'whatsapp',  type: 'checkbox', html: { caption: 'WhatsApp', page: 0, column: 0} },
+      { field: 'tel', type: 'text',  html: { caption: 'Telefone', page: 0, column: 0 } },
+      { field: 'endereco', type: 'text', html: { caption: 'Rua e n༠', page: 0, column: 1, group: 'Endereço' } },
+      { field: 'bairro', type: 'text', html: { caption: 'Bairro', page: 0, column: 1 } },
+      { field: 'cep', type: 'text', html: { caption: 'CEP', page: 0, column: 1 } },
+      { field: 'uf', type: 'text', html: { caption: 'UF', page: 0, column: 1 } },
+      { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 0, column: 1 } },
 
-      { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 2, column: 0, attr: 'placeholder="Acontecimentos relevantes em ordem cronológica."' } },
-      { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 2, column: 1, attr: 'placeholder="Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso"' } },
-      { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 2, column: 0, attr: '' } },
-      { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 2, column: 1, attr: '' } },
+      { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 1, column: 0, attr: 'placeholder="Acontecimentos relevantes em ordem cronológica."' } },
+      { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 1, column: 1, attr: 'placeholder="Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso"' } },
+      { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 1, column: 0, attr: '' } },
+      { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 1, column: 1, attr: '' } },
       
-      { field: 'pdf', type: 'checkbox', html: { caption: 'Anexar PDF', page: 3 } },
-      { field: 'imagem', type: 'checkbox', html: { caption: 'Anexar JPG/PNG', page: 3 } },
+      { field: 'pdf', type: 'checkbox', html: { caption: 'Anexar PDF', page: 2 } },
+      { field: 'imagem', type: 'checkbox', html: { caption: 'Anexar JPG/PNG', page: 2 } },
       { field: 'link', type: 'text', html: { caption: 'Link', page: 3 } },
-      { field: 'texto', type: 'textarea', html: { caption: 'Texto livre', page: 3, attr: 'style="width: 300px; height:150px"' } }
+      { field: 'texto', type: 'textarea', html: { caption: 'Texto livre', page: 2, attr: 'style="width: 300px; height:150px"' } }
   ],
-  // actions: {
-  //     reset: function () {
-  //         this.clear();
-  //     },
-  //     save: function () {
-  //         this.save(GravaLocalInfo(),function(){});
-  //     }
-  // }
+  actions: {
+      // reset: function () {
+      //     this.clear();
+      // },
+      // save: function () {
+      //     this.save(GravaLocalInfo,function(){});
+      // }
+  }
 });
-
+let cameFromDb = false;
+let idDb;
 let tempInfoNome = document.querySelector('#nome');
 let tempInfoResponsavel = document.querySelector('#responsavel');
 let tempInfoCpfresp = document.querySelector('#cpfresp');
@@ -58,7 +59,7 @@ let tempInfoMenor = document.querySelector('#menor');
 let tempInfoCpf = document.querySelector('#cpf');
 let tempInfoCns = document.querySelector('#cns');
 let tempInfoRegistro = document.querySelector('#registro');
-let tempInfonacionalidade = document.querySelector('#nacionalidade');
+let tempInfoNacionalidade = document.querySelector('#nacionalidade');
 let tempInfoNascimento = document.querySelector('#datanascimento');
 let tempInfoGenero = document.querySelector('#genero');
 let tempInfoTel = document.querySelector('#tel');
@@ -76,11 +77,11 @@ let tempInfoCirurgia = document.querySelector('#cirurgia');
 let tempInfoTrauma = document.querySelector('#trauma');
 
 let buttonGravar = document.querySelector('#gravar');
-let buttonGet = document.querySelector('#get'); // TEMP
-let inputQuery = document.querySelector('#query'); //TEMP
-let buttonPut = document.querySelector('#put'); // TEMP
-let inputCpfPutAtual = document.querySelector('#putcpfatual'); // TEMP
-let inputCpfPutNovo = document.querySelector('#putcpfnovo'); // TEMP
+// let buttonGet = document.querySelector('#get'); // TEMP
+// let inputQuery = document.querySelector('#query'); //TEMP
+// let buttonPut = document.querySelector('#put'); // TEMP
+// let inputCpfPutAtual = document.querySelector('#putcpfatual'); // TEMP
+// let inputCpfPutNovo = document.querySelector('#putcpfnovo'); // TEMP
 
 const isEmpty = str => !str.trim().length;
 
@@ -116,10 +117,14 @@ class Paciente {
 
 tempInfoNome.focus(); 
 
-/* Listeners */
+///// TEMP //////
+// buttonGet.addEventListener('click', GetCpf); 
+// buttonPut.addEventListener('click', PutCpfServer); 
 
-buttonGet.addEventListener('click', GetCpf); // TEMP
-buttonPut.addEventListener('click', PutCpfServer); // TEMP
+
+/////////////////////////////////////////////////////
+
+/* Listeners */
 
 buttonGravar.addEventListener('click', GravaLocalInfo);
 
@@ -193,7 +198,24 @@ tempInfoRegistro.addEventListener('blur', function(){
     this.setAttribute('style','color: red;');  
     MsgTop('error', 'Registro inválido!');
   }
-  else this.removeAttribute('style');
+  else {
+    this.removeAttribute('style');
+    if (this.value.length != 0) {
+      ValidaExistenciaRegistroDB(this.value)
+      .then(response => {
+        if (response!=0){MsgCenterButtonText('error','Registro já utilizado:',`${response[0].nome} - CPF: ${response[0].cpf}`);  }
+      });
+    }
+  }
+});
+
+tempInfoNacionalidade.addEventListener('blur', function(){
+  String.prototype.initCap = function () {
+    return this.toLowerCase().replace(/(?:^|\b)[a-z]/g, function (m) {
+       return m.toUpperCase();
+    });
+ };
+ tempInfoNacionalidade.value = tempInfoNacionalidade.value.initCap();
 });
 
 tempInfoTel.addEventListener('blur', function(){
@@ -245,7 +267,7 @@ function SearchRegister(){
 //   }
 // }
 
-function GravaLocalInfo(){  
+async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
 
 if (isEmpty(tempInfoNome.value)) alertNome = `\n[Nome não informado]`;
@@ -278,9 +300,10 @@ else { localStorage.setItem('cns', tempInfoCns.value);  alertCns = ''; }
 if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) { 
   localStorage.setItem('registro', tempInfoRegistro.value); 
   alertRegistro = `\n[Registro ${tempInfoRegistro.value}]`;}
+else if (tempInfoRegistro.value.length != 0 && await ValidaExistenciaRegistroDB(tempInfoRegistro.value)!=0 ) {alertRegistro = `\n[Registro ${tempInfoRegistro.value} já utilizado]`;}  
 else { localStorage.setItem('registro', tempInfoRegistro.value);  alertRegistro = ''; }    
 
-localStorage.setItem('nacionalidade', tempInfonacionalidade.value);
+localStorage.setItem('nacionalidade', tempInfoNacionalidade.value);
 localStorage.setItem('nascimento', tempInfoNascimento.value);
 localStorage.setItem('genero',tempInfoGenero.value);
 
@@ -317,7 +340,7 @@ if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCn
   MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertNome} \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
   if (alertResponsavel!='') tempInfoResponsavel.focus();
   else if (alertCpfresp!='') tempInfoCpfresp.focus();
-  else if (alertCpf!='') { tempInfoCpf.focus(); event.preventDefault(); }
+  else if (alertCpf!='') {  tempInfoCpf.focus(); /* event.preventDefault(); */ }
   }
 else { 
   let paciente = new Paciente(localStorage.nome, localStorage.menor, 
@@ -328,130 +351,32 @@ else {
   localStorage.endereco, localStorage.cep,localStorage.bairro, 
   localStorage.uf, localStorage.cidade, localStorage.historico,
   localStorage.medicamento, localStorage.cirurgia, localStorage.trauma);
-
   jsonPaciente = JSON.stringify(paciente);
-  //event.preventDefault();
 
-  let url =  new URL('http://localhost:3000/infopaciente');
-  fetch(url, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json;charset=utf-8'},
-    body: jsonPaciente
-  })
-  .then(response => response.status)
-  .then(data => { switch (data) {
-    case 201:
-      MsgCenter('success','Dados enviados!', false); break;
-    case 400:
-      MsgCenterButtonText('error','Falha no envio!', 'Tente novamente'); break;
-    case 406:
-      MsgCenterButtonText('error','CPF não informado!', 'Corrija'); break;
-    case 500:
-      MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;  
-    } 
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-    MsgCenterButtonText('error','Falha no envio!', error);
-  })
-  
+  if (cameFromDb){
+    let retorno = await PutDataPaciente(idDb, jsonPaciente);
+    switch (retorno){
+      case 0:
+        MsgCenter('success','Dados atualizados!', false); break;
+      case 1:
+        MsgCenterButtonText('error','ID não localizado!', 'Corrija'); break;    
+      case 2:
+        MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;  
+      }
+    }
+  else {  
+    let retorno = await PostDataPaciente(jsonPaciente);
+    switch (retorno){
+      case 0:
+        MsgCenter('success','Dados enviados!', false); break;
+      case 1:
+        MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;  
+      case 2:
+        MsgCenterButtonText('error','CPF não informado!', 'Corrija'); break;    
+    }
+  }
   DisableAll();
   }
-}
-
-async function GetDataFromNome(nome){  
-  let url =  new URL('http://localhost:3000/infopaciente/nome');
-  url.href += (`/?nome=${nome}`);
-  
-  // fetch(url)
-  // .then(response => response.json())
-  // .then(data => ShowDataGetNome(data))
-  // .catch((error) => { console.error('Error:', error); })
-  
-  let response = await fetch(url);
-  let data = await response.json();
-  switch (response.status) {  
-    case 500:
-        console.log('Erro no servidor - contacte Suporte TI');break;
-    case 406:
-        console.log('Regra de negócio violada - Nome não informado');break;
-    case 404:
-        console.log('Nome buscado não existe no Banco de Dados'); break;    
-    case 200:
-      for (i=0; i<data.length; i++){ 
-        // console.log(data[i])
-        console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].menor}, ${data[i].responsavel}, ${data[i].cpfresp}, ${data[i].cpf},
-        ${data[i].cns}, ${data[i].registro}, ${data[i].nacionalidade}, ${data[i].nascimento}, ${data[i].genero}, ${data[i].tel},
-        ${data[i].cel}, ${data[i].whatsapp}, ${data[i].email}, ${data[i].endereco}, ${data[i].cep}, ${data[i].bairro}, ${data[i].uf},
-        ${data[i].cidade}, ${data[i].historico}, ${data[i].medicamento}, ${data[i].cirurgia}, ${data[i].trauma}`);
-      }
-      ShowDataGetNome(data);
-      break;
-    }
-  }
-
-
-
-
-async function GetCpf(){  // TEMP
-  cpforiginal = inputQuery.value
-  let url =  new URL('http://localhost:3000/infopaciente/cpf');
-  url.href += (`/?cpf=${cpforiginal}`);
-  let response = await fetch(url);
-  let data = await response.json();
-  
-  switch (response.status) {  
-    case 500:
-        console.log('Erro no servidor - contacte Suporte TI');break;
-    case 406:
-        console.log('Regra de negócio violada - CPF = 000');break;
-    case 404:
-        console.log('CPF buscado não existe no Banco de Dados'); break;    
-    case 200:{
-      for (i=0; i<data.length; i++){ 
-        // console.log(data[i])
-        console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].menor}, ${data[i].responsavel}, ${data[i].cpfresp}, ${data[i].cpf},
-        ${data[i].cns}, ${data[i].registro}, ${data[i].nacionalidade}, ${data[i].nascimento}, ${data[i].genero}, ${data[i].tel},
-        ${data[i].cel}, ${data[i].whatsapp}, ${data[i].email}, ${data[i].endereco}, ${data[i].cep}, ${data[i].bairro}, ${data[i].uf},
-        ${data[i].cidade}, ${data[i].historico}, ${data[i].medicamento}, ${data[i].cirurgia}, ${data[i].trauma}`);
-      }
-      //ShowDataGet(data);
-    }
-  }
-}
-
-
-function GetQueryServerPROMISE(){  // TEMP
-  cpforiginal = inputQuery.value
-  let url =  new URL('http://localhost:3000/infopaciente/consulta_temp');
-  url.href += (`/?cpf=${cpforiginal}`);
-  fetch(url)
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch((error) => { console.error('Error:', error); })
-  
-  //cpfLimpo = inputCpfGet.value.replace(/[^0-9\'']+/g,'');
-  // url.href += (`/?cpf=${cpfLimpo}`);
-  //.then(data => console.log(data))
-  //.then(response => response.json())
-  //.then(data => console.log(data.campo,data.campo2))
-  // .then(data => (data==200)?console.log(`CPF ${cpfLimpo} encontrado no database`):console.error(`CPF ${cpfLimpo} não localizado no database`))
-  // .then(data => (data==200)?console.log(`CPF ${cpforiginal} encontrado no database`):console.error(`CPF ${cpforiginal} não localizado no database`))
-}
-
-function PutCpfServer(){  // TEMP
-  let url =  new URL('http://localhost:3000/infopaciente');
-  url.href += (`/id${inputCpfPutAtual.value}`);
-  CpfJson = {'cpf':inputCpfPutNovo.value};
-  CpfJson = JSON.stringify(CpfJson);
-  fetch(url, {
-    method: 'PUT',
-    headers: {'Content-Type': 'application/json;charset=utf-8'},
-    body: CpfJson
-  })
-  .then(response => response.status)
- .then(data => (data==200)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF  não consta no BD!`) )
-  .catch((error) => { console.error('Error:', error); })
 }
 
 function EnableAll(){
@@ -473,8 +398,8 @@ function EnableAll(){
   tempInfoCns.removeAttribute('style');
   tempInfoRegistro.removeAttribute('disabled');
   tempInfoRegistro.removeAttribute('style');
-  tempInfonacionalidade.removeAttribute('disabled');
-  tempInfonacionalidade.removeAttribute('style');
+  tempInfoNacionalidade.removeAttribute('disabled');
+  tempInfoNacionalidade.removeAttribute('style');
   tempInfoNascimento.removeAttribute('disabled');
   tempInfoNascimento.removeAttribute('style');
   tempInfoGenero.removeAttribute('disabled');
@@ -530,7 +455,7 @@ function ShowData(){
   tempInfoRegistro.value = localStorage.registro;
   if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
 
-  tempInfonacionalidade.value = localStorage.nacionalidade;
+  tempInfoNacionalidade.value = localStorage.nacionalidade;
   tempInfoNascimento.value = localStorage.nascimento;
   tempInfoGenero.value = localStorage.genero;
 
@@ -557,7 +482,7 @@ function ShowData(){
   tempInfoTrauma.value = localStorage.trauma;
 }
 
-function ShowDataGet(data){
+function ShowDataGet(data){  // AVALIAR RETIRADA
   tempInfoNome.value = data[0].nome;
   (data[0].menor) ? tempInfoMenor.checked=true : tempInfoMenor.checked=false
   
@@ -573,7 +498,7 @@ function ShowDataGet(data){
   tempInfoRegistro.value = data[0].registro;
   if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
 
-  tempInfonacionalidade.value = data[0].nacionalidade;
+  tempInfoNacionalidade.value = data[0].nacionalidade;
   tempInfoNascimento.value = data[0].nascimento;
   tempInfoGenero.value = data[0].genero;
 
@@ -601,7 +526,6 @@ function ShowDataGet(data){
  }
  
  function ShowDataGetNome(data){
-  //tempInfoNome.value = data[0].nome;
   (data[0].menor) ? tempInfoMenor.checked=true : tempInfoMenor.checked=false
   
   tempInfoResponsavel.value = data[0].responsavel;
@@ -616,7 +540,7 @@ function ShowDataGet(data){
   tempInfoRegistro.value = data[0].registro;
   if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
 
-  tempInfonacionalidade.value = data[0].nacionalidade;
+  tempInfoNacionalidade.value = data[0].nacionalidade;
   tempInfoNascimento.value = data[0].nascimento;
   tempInfoGenero.value = data[0].genero;
 
@@ -652,7 +576,7 @@ function ClearData(){
   tempInfoCpf.value = '';
   tempInfoCns.value = '';
   tempInfoRegistro.value = '';
-  tempInfonacionalidade.value = '';
+  tempInfoNacionalidade.value = '';
   tempInfoNascimento.value = '';
   tempInfoGenero.value = '';
   tempInfoTel.value = '';
@@ -679,7 +603,7 @@ function ClearDataMinusNome(){
   tempInfoCpf.value = '';
   tempInfoCns.value = '';
   tempInfoRegistro.value = '';
-  tempInfonacionalidade.value = '';
+  tempInfoNacionalidade.value = '';
   tempInfoNascimento.value = '';
   tempInfoGenero.value = '';
   tempInfoTel.value = '';
@@ -711,8 +635,8 @@ function DisableAll(){
   tempInfoCns.setAttribute('style','background-color: #333');
   tempInfoRegistro.setAttribute('disabled'," ");
   tempInfoRegistro.setAttribute('style','background-color: #333');
-  tempInfonacionalidade.setAttribute('disabled'," ");
-  tempInfonacionalidade.setAttribute('style','background-color: #333');
+  tempInfoNacionalidade.setAttribute('disabled'," ");
+  tempInfoNacionalidade.setAttribute('style','background-color: #333');
   tempInfoNascimento.setAttribute('disabled'," ");
   tempInfoNascimento.setAttribute('style','background-color: #333');
   tempInfoGenero.setAttribute('disabled'," ");

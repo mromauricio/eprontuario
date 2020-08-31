@@ -1,16 +1,16 @@
 # Development
 
-(   ) Quando localizar o nome no BD, trazer os dados e botão "Salvar" enviar PUT (utilizando _id)
-      Quando não localizar o nome, o botão "Salvar" deve enviar de POST
+(   ) Evitar duplicidade de CNS (idem ao já feito para Registro)
 
-(   ) TAB  "Dados" e "Anexos"
+
+(   ) Lista de nome que iniciam em xxx, exibindo cpf e dando opção de escolha
+
 
 ( 0 ) Tratar eventual erro fetch new-info.js
 
 ( 0 ) Tratar eventual erro e confirmar sucesso do pacienteRecord.save em DBmodelInfoPaciente.js
 
 (  ) Modificação conteúdo 
-> Nacionalidade Listener Initcap
 > Data Nascimento por em formato dd.mm.yyy
 > Gênero por opçoes: Feminino e Masculino
 > UF - lista
