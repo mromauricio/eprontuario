@@ -1,14 +1,19 @@
 # Development
 
+(   ) Montar Tabela dinâmica quando houver mais de um registro iniciado com nome da busca.
+Exibir colunas: N. sequêncial, Nome, CPF e Data nascimento.
+Input para capturar a escolha do usuário
+Exibir os dados da linha selecionada
+Número Zero determina a inclusão de novo registro 
+
+( ? ) Localizar nome quando foi gravado com acento mas 
+a busca está sem acento.
+
 (   ) Evitar duplicidade de CNS (idem ao já feito para Registro)
 
+(   ) Evitar duplicidade de CPF (idem ao já feito para Registro)
 
-(   ) Lista de nome que iniciam em xxx, exibindo cpf e dando opção de escolha
-
-
-( 0 ) Tratar eventual erro fetch new-info.js
-
-( 0 ) Tratar eventual erro e confirmar sucesso do pacienteRecord.save em DBmodelInfoPaciente.js
+(   ) Tratar eventual erro fetch new-info.js
 
 (  ) Modificação conteúdo 
 > Data Nascimento por em formato dd.mm.yyy
@@ -18,6 +23,7 @@
 (  ) Após coleta do nome, exibir o mesmo e data da última atualização
      no header do formulário
 
+(  ) Retirar localStorage
 
 # Error
 ==========

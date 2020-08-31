@@ -1,3 +1,7 @@
+// Funções com nome Valida... e  Msg... encontram-se no arquivo /scripts/valida.js
+// Funções com nome Get/Put/Post... encontram-se no arquivo /scripts/fetch.js
+//
+//////////////////////////
 
 $('#form').w2form({ 
   name   : 'form',
@@ -10,7 +14,7 @@ $('#form').w2form({
       { id: 'tab3', caption: 'Anexos'}
   ],
   fields : [
-      { field: 'nome', required: true, type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente' } },
+      { field: 'nome', required: true, type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente', attr: 'placeholder="nome completo sem abreviações + tecla Enter"'} },
       { field: 'menor', type: 'checkbox',  html: { caption: 'Menor de idade', page: 0, column: 0 } },
       { field: 'nacionalidade', type: 'text',  html: { caption: 'Nacionalidade', page: 0, column: 0 } },
       { field: 'datanascimento', type: 'date', html: { caption: 'Data nascimento', page: 0, column: 0 } },
@@ -122,20 +126,14 @@ tempInfoNome.focus();
 // buttonPut.addEventListener('click', PutCpfServer); 
 
 
-/////////////////////////////////////////////////////
-
 /* Listeners */
 
 buttonGravar.addEventListener('click', GravaLocalInfo);
 
 tempInfoNome.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
-    if (isEmpty(this.value)) {
-      MsgTop('warning', 'Informe o nome!');
-    }
-    else this.removeAttribute('style');  
-    //event.preventDefault();
-    SearchRegister();
+    if (isEmpty(this.value)) MsgTop('warning', 'Informe o nome!');
+    else SearchRegister();
   }
   });
 
@@ -212,10 +210,10 @@ tempInfoRegistro.addEventListener('blur', function(){
 tempInfoNacionalidade.addEventListener('blur', function(){
   String.prototype.initCap = function () {
     return this.toLowerCase().replace(/(?:^|\b)[a-z]/g, function (m) {
-       return m.toUpperCase();
+        return m.toUpperCase();
     });
- };
- tempInfoNacionalidade.value = tempInfoNacionalidade.value.initCap();
+  };
+  tempInfoNacionalidade.value = tempInfoNacionalidade.value.initCap();
 });
 
 tempInfoTel.addEventListener('blur', function(){
@@ -252,7 +250,7 @@ function SearchRegister(){
   tempInfoNome.value = tempInfoNome.value.toUpperCase();
   EnableAll(); 
   ClearDataMinusNome();
-  GetDataFromNome(tempInfoNome.value);
+  GetDataFromNome(tempInfoNome.value); 
 }
 
 // function SearchRegister(){
@@ -481,51 +479,10 @@ function ShowData(){
   tempInfoCirurgia.value = localStorage.cirurgia;
   tempInfoTrauma.value = localStorage.trauma;
 }
-
-function ShowDataGet(data){  // AVALIAR RETIRADA
-  tempInfoNome.value = data[0].nome;
-  (data[0].menor) ? tempInfoMenor.checked=true : tempInfoMenor.checked=false
-  
-  tempInfoResponsavel.value = data[0].responsavel;
-
-  tempInfoCpfresp.value = data[0].cpfresp;
-
-  tempInfoCpf.value = data[0].cpf;
-  
-  tempInfoCns.value = data[0].cns;
-  if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
-
-  tempInfoRegistro.value = data[0].registro;
-  if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
-
-  tempInfoNacionalidade.value = data[0].nacionalidade;
-  tempInfoNascimento.value = data[0].nascimento;
-  tempInfoGenero.value = data[0].genero;
-
-  tempInfoTel.value = data[0].tel;
-  if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
-
-  tempInfoCel.value = data[0].cel;
-  if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
-  
-  (data[0].whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
-  tempInfoEmail.value = data[0].email;
-  tempInfoEndereco.value = data[0].endereco;
-
-  tempInfoCep.value = data[0].cep;
-  if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
-  
-  tempInfoBairro.value = data[0].bairro;
-  tempInfoUf.value = data[0].uf;
-  tempInfoCidade.value = data[0].cidade;
-
-  tempInfoHistorico.value = data[0].historico;
-  tempInfoMedicamento.value = data[0].medicamento;
-  tempInfoCirurgia.value = data[0].cirurgia;
-  tempInfoTrauma.value = data[0].trauma;
- }
  
  function ShowDataGetNome(data){
+  (data.length>1)? MsgDropList() : null; 
+  tempInfoNome.value = data[0].nome;
   (data[0].menor) ? tempInfoMenor.checked=true : tempInfoMenor.checked=false
   
   tempInfoResponsavel.value = data[0].responsavel;
