@@ -1,17 +1,19 @@
 # Development
 
-(   ) Montar Tabela dinâmica quando houver mais de um registro iniciado com nome da busca.
+(   ) Opção para incluir homônimo
+
+(   ) Montar Tabela dinâmica quando houver mais de um registro com mesmo nome da busca.
 Exibir colunas: N. sequêncial, Nome, CPF e Data nascimento.
 Input para capturar a escolha do usuário
 Exibir os dados da linha selecionada
 Número Zero determina a inclusão de novo registro 
 
+(   ) Busca/inclusão do formulário por CPF
+CNS
+Registro
+
 ( ? ) Localizar nome quando foi gravado com acento mas 
 a busca está sem acento.
-
-(   ) Evitar duplicidade de CNS (idem ao já feito para Registro)
-
-(   ) Evitar duplicidade de CPF (idem ao já feito para Registro)
 
 (   ) Tratar eventual erro fetch new-info.js
 

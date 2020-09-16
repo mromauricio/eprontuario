@@ -19,7 +19,7 @@ $('#form').w2form({
       { field: 'nacionalidade', type: 'text',  html: { caption: 'Nacionalidade', page: 0, column: 0 } },
       { field: 'datanascimento', type: 'date', html: { caption: 'Data nascimento', page: 0, column: 0 } },
       { field: 'genero', type: 'text',  html: { caption: 'Gênero', page: 0, column: 0 } },
-      { field: 'cpf', required: true, type: 'text', html: { caption: 'CPF', page: 0, column: 1, group:'Documentos' } },
+      { field: 'cpf',  type: 'text', html: { caption: 'CPF', page: 0, column: 1, group:'Documentos' } },
       { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 1 } },
       { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 1 } },
       { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 1 /*, group:'Responsável - preencher para paciente menor de idade' */ } },
@@ -172,22 +172,38 @@ tempInfoCpfresp.addEventListener('blur', function(){
 });
 
 tempInfoCpf.addEventListener('focusout', function(){
-this.value = ValidaCpf(this.value); 
-if (this.value.length != 14 && this.value.length != 0) {
-  this.setAttribute('style','color: red;');
-  MsgTop('error', 'CPF inválido!');
-}
-else if (isEmpty(this.value)) {  MsgTop('warning', 'Informe o CPF!');}
-else tempInfoCpf.removeAttribute('style');
+  this.value = ValidaCpf(this.value); 
+  if (this.value.length != 14 && this.value.length != 0) {
+    this.setAttribute('style','color: red;');
+    MsgTop('error', 'CPF inválido!');
+  }
+  else if (isEmpty(this.value) && tempInfoMenor.checked==false) {  MsgTop('warning', 'Informe o CPF!');}
+  else {
+    this.removeAttribute('style');
+    if (this.value.length != 0) {
+      ValidaExistenciaCpfDB(this.value)
+      .then(response => {
+        if (response!=0){MsgCenterButtonText('error','CPF já utilizado:',`Paciente ${response[0].nome}`);  }
+      });
+    }
+  }
 });
 
 tempInfoCns.addEventListener('blur', function(){
   this.value = ValidaCns(this.value);
-if (this.value.length != 18 && this.value.length != 0) {
-  this.setAttribute('style','color: red;');  
-  MsgTop('error', 'CNS inválido!');
-}
-else this.removeAttribute('style');
+  if (this.value.length != 18 && this.value.length != 0) {
+    this.setAttribute('style','color: red;');  
+    MsgTop('error', 'CNS inválido!');
+  }
+  else {
+    this.removeAttribute('style');
+    if (this.value.length != 0) {
+      ValidaExistenciaCnsDB(this.value)
+      .then(response => {
+        if (response!=0){MsgCenterButtonText('error','CNS já utilizado:',`${response[0].nome} - CPF: ${response[0].cpf}`);  }
+      });
+    }
+  }
 });
 
 tempInfoRegistro.addEventListener('blur', function(){
@@ -286,13 +302,15 @@ localStorage.setItem('responsavel', tempInfoResponsavel.value.toUpperCase());
 localStorage.setItem('cpfresp', tempInfoCpfresp.value); 
 
 if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `\n[CPF ${tempInfoCpf.value}]`;
-else if (isEmpty(tempInfoCpf.value)) alertCpf = `\n[CPF não informado]`;
-else alertCpf = '';  
-localStorage.setItem('cpf', tempInfoCpf.value); 
+else if (isEmpty(tempInfoCpf.value) && tempInfoMenor.checked==false) alertCpf = `\n[CPF não informado]`;
+else if (tempInfoCpf.value.length != 0 && await ValidaExistenciaCpfDB(tempInfoCpf.value)!=0 ) {alertCpf = `\n[CPF ${tempInfoRegistro.value} já utilizado]`;}  
+else { localStorage.setItem('cpf', tempInfoCpf.value); alertCpf = ''; } 
 
-if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) {
+
+if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0 ) {
   localStorage.setItem('cns', tempInfoCns.value); 
   alertCns = `\n[CNS ${tempInfoCns.value}]`;}
+else if (tempInfoCns.value.length != 0 && await ValidaExistenciaCnsDB(tempInfoCns.value)!=0 ) {alertCns = `\n[CNS ${tempInfoCns.value} já utilizado]`;}    
 else { localStorage.setItem('cns', tempInfoCns.value);  alertCns = ''; }
 
 if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) { 
@@ -481,7 +499,7 @@ function ShowData(){
 }
  
  function ShowDataGetNome(data){
-  (data.length>1)? MsgDropList() : null; 
+  //(data.length>1)? MsgDropList() : null; 
   tempInfoNome.value = data[0].nome;
   (data[0].menor) ? tempInfoMenor.checked=true : tempInfoMenor.checked=false
   

@@ -39,21 +39,6 @@ async function PutDataPaciente (idSearch, data){
   } catch (error) {console.log(error); return 1;}
 }
 
-function PutCpfServer(){  // TEMP
-  let url =  new URL('http://localhost:3000/infopaciente/cpf');
-  url.href += (`/idtemp${inputCpfPutAtual.value}`);
-  CpfJson = {'cpf':inputCpfPutNovo.value};
-  CpfJson = JSON.stringify(CpfJson);
-  fetch(url, {
-    method: 'PUT',
-    headers: {'Content-Type': 'application/json;charset=utf-8'},
-    body: CpfJson
-  })
-  .then(response => response.status)
-  .then(data => (data==200)?console.log('PUT realizado!'):console.error(`PUT NÃO realizado - CPF  não consta no BD!`) )
-  .catch((error) => { console.error('Error:', error); })
-}
-
 async function GetDataFromNome(nome){  
   let url =  new URL('http://localhost:3000/infopaciente/nome');
   url.href += (`/?nome=${nome}`);
@@ -82,7 +67,50 @@ async function GetDataFromNome(nome){
    } catch (error) {console.log(error);};
   }
 
-async function GetRegistro(registro) { // TEMP
+  async function GetCpf(cpf) { 
+    let url =  new URL('http://localhost:3000/infopaciente/cpf');
+    url.href += (`/?cpf=${cpf}`);
+    try {
+      let response = await fetch(url);
+      let data = await response.json();
+      switch (response.status) {  
+        case 500:
+            return 1;
+        case 404:{ 
+            console.log('CPF buscado não existe no Banco de Dados'); 
+            return 0;}
+        case 200:
+            for (i=0; i<data.length; i++){ 
+              console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].cpf}`);
+            }
+            return data ;
+        }
+     } catch (error) {console.log(error);};
+  }
+
+  async function GetCns(cns) { 
+    let url =  new URL('http://localhost:3000/infopaciente/cns');
+    url.href += (`/?cns=${cns}`);
+    try {
+      let response = await fetch(url);
+      let data = await response.json();
+      switch (response.status) {  
+        case 500:
+            return 1;
+        case 404:{ 
+            console.log('CNS buscado não existe no Banco de Dados'); 
+            return 0;}
+        case 200:
+            for (i=0; i<data.length; i++){ 
+              console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].cpf}`);
+            }
+            return data ;
+        }
+     } catch (error) {console.log(error);};
+  }
+
+
+async function GetRegistro(registro) { 
     let url =  new URL('http://localhost:3000/infopaciente/registro');
     url.href += (`/?registro=${registro}`);
     try {
@@ -104,20 +132,14 @@ async function GetRegistro(registro) { // TEMP
   }
 
 
+  
+
+
 //////// TEMP ////
 
-function GetCpf() { // TEMP
-  let url =  new URL('http://localhost:3000/infopaciente/cpf');
-  url.href += (`/?cpf=${inputQuery.value}`);
-  fetch(url)
-  .then (response => response.json())
-  .then (data => console.log(data))
-  .catch((error) => { console.error('Error:', error); })
-}
-
 function PutCpfServer(){  // TEMP
-  let url =  new URL('http://localhost:3000/infopaciente');
-  url.href += (`/id${inputCpfPutAtual.value}`);
+  let url =  new URL('http://localhost:3000/infopaciente/cpf');
+  url.href += (`/idtemp${inputCpfPutAtual.value}`);
   CpfJson = {'cpf':inputCpfPutNovo.value};
   CpfJson = JSON.stringify(CpfJson);
   fetch(url, {
@@ -130,18 +152,12 @@ function PutCpfServer(){  // TEMP
   .catch((error) => { console.error('Error:', error); })
 }
 
-
-//////////  No use, just examples witj jQuery
-function ExampleGETjQuery(){
-  let url = new URL('http://localhost:3000');
-  $.get(url, function(data, status){
-    console.log("Data: " + data + "\nStatus: " + status);
-  });
+function GetCpfTEMP() { // TEMP
+  let url =  new URL('http://localhost:3000/infopaciente/cpf');
+  url.href += (`/?cpf=${inputQuery.value}`);
+  fetch(url)
+  .then (response => response.json())
+  .then (data => console.log(data))
+  .catch((error) => { console.error('Error:', error); })
 }
 
-function ExamplePostjQuery(jsonContent){
-  let url = new URL('http://localhost:3000/paciente');
-  $.post(url, jsonContent, function(data, status){
-    console.log("Data: " + data + "\nStatus: " + status);
-  });
-}

@@ -16,41 +16,6 @@
     $cep.mask('00000-000', {reverse: false});
   });
 
-async function MsgDropList(){
-  const { value: fruit } = await Swal.fire({
-    title: 'Localizados vários registros',
-    input: 'select',
-    inputOptions: {
-      'Fruits': {
-        apples: 'Apples',
-        bananas: 'Bananas',
-        grapes: 'Grapes',
-        oranges: 'Oranges'
-      },
-      'Vegetables': {
-        potato: 'Potato',
-        broccoli: 'Broccoli',
-        carrot: 'Carrot'
-      },
-      'icecream': 'Ice cream'
-    },
-    inputPlaceholder: 'Selecione o desejado',
-    showCancelButton: true,
-    inputValidator: (value) => {
-      return new Promise((resolve) => {
-        if (value === 'oranges') {
-          resolve()
-        } else {
-          resolve('You need to select oranges :)')
-        }
-      })
-    }
-  })
-  
-  if (fruit) {
-    Swal.fire(`You selected: ${fruit}`)
-  }
-}
 
 
 // async function MsgDropList(){
@@ -162,6 +127,13 @@ if (cpfnum[9] == conta2) {
 return (cpf);
 }
 
+
+async function ValidaExistenciaCpfDB(cpf){
+  let retorno = await GetCpf(cpf);
+  if (retorno == 0 || retorno == 1 || idDb==retorno[0]._id ) return 0
+  return retorno
+  }
+
 function ValidaCns(cns){
 cns = cns.replace(/[^0-9\'']+/g,'');
 if ( (cns.length>=1 && cns.length != 15) || (cns.length == 0) ) return(cns);
@@ -169,6 +141,12 @@ else { /* máscara 000.0000.0000.0000 */
   cns = cns.substring(0, 3) + "." + cns.substring(3, 7) + "." + cns.substring(7, 11) + "." + cns.substring(11, 15);
   return (cns); }
 }
+
+async function ValidaExistenciaCnsDB(cns){
+  let retorno = await GetCns(cns);
+  if (retorno == 0 || retorno == 1 || idDb==retorno[0]._id ) return 0
+  return retorno
+  }
 
 function ValidaRegistro(registro){
 registro = registro.replace(/[^0-9\'']+/g,'');
