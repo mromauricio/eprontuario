@@ -183,7 +183,7 @@ tempInfoCpf.addEventListener('focusout', function(){
     if (this.value.length != 0) {
       ValidaExistenciaCpfDB(this.value)
       .then(response => {
-        if (response!=0){MsgCenterButtonText('error','CPF já utilizado:',`Paciente ${response[0].nome}`);  }
+        if (response!=0){MsgCenterButtonText('error','CPF já cadastrado!',`Paciente: ${response[0].nome}`);  }
       });
     }
   }
@@ -200,7 +200,7 @@ tempInfoCns.addEventListener('blur', function(){
     if (this.value.length != 0) {
       ValidaExistenciaCnsDB(this.value)
       .then(response => {
-        if (response!=0){MsgCenterButtonText('error','CNS já utilizado:',`${response[0].nome} - CPF: ${response[0].cpf}`);  }
+        if (response!=0){MsgCenterButtonText('error','CNS já cadastrado:',`Paciente: ${response[0].nome}`);  }
       });
     }
   }
@@ -217,7 +217,7 @@ tempInfoRegistro.addEventListener('blur', function(){
     if (this.value.length != 0) {
       ValidaExistenciaRegistroDB(this.value)
       .then(response => {
-        if (response!=0){MsgCenterButtonText('error','Registro já utilizado:',`${response[0].nome} - CPF: ${response[0].cpf}`);  }
+        if (response!=0){MsgCenterButtonText('error','Registro já cadastrado:',`Paciente: ${response[0].nome}`);  }
       });
     }
   }
@@ -269,18 +269,6 @@ function SearchRegister(){
   GetDataFromNome(tempInfoNome.value); 
 }
 
-// function SearchRegister(){
-//   tempInfoNome.value = tempInfoNome.value.toUpperCase();
-//   EnableAll(); 
-//   if (localStorage.getItem('nome') != null)
-//   {
-//     if (tempInfoNome.value.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") == localStorage.nome.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) 
-//     {
-//       ShowData();
-//     } 
-//   }
-// }
-
 async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
 
@@ -303,20 +291,20 @@ localStorage.setItem('cpfresp', tempInfoCpfresp.value);
 
 if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `\n[CPF ${tempInfoCpf.value}]`;
 else if (isEmpty(tempInfoCpf.value) && tempInfoMenor.checked==false) alertCpf = `\n[CPF não informado]`;
-else if (tempInfoCpf.value.length != 0 && await ValidaExistenciaCpfDB(tempInfoCpf.value)!=0 ) {alertCpf = `\n[CPF ${tempInfoRegistro.value} já utilizado]`;}  
+else if (tempInfoCpf.value.length != 0 && await ValidaExistenciaCpfDB(tempInfoCpf.value)!=0 ) {alertCpf = `\n[CPF pertence a outro paciente]`;}  
 else { localStorage.setItem('cpf', tempInfoCpf.value); alertCpf = ''; } 
 
 
 if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0 ) {
   localStorage.setItem('cns', tempInfoCns.value); 
   alertCns = `\n[CNS ${tempInfoCns.value}]`;}
-else if (tempInfoCns.value.length != 0 && await ValidaExistenciaCnsDB(tempInfoCns.value)!=0 ) {alertCns = `\n[CNS ${tempInfoCns.value} já utilizado]`;}    
+else if (tempInfoCns.value.length != 0 && await ValidaExistenciaCnsDB(tempInfoCns.value)!=0 ) {alertCns = `\n[CNS pertence a outro paciente]`;}    
 else { localStorage.setItem('cns', tempInfoCns.value);  alertCns = ''; }
 
 if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) { 
   localStorage.setItem('registro', tempInfoRegistro.value); 
   alertRegistro = `\n[Registro ${tempInfoRegistro.value}]`;}
-else if (tempInfoRegistro.value.length != 0 && await ValidaExistenciaRegistroDB(tempInfoRegistro.value)!=0 ) {alertRegistro = `\n[Registro ${tempInfoRegistro.value} já utilizado]`;}  
+else if (tempInfoRegistro.value.length != 0 && await ValidaExistenciaRegistroDB(tempInfoRegistro.value)!=0 ) {alertRegistro = `\n[Registro pertence a outro paciente]`;}  
 else { localStorage.setItem('registro', tempInfoRegistro.value);  alertRegistro = ''; }    
 
 localStorage.setItem('nacionalidade', tempInfoNacionalidade.value);
@@ -356,7 +344,9 @@ if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCn
   MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertNome} \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
   if (alertResponsavel!='') tempInfoResponsavel.focus();
   else if (alertCpfresp!='') tempInfoCpfresp.focus();
-  else if (alertCpf!='') {  tempInfoCpf.focus(); /* event.preventDefault(); */ }
+  else if (alertCpf!='')   tempInfoCpf.focus(); 
+  else if (alertCns!='') tempInfoCns.focus();
+  else if (alertRegistro!='') tempInfoRegistro.focus();
   }
 else { 
   let paciente = new Paciente(localStorage.nome, localStorage.menor, 

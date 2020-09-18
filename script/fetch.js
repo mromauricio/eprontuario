@@ -1,7 +1,7 @@
 
 
 async function PostDataPaciente (data){
-  let url =  new URL('http://localhost:3000/infopaciente');
+ let url =  new URL('http://localhost:3000/pacientes');
   try {
     let response = await fetch(url, {
       method: 'POST',
@@ -20,7 +20,7 @@ async function PostDataPaciente (data){
 }
 
 async function PutDataPaciente (idSearch, data){
-  let url =  new URL('http://localhost:3000/infopaciente');
+  let url =  new URL('http://localhost:3000/pacientes');
   url.href += (`/id${idSearch}`);
   try {
     let response = await fetch(url, {
@@ -40,7 +40,7 @@ async function PutDataPaciente (idSearch, data){
 }
 
 async function GetDataFromNome(nome){  
-  let url =  new URL('http://localhost:3000/infopaciente/nome');
+  let url =  new URL('http://localhost:3000/pacientes/nome');
   url.href += (`/?nome=${nome}`);
   try {
     let response = await fetch(url);
@@ -68,7 +68,7 @@ async function GetDataFromNome(nome){
   }
 
   async function GetCpf(cpf) { 
-    let url =  new URL('http://localhost:3000/infopaciente/cpf');
+    let url =  new URL('http://localhost:3000/pacientes/cpf');
     url.href += (`/?cpf=${cpf}`);
     try {
       let response = await fetch(url);
@@ -89,7 +89,7 @@ async function GetDataFromNome(nome){
   }
 
   async function GetCns(cns) { 
-    let url =  new URL('http://localhost:3000/infopaciente/cns');
+    let url =  new URL('http://localhost:3000/pacientes/cns');
     url.href += (`/?cns=${cns}`);
     try {
       let response = await fetch(url);
@@ -111,7 +111,7 @@ async function GetDataFromNome(nome){
 
 
 async function GetRegistro(registro) { 
-    let url =  new URL('http://localhost:3000/infopaciente/registro');
+    let url =  new URL('http://localhost:3000/pacientes/registro');
     url.href += (`/?registro=${registro}`);
     try {
       let response = await fetch(url);
