@@ -378,16 +378,10 @@ else {
 function EnableAll(){
   tempInfoMenor.removeAttribute('disabled');
   tempInfoMenor.removeAttribute('style');
-  
-// VERIFICAR BUG DO IF ABAIXO - apesar do field = true considera false
-  if (tempInfoMenor.checked) {
-    tempInfoResponsavel.removeAttribute('disabled');
-    tempInfoResponsavel.removeAttribute('style');
-    tempInfoCpfresp.removeAttribute('disabled');
-    tempInfoCpfresp.removeAttribute('style');
-  } 
-////////////////
-
+  tempInfoResponsavel.removeAttribute('disabled');
+  tempInfoResponsavel.removeAttribute('style');
+  tempInfoCpfresp.removeAttribute('disabled');
+  tempInfoCpfresp.removeAttribute('style');
   tempInfoCpf.removeAttribute('disabled');
   tempInfoCpf.removeAttribute('style');
   tempInfoCns.removeAttribute('disabled');
@@ -481,8 +475,14 @@ function ShowData(){
  function ShowDataGetNome(data){
   //(data.length>1)? MsgDropList() : null; 
   tempInfoNome.value = data[0].nome;
-  (data[0].menor) ? tempInfoMenor.checked=true : tempInfoMenor.checked=false
-  
+  if (data[0].menor) tempInfoMenor.checked=true;
+  else {
+    tempInfoMenor.checked=false;
+    tempInfoResponsavel.setAttribute('disabled'," ");
+    tempInfoResponsavel.setAttribute('style','background-color: #333');
+    tempInfoCpfresp.setAttribute('disabled'," ");
+    tempInfoCpfresp.setAttribute('style','background-color: #333');
+  }
   tempInfoResponsavel.value = data[0].responsavel;
 
   tempInfoCpfresp.value = data[0].cpfresp;
