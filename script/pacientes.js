@@ -262,10 +262,8 @@ function SearchRegister(){
 async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
 
-if (isEmpty(tempInfoNome.value)) alertNome = `\n[Nome não informado]`;
-else {localStorage.setItem('nome',tempInfoNome.value.toUpperCase()); alertNome = '';}
+(isEmpty(tempInfoNome.value)) ? alertNome = `\n[Nome não informado]` : alertNome = '';
 
-localStorage.setItem('menor', tempInfoMenor.checked);
 alertResponsavel = '';
 alertCpfresp = '';
 if (tempInfoMenor.checked)
@@ -276,58 +274,29 @@ if (tempInfoMenor.checked)
   else if (isEmpty(tempInfoCpfresp.value)) alertCpfresp = `\n[CPF resp. não informado]`;
   else  alertCpfresp = ''; 
 }
-localStorage.setItem('responsavel', tempInfoResponsavel.value.toUpperCase());
-localStorage.setItem('cpfresp', tempInfoCpfresp.value); 
 
 if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `\n[CPF ${tempInfoCpf.value}]`;
 else if (isEmpty(tempInfoCpf.value) && tempInfoMenor.checked==false) alertCpf = `\n[CPF não informado]`;
-else if (tempInfoCpf.value.length != 0 && await ValidaExistenciaCpfDB(tempInfoCpf.value)!=0 ) {alertCpf = `\n[CPF pertence a outro paciente]`;}  
-else { localStorage.setItem('cpf', tempInfoCpf.value); alertCpf = ''; } 
+else if (tempInfoCpf.value.length != 0 && await ValidaExistenciaCpfDB(tempInfoCpf.value)!=0 ) alertCpf = `\n[CPF pertence a outro paciente]`;
+else alertCpf = ''; 
 
 
-if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0 ) {
-  localStorage.setItem('cns', tempInfoCns.value); 
-  alertCns = `\n[CNS ${tempInfoCns.value}]`;}
-else if (tempInfoCns.value.length != 0 && await ValidaExistenciaCnsDB(tempInfoCns.value)!=0 ) {alertCns = `\n[CNS pertence a outro paciente]`;}    
-else { localStorage.setItem('cns', tempInfoCns.value);  alertCns = ''; }
+if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0 )  alertCns = `\n[CNS ${tempInfoCns.value}]`;
+else if (tempInfoCns.value.length != 0 && await ValidaExistenciaCnsDB(tempInfoCns.value)!=0 ) alertCns = `\n[CNS pertence a outro paciente]`;
+else alertCns = ''; 
 
-if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) { 
-  localStorage.setItem('registro', tempInfoRegistro.value); 
-  alertRegistro = `\n[Registro ${tempInfoRegistro.value}]`;}
+if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0)  alertRegistro = `\n[Registro ${tempInfoRegistro.value}]`;
 else if (tempInfoRegistro.value.length != 0 && await ValidaExistenciaRegistroDB(tempInfoRegistro.value)!=0 ) {alertRegistro = `\n[Registro pertence a outro paciente]`;}  
-else { localStorage.setItem('registro', tempInfoRegistro.value);  alertRegistro = ''; }    
+else alertRegistro = '';  
 
-localStorage.setItem('nacionalidade', tempInfoNacionalidade.value);
-localStorage.setItem('nascimento', tempInfoNascimento.value);
-localStorage.setItem('genero',tempInfoGenero.value);
+if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) alertTel = `\n[Tel. ${tempInfoTel.value}]`;
+else alertTel = ''; 
 
-if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) {
-  localStorage.setItem('tel', tempInfoTel.value); 
-  alertTel = `\n[Tel. ${tempInfoTel.value}]`;}
-else { localStorage.setItem('tel', tempInfoTel.value);  alertTel = ''; }   
+if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0)  alertCel = `\n[Cel. ${tempInfoCel.value}]`;
+else alertCel = '';   
 
-if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) { 
-  localStorage.setItem('cel', tempInfoCel.value); 
-  alertCel = `\n[Cel. ${tempInfoCel.value}]`;}
-else { localStorage.setItem('cel', tempInfoCel.value);  alertCel = ''; }   
-
-localStorage.setItem('whatsapp', tempInfoWhatsapp.checked);
-localStorage.setItem('email',tempInfoEmail.value);
-localStorage.setItem('endereco',tempInfoEndereco.value);
-
-if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) { 
-  localStorage.setItem('cep', tempInfoCep.value); 
-  alertCep = `\n[CEP ${tempInfoCep.value}]`;}
-else { localStorage.setItem('cep', tempInfoCep.value);  alertCep = ''; } 
-
-localStorage.setItem('bairro',tempInfoBairro.value);
-localStorage.setItem('uf',tempInfoUf.value);
-localStorage.setItem('cidade',tempInfoCidade.value);
-
-localStorage.setItem('historico',tempInfoHistorico.value);
-localStorage.setItem('medicamento',tempInfoMedicamento.value);
-localStorage.setItem('cirurgia',tempInfoCirurgia.value);
-localStorage.setItem('trauma',tempInfoTrauma.value);
+if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) alertCep = `\n[CEP ${tempInfoCep.value}]`;
+else alertCep = ''; 
 
 if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
   { 
@@ -339,14 +308,14 @@ if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCn
   else if (alertRegistro!='') tempInfoRegistro.focus();
   }
 else { 
-  let paciente = new Paciente(localStorage.nome, localStorage.menor, 
-  localStorage.responsavel, localStorage.cpfresp,localStorage.cpf, 
-  localStorage.cns, localStorage.registro, localStorage.nacionalidade,
-  localStorage.nascimento, localStorage.genero, localStorage.tel, 
-  localStorage.cel,localStorage.whatsapp, localStorage.email, 
-  localStorage.endereco, localStorage.cep,localStorage.bairro, 
-  localStorage.uf, localStorage.cidade, localStorage.historico,
-  localStorage.medicamento, localStorage.cirurgia, localStorage.trauma);
+  let paciente = new Paciente(tempInfoNome.value, tempInfoMenor.checked, 
+    tempInfoResponsavel.value, tempInfoCpfresp.value,tempInfoCpf.value, 
+    tempInfoCns.value, tempInfoRegistro.value, tempInfoNacionalidade.value,
+    tempInfoNascimento.value, tempInfoGenero.value, tempInfoTel.value, 
+    tempInfoCel.value, tempInfoWhatsapp.checked, tempInfoEmail.value, 
+    tempInfoEndereco.value, tempInfoCep.value, tempInfoBairro.value, 
+    tempInfoUf.value, tempInfoCidade.value, tempInfoHistorico.value,
+    tempInfoMedicamento.value, tempInfoCirurgia.value, tempInfoTrauma.value);
   jsonPaciente = JSON.stringify(paciente);
 
   if (cameFromDb){
@@ -427,53 +396,8 @@ function EnableAll(){
   buttonGravar.removeAttribute('disabled');
   buttonGravar.removeAttribute('style');
 }
-
-function ShowData(){
- // tempInfoNome.value = localStorage.nome;
-  (localStorage.menor == "false") ? tempInfoMenor.checked=false : tempInfoMenor.checked=true
-  
-  tempInfoResponsavel.value = localStorage.responsavel;
-
-  tempInfoCpfresp.value = localStorage.cpfresp;
-
-  tempInfoCpf.value = localStorage.cpf;
-  if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0) tempInfoCpf.setAttribute('style','color: red;');
-  
-  tempInfoCns.value = localStorage.cns;
-  if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
-
-  tempInfoRegistro.value = localStorage.registro;
-  if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
-
-  tempInfoNacionalidade.value = localStorage.nacionalidade;
-  tempInfoNascimento.value = localStorage.nascimento;
-  tempInfoGenero.value = localStorage.genero;
-
-  tempInfoTel.value = localStorage.tel;
-  if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
-
-  tempInfoCel.value = localStorage.cel;
-  if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
-  
-  (localStorage.whatsapp=="false") ? tempInfoWhatsapp.checked=false : tempInfoWhatsapp.checked=true
-  tempInfoEmail.value = localStorage.email;
-  tempInfoEndereco.value = localStorage.endereco;
-
-  tempInfoCep.value = localStorage.cep;
-  if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
-  
-  tempInfoBairro.value = localStorage.bairro;
-  tempInfoUf.value = localStorage.uf;
-  tempInfoCidade.value = localStorage.cidade;
-
-  tempInfoHistorico.value = localStorage.historico;
-  tempInfoMedicamento.value = localStorage.medicamento;
-  tempInfoCirurgia.value = localStorage.cirurgia;
-  tempInfoTrauma.value = localStorage.trauma;
-}
  
  function ShowDataGetNome(data){
-  //(data.length>1)? MsgDropList() : null; 
   tempInfoNome.value = data[0].nome;
   if (data[0].menor) tempInfoMenor.checked=true;
   else {
