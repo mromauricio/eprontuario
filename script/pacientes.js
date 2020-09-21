@@ -6,12 +6,12 @@
 $('#form').w2form({ 
   name   : 'form',
   header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
-  url    : 'http://localhost:3000/infopaciente',
+  url    : 'http://localhost:3000/pacientes',
   tabs: [
-      { id: 'tab1', caption: 'Dados' },
+      { id: 'tab1', caption: 'Dados'  },
    //   { id: 'tab2', caption: 'Contato'},
       { id: 'tab2', caption: 'Histórico clínico' },
-      { id: 'tab3', caption: 'Anexos'}
+      { id: 'tab3', caption: 'Anexos' }
   ],
   fields : [
       { field: 'nome', required: true, type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente', attr: 'placeholder="nome completo sem abreviações + tecla Enter"'} },
@@ -45,15 +45,19 @@ $('#form').w2form({
       { field: 'link', type: 'text', html: { caption: 'Link', page: 3 } },
       { field: 'texto', type: 'textarea', html: { caption: 'Texto livre', page: 2, attr: 'style="width: 300px; height:150px"' } }
   ],
-  actions: {
+  //actions: {
       // reset: function () {
       //     this.clear();
       // },
       // save: function () {
       //     this.save(GravaLocalInfo,function(){});
       // }
-  }
+ // }   
 });
+
+//w2ui['form'].off('*');
+
+
 let cameFromDb = false;
 let idDb;
 let tempInfoNome = document.querySelector('#nome');

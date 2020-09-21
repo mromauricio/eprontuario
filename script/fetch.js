@@ -46,11 +46,11 @@ async function GetDataFromNome(nome){
     let response = await fetch(url);
     let data = await response.json();
     switch (response.status) {  
-      case 500:{ cameFromDb = false;
+      case 500:{ cameFromDb = false; idDb = 0;
           console.log('Erro no servidor - contacte Suporte TI');break;}
-      case 406:{ cameFromDb = false; 
+      case 406:{ cameFromDb = false; idDb = 0;
           console.log('Regra de negócio violada - Nome não informado');break;}
-      case 404:{ cameFromDb = false;
+      case 404:{ cameFromDb = false; idDb = 0;
           console.log('Nome buscado não existe no Banco de Dados'); break;}
       case 200:
         for (i=0; i<data.length; i++){ 

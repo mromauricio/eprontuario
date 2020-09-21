@@ -25,25 +25,25 @@ $('#form').w2form({
       { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 1 /*, group:'Responsável - preencher para paciente menor de idade' */ } },
       { field: 'cpfresp',  type: 'text', html: { caption: 'CPF Resp.', page: 0, column: 1} },
 
-      { field: 'email',  type: 'email', html: { caption: 'E-mail', page: 0, column: 0, group: 'Comunicação'} },
-      { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 0, column: 0 } },
-      { field: 'whatsapp',  type: 'checkbox', html: { caption: 'WhatsApp', page: 0, column: 0} },
-      { field: 'tel', type: 'text',  html: { caption: 'Telefone', page: 0, column: 0 } },
-      { field: 'endereco', type: 'text', html: { caption: 'Rua e n༠', page: 0, column: 1, group: 'Endereço' } },
-      { field: 'bairro', type: 'text', html: { caption: 'Bairro', page: 0, column: 1 } },
-      { field: 'cep', type: 'text', html: { caption: 'CEP', page: 0, column: 1 } },
-      { field: 'uf', type: 'text', html: { caption: 'UF', page: 0, column: 1 } },
-      { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 0, column: 1 } },
+      // { field: 'email',  type: 'email', html: { caption: 'E-mail', page: 0, column: 0, group: 'Comunicação'} },
+      // { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 0, column: 0 } },
+      // { field: 'whatsapp',  type: 'checkbox', html: { caption: 'WhatsApp', page: 0, column: 0} },
+      // { field: 'tel', type: 'text',  html: { caption: 'Telefone', page: 0, column: 0 } },
+      // { field: 'endereco', type: 'text', html: { caption: 'Rua e n༠', page: 0, column: 1, group: 'Endereço' } },
+      // { field: 'bairro', type: 'text', html: { caption: 'Bairro', page: 0, column: 1 } },
+      // { field: 'cep', type: 'text', html: { caption: 'CEP', page: 0, column: 1 } },
+      // { field: 'uf', type: 'text', html: { caption: 'UF', page: 0, column: 1 } },
+      // { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 0, column: 1 } },
 
-      { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 1, column: 0, attr: 'placeholder="Acontecimentos relevantes em ordem cronológica."' } },
-      { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 1, column: 1, attr: 'placeholder="Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso"' } },
-      { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 1, column: 0, attr: '' } },
-      { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 1, column: 1, attr: '' } },
+      // { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 1, column: 0, attr: 'placeholder="Acontecimentos relevantes em ordem cronológica."' } },
+      // { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 1, column: 1, attr: 'placeholder="Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso"' } },
+      // { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 1, column: 0, attr: '' } },
+      // { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 1, column: 1, attr: '' } },
       
-      { field: 'pdf', type: 'checkbox', html: { caption: 'Anexar PDF', page: 2 } },
-      { field: 'imagem', type: 'checkbox', html: { caption: 'Anexar JPG/PNG', page: 2 } },
-      { field: 'link', type: 'text', html: { caption: 'Link', page: 3 } },
-      { field: 'texto', type: 'textarea', html: { caption: 'Texto livre', page: 2, attr: 'style="width: 300px; height:150px"' } }
+      // { field: 'pdf', type: 'checkbox', html: { caption: 'Anexar PDF', page: 2 } },
+      // { field: 'imagem', type: 'checkbox', html: { caption: 'Anexar JPG/PNG', page: 2 } },
+      // { field: 'link', type: 'text', html: { caption: 'Link', page: 3 } },
+      // { field: 'texto', type: 'textarea', html: { caption: 'Texto livre', page: 2, attr: 'style="width: 300px; height:150px"' } }
   ],
   actions: {
       // reset: function () {
