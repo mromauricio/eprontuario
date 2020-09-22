@@ -1,59 +1,20 @@
 
-  $(document).ready(function () { 
-    let $cpf = $('#cpf');
-    $cpf.mask('000.000.000-00', {reverse: false});
-    let $cpfresp = $('#cpfresp');
-    $cpfresp.mask('000.000.000-00', {reverse: false});
-    let $cns = $('#cns');
-    $cns.mask('000.0000.0000.0000', {reverse: false});
-    let $registro = $('#registro');
-    $registro.mask('0.000.000', {reverse: false});
-    let $tel = $('#tel');
-    $tel.mask('(00) 0000-0000', {reverse: true});
-    let $cel = $('#cel');
-    $cel.mask('(00) 00000-0000', {reverse: true});
-    let $cep = $('#cep');
-    $cep.mask('00000-000', {reverse: false});
-  });
-
-
-
-// async function MsgDropList(){
-//   const { value: fruit } = await Swal.fire({
-//     title: 'Select field validation',
-//     input: 'select',
-//     inputOptions: {
-//       'Fruits': {
-//         apples: 'Apples',
-//         bananas: 'Bananas',
-//         grapes: 'Grapes',
-//         oranges: 'Oranges'
-//       },
-//       'Vegetables': {
-//         potato: 'Potato',
-//         broccoli: 'Broccoli',
-//         carrot: 'Carrot'
-//       },
-//       'icecream': 'Ice cream'
-//     },
-//     inputPlaceholder: 'Select a fruit',
-//     showCancelButton: true,
-//     inputValidator: (value) => {
-//       return new Promise((resolve) => {
-//         if (value === 'oranges') {
-//           resolve()
-//         } else {
-//           resolve('You need to select oranges :)')
-//         }
-//       })
-//     }
-//   })
-  
-//   if (fruit) {
-//     Swal.fire(`You selected: ${fruit}`)
-//   }
-// }
-
+$(document).ready(function () { 
+  let $cpf = $('#cpf');
+  $cpf.mask('000.000.000-00', {reverse: false});
+  let $cpfresp = $('#cpfresp');
+  $cpfresp.mask('000.000.000-00', {reverse: false});
+  let $cns = $('#cns');
+  $cns.mask('000.0000.0000.0000', {reverse: false});
+  let $registro = $('#registro');
+  $registro.mask('0.000.000', {reverse: false});
+  let $tel = $('#tel');
+  $tel.mask('(00) 0000-0000', {reverse: true});
+  let $cel = $('#cel');
+  $cel.mask('(00) 00000-0000', {reverse: true});
+  let $cep = $('#cep');
+  $cep.mask('00000-000', {reverse: false});
+});
 
 function MsgTop(type, message){
     const Toast = Swal.mixin({

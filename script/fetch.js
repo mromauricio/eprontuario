@@ -53,13 +53,10 @@ async function GetDataFromNome(nome){
       case 404:{ cameFromDb = false; idDb = 0;
           console.log('Nome buscado não existe no Banco de Dados'); break;}
       case 200:
-        for (i=0; i<data.length; i++){ 
-          console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].menor}, ${data[i].responsavel}, ${data[i].cpfresp}, ${data[i].cpf},
-          ${data[i].cns}, ${data[i].registro}, ${data[i].nacionalidade}, ${data[i].nascimento}, ${data[i].genero}, ${data[i].tel},
-          ${data[i].cel}, ${data[i].whatsapp}, ${data[i].email}, ${data[i].endereco}, ${data[i].cep}, ${data[i].bairro}, ${data[i].uf},
-          ${data[i].cidade}, ${data[i].historico}, ${data[i].medicamento}, ${data[i].cirurgia}, ${data[i].trauma}`);
-        }
-        idDb = data[0]._id;
+        data.forEach( (item, index, arr) => { 
+          console.log( `ID:${arr[index]._id}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}` );
+        });
+        idDb = data[0]._id;  // TEMP issue#1 implementar modal para seleção do registro desejado ou criar novo
         cameFromDb = true;
         ShowDataGetNome(data);
         break;
@@ -80,9 +77,9 @@ async function GetDataFromNome(nome){
             console.log('CPF buscado não existe no Banco de Dados'); 
             return 0;}
         case 200:
-            for (i=0; i<data.length; i++){ 
-              console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].cpf}`);
-            }
+            data.forEach( (item, index, arr) =>{ 
+              console.log(`ID:${arr[index]._id}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);
+            });
             return data ;
         }
      } catch (error) {console.log(error);};
@@ -101,9 +98,9 @@ async function GetDataFromNome(nome){
             console.log('CNS buscado não existe no Banco de Dados'); 
             return 0;}
         case 200:
-            for (i=0; i<data.length; i++){ 
-              console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].cpf}`);
-            }
+            data.forEach( (item, index, arr) =>{ 
+              console.log(`ID:${arr[index]._id}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);
+            });
             return data ;
         }
      } catch (error) {console.log(error);};
@@ -123,9 +120,9 @@ async function GetRegistro(registro) {
             console.log('Registro buscado não existe no Banco de Dados'); 
             return 0;}
         case 200:
-            for (i=0; i<data.length; i++){ 
-              console.log(`${data[i]._id} ${data[i].nome}: \n${data[i].cpf}`);
-            }
+            data.forEach( (item, index, arr) =>{ 
+              console.log(`ID:${arr[index]._id}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);
+            });
             return data ;
         }
      } catch (error) {console.log(error);};
@@ -135,7 +132,7 @@ async function GetRegistro(registro) {
   
 
 
-//////// TEMP ////
+//////// Fetch example////
 
 function PutCpfServer(){  // TEMP
   let url =  new URL('http://localhost:3000/infopaciente/cpf');
