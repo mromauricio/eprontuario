@@ -58,7 +58,7 @@ async function GetDataFromNome(nome){
         });
         idDb = data[0]._id;  // TEMP issue#1 implementar modal para seleção do registro desejado ou criar novo
         cameFromDb = true;
-        ShowDataGetNome(data);
+        ShowDataGetNome(data); // paciente.js
         break;
       }
    } catch (error) {console.log(error);};

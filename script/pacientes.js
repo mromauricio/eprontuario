@@ -59,7 +59,7 @@ $('#form').w2form({
 
 
 let cameFromDb = false;
-let idDb;
+let idDb = 0;
 let tempInfoNome = document.querySelector('#nome');
 let tempInfoResponsavel = document.querySelector('#responsavel');
 let tempInfoCpfresp = document.querySelector('#cpfresp');
@@ -118,8 +118,6 @@ class Paciente {
   }
 }
 
-tempInfoNome.focus(); 
-
 /* Listeners */
 
 buttonGravar.addEventListener('click', GravaLocalInfo);
@@ -139,6 +137,8 @@ tempInfoMenor.addEventListener('click', function(){
     tempInfoCpfresp.removeAttribute('style'); 
    }
   else { 
+    tempInfoResponsavel.value='';
+    tempInfoCpfresp.value='';
     tempInfoResponsavel.setAttribute('disabled'," ");
     tempInfoResponsavel.setAttribute('style','background-color: #333');
     tempInfoCpfresp.setAttribute('disabled'," ");
@@ -256,12 +256,226 @@ tempInfoCep.addEventListener('blur', function(){
 
 DisableAll();
 
+tempInfoNome.focus(); 
+
+function DisableAll(){
+  ClearData();
+  tempInfoMenor.setAttribute('disabled'," ");
+  tempInfoMenor.setAttribute('style','background-color: #333');
+  tempInfoResponsavel.setAttribute('disabled'," ");
+  tempInfoResponsavel.setAttribute('style','background-color: #333');
+  tempInfoCpfresp.setAttribute('disabled'," ");
+  tempInfoCpfresp.setAttribute('style','background-color: #333');
+  tempInfoCpf.setAttribute('disabled'," ");
+  tempInfoCpf.setAttribute('style','background-color: #333')
+  tempInfoCns.setAttribute('disabled'," ");
+  tempInfoCns.setAttribute('style','background-color: #333');
+  tempInfoRegistro.setAttribute('disabled'," ");
+  tempInfoRegistro.setAttribute('style','background-color: #333');
+  tempInfoNacionalidade.setAttribute('disabled'," ");
+  tempInfoNacionalidade.setAttribute('style','background-color: #333');
+  tempInfoNascimento.setAttribute('disabled'," ");
+  tempInfoNascimento.setAttribute('style','background-color: #333');
+  tempInfoGenero.setAttribute('disabled'," ");
+  tempInfoGenero.setAttribute('style','background-color: #333');
+  tempInfoTel.setAttribute('disabled'," ");
+  tempInfoTel.setAttribute('style','background-color: #333');
+  tempInfoCel.setAttribute('disabled'," ");
+  tempInfoCel.setAttribute('style','background-color: #333');
+  tempInfoWhatsapp.setAttribute('disabled'," ");
+  tempInfoWhatsapp.setAttribute('style','background-color: #333');
+  tempInfoEmail.setAttribute('disabled'," ");
+  tempInfoEmail.setAttribute('style','background-color: #333');
+  tempInfoEndereco.setAttribute('disabled'," ");
+  tempInfoEndereco.setAttribute('style','background-color: #333');
+  tempInfoCep.setAttribute('disabled'," ");
+  tempInfoCep.setAttribute('style','background-color: #333');
+  tempInfoBairro.setAttribute('disabled'," ");
+  tempInfoBairro.setAttribute('style','background-color: #333');
+  tempInfoUf.setAttribute('disabled'," ");
+  tempInfoUf.setAttribute('style','background-color: #333');
+  tempInfoCidade.setAttribute('disabled'," ");
+  tempInfoCidade.setAttribute('style','background-color: #333');
+  tempInfoHistorico.setAttribute('disabled'," ");
+  tempInfoHistorico.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  tempInfoMedicamento.setAttribute('disabled'," ");
+  tempInfoMedicamento.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  tempInfoCirurgia.setAttribute('disabled'," ");
+  tempInfoCirurgia.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  tempInfoTrauma.setAttribute('disabled'," ");
+  tempInfoTrauma.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  buttonGravar.setAttribute('disabled'," ");
+}
+
+function ClearData(){
+  tempInfoNome.value = '';
+  tempInfoNome.removeAttribute('style'); 
+  tempInfoMenor.checked=false;
+  tempInfoResponsavel.value = '';
+  tempInfoCpfresp.value = '';
+  tempInfoCpf.value = '';
+  tempInfoCns.value = '';
+  tempInfoRegistro.value = '';
+  tempInfoNacionalidade.value = '';
+  tempInfoNascimento.value = '';
+  tempInfoGenero.value = '';
+  tempInfoTel.value = '';
+  tempInfoCel.value = '';
+  tempInfoWhatsapp.checked=false;
+  tempInfoEmail.value = '';
+  tempInfoEndereco.value = '';
+  tempInfoCep.value = '';
+  tempInfoBairro.value = '';
+  tempInfoUf.value = '';
+  tempInfoCidade.value = '';
+  tempInfoHistorico.value = '';
+  tempInfoMedicamento.value = '';
+  tempInfoCirurgia.value = '';
+  tempInfoTrauma.value = '';
+}
+
 function SearchRegister(){
   tempInfoNome.value = tempInfoNome.value.toUpperCase();
   EnableAll(); 
   ClearDataMinusNome();
-  GetDataFromNome(tempInfoNome.value); 
+  GetDataFromNome(tempInfoNome.value); // fetch.js
 }
+
+function EnableAll(){
+  tempInfoMenor.removeAttribute('disabled');
+  tempInfoMenor.removeAttribute('style');
+  // tempInfoResponsavel.removeAttribute('disabled');
+  // tempInfoResponsavel.removeAttribute('style');
+  // tempInfoCpfresp.removeAttribute('disabled');
+  // tempInfoCpfresp.removeAttribute('style');
+  tempInfoCpf.removeAttribute('disabled');
+  tempInfoCpf.removeAttribute('style');
+  tempInfoCns.removeAttribute('disabled');
+  tempInfoCns.removeAttribute('style');
+  tempInfoRegistro.removeAttribute('disabled');
+  tempInfoRegistro.removeAttribute('style');
+  tempInfoNacionalidade.removeAttribute('disabled');
+  tempInfoNacionalidade.removeAttribute('style');
+  tempInfoNascimento.removeAttribute('disabled');
+  tempInfoNascimento.removeAttribute('style');
+  tempInfoGenero.removeAttribute('disabled');
+  tempInfoGenero.removeAttribute('style');
+  tempInfoTel.removeAttribute('disabled');
+  tempInfoTel.removeAttribute('style');
+  tempInfoCel.removeAttribute('disabled');
+  tempInfoCel.removeAttribute('style');
+  tempInfoWhatsapp.removeAttribute('disabled');
+  tempInfoWhatsapp.removeAttribute('style');
+  tempInfoEmail.removeAttribute('disabled');
+  tempInfoEmail.removeAttribute('style');
+  tempInfoEndereco.removeAttribute('disabled');
+  tempInfoEndereco.removeAttribute('style');
+  tempInfoCep.removeAttribute('disabled');
+  tempInfoCep.removeAttribute('style');
+  tempInfoBairro.removeAttribute('disabled');
+  tempInfoBairro.removeAttribute('style');
+  tempInfoUf.removeAttribute('disabled');
+  tempInfoUf.removeAttribute('style');
+  tempInfoCidade.removeAttribute('disabled');
+  tempInfoCidade.removeAttribute('style');
+  tempInfoHistorico.removeAttribute('disabled');
+  tempInfoHistorico.removeAttribute('style');
+  tempInfoHistorico.setAttribute('style','width: 300px; height:150px');
+  tempInfoMedicamento.removeAttribute('disabled');
+  tempInfoMedicamento.removeAttribute('style');
+  tempInfoMedicamento.setAttribute('style','width: 300px; height:150px');
+  tempInfoCirurgia.removeAttribute('disabled');
+  tempInfoCirurgia.removeAttribute('style');
+  tempInfoCirurgia.setAttribute('style','width: 300px; height:150px');
+  tempInfoTrauma.removeAttribute('disabled');
+  tempInfoTrauma.removeAttribute('style');
+  tempInfoTrauma.setAttribute('style','width: 300px; height:150px');
+  buttonGravar.removeAttribute('disabled');
+  buttonGravar.removeAttribute('style');
+}
+
+function ClearDataMinusNome(){
+  //tempInfoNome.value = '';
+  tempInfoNome.removeAttribute('style'); 
+  tempInfoMenor.checked=false;
+  tempInfoResponsavel.value = '';
+  tempInfoCpfresp.value = '';
+  tempInfoCpf.value = '';
+  tempInfoCns.value = '';
+  tempInfoRegistro.value = '';
+  tempInfoNacionalidade.value = '';
+  tempInfoNascimento.value = '';
+  tempInfoGenero.value = '';
+  tempInfoTel.value = '';
+  tempInfoCel.value = '';
+  tempInfoWhatsapp.checked=false;
+  tempInfoEmail.value = '';
+  tempInfoEndereco.value = '';
+  tempInfoCep.value = '';
+  tempInfoBairro.value = '';
+  tempInfoUf.value = '';
+  tempInfoCidade.value = '';
+  tempInfoHistorico.value = '';
+  tempInfoMedicamento.value = '';
+  tempInfoCirurgia.value = '';
+  tempInfoTrauma.value = '';
+}
+
+function ShowDataGetNome(data){
+  tempInfoNome.value = data[0].nome;
+  if (data[0].menor) {
+    tempInfoMenor.checked=true;
+    tempInfoResponsavel.removeAttribute('disabled');
+    tempInfoResponsavel.removeAttribute('style');
+    tempInfoCpfresp.removeAttribute('disabled');
+    tempInfoCpfresp.removeAttribute('style');
+  }
+  else {
+    tempInfoMenor.checked=false;
+    tempInfoResponsavel.setAttribute('disabled'," ");
+    tempInfoResponsavel.setAttribute('style','background-color: #333');
+    tempInfoCpfresp.setAttribute('disabled'," ");
+    tempInfoCpfresp.setAttribute('style','background-color: #333');
+  }
+  tempInfoResponsavel.value = data[0].responsavel;
+
+  tempInfoCpfresp.value = data[0].cpfresp;
+
+  tempInfoCpf.value = data[0].cpf;
+  
+  tempInfoCns.value = data[0].cns;
+  if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
+
+  tempInfoRegistro.value = data[0].registro;
+  if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
+
+  tempInfoNacionalidade.value = data[0].nacionalidade;
+  tempInfoNascimento.value = data[0].nascimento;
+  tempInfoGenero.value = data[0].genero;
+
+  tempInfoTel.value = data[0].tel;
+  if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
+
+  tempInfoCel.value = data[0].cel;
+  if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
+  
+  (data[0].whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
+  tempInfoEmail.value = data[0].email;
+  tempInfoEndereco.value = data[0].endereco;
+
+  tempInfoCep.value = data[0].cep;
+  if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
+  
+  tempInfoBairro.value = data[0].bairro;
+  tempInfoUf.value = data[0].uf;
+  tempInfoCidade.value = data[0].cidade;
+
+  tempInfoHistorico.value = data[0].historico;
+  tempInfoMedicamento.value = data[0].medicamento;
+  tempInfoCirurgia.value = data[0].cirurgia;
+  tempInfoTrauma.value = data[0].trauma;
+ }
+ 
 
 async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
@@ -348,210 +562,11 @@ else {
   }
 }
 
-function EnableAll(){
-  tempInfoMenor.removeAttribute('disabled');
-  tempInfoMenor.removeAttribute('style');
-  tempInfoResponsavel.removeAttribute('disabled');
-  tempInfoResponsavel.removeAttribute('style');
-  tempInfoCpfresp.removeAttribute('disabled');
-  tempInfoCpfresp.removeAttribute('style');
-  tempInfoCpf.removeAttribute('disabled');
-  tempInfoCpf.removeAttribute('style');
-  tempInfoCns.removeAttribute('disabled');
-  tempInfoCns.removeAttribute('style');
-  tempInfoRegistro.removeAttribute('disabled');
-  tempInfoRegistro.removeAttribute('style');
-  tempInfoNacionalidade.removeAttribute('disabled');
-  tempInfoNacionalidade.removeAttribute('style');
-  tempInfoNascimento.removeAttribute('disabled');
-  tempInfoNascimento.removeAttribute('style');
-  tempInfoGenero.removeAttribute('disabled');
-  tempInfoGenero.removeAttribute('style');
-  tempInfoTel.removeAttribute('disabled');
-  tempInfoTel.removeAttribute('style');
-  tempInfoCel.removeAttribute('disabled');
-  tempInfoCel.removeAttribute('style');
-  tempInfoWhatsapp.removeAttribute('disabled');
-  tempInfoWhatsapp.removeAttribute('style');
-  tempInfoEmail.removeAttribute('disabled');
-  tempInfoEmail.removeAttribute('style');
-  tempInfoEndereco.removeAttribute('disabled');
-  tempInfoEndereco.removeAttribute('style');
-  tempInfoCep.removeAttribute('disabled');
-  tempInfoCep.removeAttribute('style');
-  tempInfoBairro.removeAttribute('disabled');
-  tempInfoBairro.removeAttribute('style');
-  tempInfoUf.removeAttribute('disabled');
-  tempInfoUf.removeAttribute('style');
-  tempInfoCidade.removeAttribute('disabled');
-  tempInfoCidade.removeAttribute('style');
-  tempInfoHistorico.removeAttribute('disabled');
-  tempInfoHistorico.removeAttribute('style');
-  tempInfoHistorico.setAttribute('style','width: 300px; height:150px');
-  tempInfoMedicamento.removeAttribute('disabled');
-  tempInfoMedicamento.removeAttribute('style');
-  tempInfoMedicamento.setAttribute('style','width: 300px; height:150px');
-  tempInfoCirurgia.removeAttribute('disabled');
-  tempInfoCirurgia.removeAttribute('style');
-  tempInfoCirurgia.setAttribute('style','width: 300px; height:150px');
-  tempInfoTrauma.removeAttribute('disabled');
-  tempInfoTrauma.removeAttribute('style');
-  tempInfoTrauma.setAttribute('style','width: 300px; height:150px');
-  buttonGravar.removeAttribute('disabled');
-  buttonGravar.removeAttribute('style');
-}
+
  
- function ShowDataGetNome(data){
-  tempInfoNome.value = data[0].nome;
-  if (data[0].menor) tempInfoMenor.checked=true;
-  else {
-    tempInfoMenor.checked=false;
-    tempInfoResponsavel.setAttribute('disabled'," ");
-    tempInfoResponsavel.setAttribute('style','background-color: #333');
-    tempInfoCpfresp.setAttribute('disabled'," ");
-    tempInfoCpfresp.setAttribute('style','background-color: #333');
-  }
-  tempInfoResponsavel.value = data[0].responsavel;
-
-  tempInfoCpfresp.value = data[0].cpfresp;
-
-  tempInfoCpf.value = data[0].cpf;
-  
-  tempInfoCns.value = data[0].cns;
-  if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
-
-  tempInfoRegistro.value = data[0].registro;
-  if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
-
-  tempInfoNacionalidade.value = data[0].nacionalidade;
-  tempInfoNascimento.value = data[0].nascimento;
-  tempInfoGenero.value = data[0].genero;
-
-  tempInfoTel.value = data[0].tel;
-  if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
-
-  tempInfoCel.value = data[0].cel;
-  if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
-  
-  (data[0].whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
-  tempInfoEmail.value = data[0].email;
-  tempInfoEndereco.value = data[0].endereco;
-
-  tempInfoCep.value = data[0].cep;
-  if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
-  
-  tempInfoBairro.value = data[0].bairro;
-  tempInfoUf.value = data[0].uf;
-  tempInfoCidade.value = data[0].cidade;
-
-  tempInfoHistorico.value = data[0].historico;
-  tempInfoMedicamento.value = data[0].medicamento;
-  tempInfoCirurgia.value = data[0].cirurgia;
-  tempInfoTrauma.value = data[0].trauma;
- }
  
-function ClearData(){
-  tempInfoNome.value = '';
-  tempInfoNome.removeAttribute('style'); 
-  tempInfoMenor.checked=false;
-  tempInfoResponsavel.value = '';
-  tempInfoCpfresp.value = '';
-  tempInfoCpf.value = '';
-  tempInfoCns.value = '';
-  tempInfoRegistro.value = '';
-  tempInfoNacionalidade.value = '';
-  tempInfoNascimento.value = '';
-  tempInfoGenero.value = '';
-  tempInfoTel.value = '';
-  tempInfoCel.value = '';
-  tempInfoWhatsapp.checked=false;
-  tempInfoEmail.value = '';
-  tempInfoEndereco.value = '';
-  tempInfoCep.value = '';
-  tempInfoBairro.value = '';
-  tempInfoUf.value = '';
-  tempInfoCidade.value = '';
-  tempInfoHistorico.value = '';
-  tempInfoMedicamento.value = '';
-  tempInfoCirurgia.value = '';
-  tempInfoTrauma.value = '';
-}
 
-function ClearDataMinusNome(){
-  //tempInfoNome.value = '';
-  tempInfoNome.removeAttribute('style'); 
-  tempInfoMenor.checked=false;
-  tempInfoResponsavel.value = '';
-  tempInfoCpfresp.value = '';
-  tempInfoCpf.value = '';
-  tempInfoCns.value = '';
-  tempInfoRegistro.value = '';
-  tempInfoNacionalidade.value = '';
-  tempInfoNascimento.value = '';
-  tempInfoGenero.value = '';
-  tempInfoTel.value = '';
-  tempInfoCel.value = '';
-  tempInfoWhatsapp.checked=false;
-  tempInfoEmail.value = '';
-  tempInfoEndereco.value = '';
-  tempInfoCep.value = '';
-  tempInfoBairro.value = '';
-  tempInfoUf.value = '';
-  tempInfoCidade.value = '';
-  tempInfoHistorico.value = '';
-  tempInfoMedicamento.value = '';
-  tempInfoCirurgia.value = '';
-  tempInfoTrauma.value = '';
-}
 
-function DisableAll(){
-  ClearData();
-  tempInfoMenor.setAttribute('disabled'," ");
-  tempInfoMenor.setAttribute('style','background-color: #333');
-  tempInfoResponsavel.setAttribute('disabled'," ");
-  tempInfoResponsavel.setAttribute('style','background-color: #333');
-  tempInfoCpfresp.setAttribute('disabled'," ");
-  tempInfoCpfresp.setAttribute('style','background-color: #333');
-  tempInfoCpf.setAttribute('disabled'," ");
-  tempInfoCpf.setAttribute('style','background-color: #333')
-  tempInfoCns.setAttribute('disabled'," ");
-  tempInfoCns.setAttribute('style','background-color: #333');
-  tempInfoRegistro.setAttribute('disabled'," ");
-  tempInfoRegistro.setAttribute('style','background-color: #333');
-  tempInfoNacionalidade.setAttribute('disabled'," ");
-  tempInfoNacionalidade.setAttribute('style','background-color: #333');
-  tempInfoNascimento.setAttribute('disabled'," ");
-  tempInfoNascimento.setAttribute('style','background-color: #333');
-  tempInfoGenero.setAttribute('disabled'," ");
-  tempInfoGenero.setAttribute('style','background-color: #333');
-  tempInfoTel.setAttribute('disabled'," ");
-  tempInfoTel.setAttribute('style','background-color: #333');
-  tempInfoCel.setAttribute('disabled'," ");
-  tempInfoCel.setAttribute('style','background-color: #333');
-  tempInfoWhatsapp.setAttribute('disabled'," ");
-  tempInfoWhatsapp.setAttribute('style','background-color: #333');
-  tempInfoEmail.setAttribute('disabled'," ");
-  tempInfoEmail.setAttribute('style','background-color: #333');
-  tempInfoEndereco.setAttribute('disabled'," ");
-  tempInfoEndereco.setAttribute('style','background-color: #333');
-  tempInfoCep.setAttribute('disabled'," ");
-  tempInfoCep.setAttribute('style','background-color: #333');
-  tempInfoBairro.setAttribute('disabled'," ");
-  tempInfoBairro.setAttribute('style','background-color: #333');
-  tempInfoUf.setAttribute('disabled'," ");
-  tempInfoUf.setAttribute('style','background-color: #333');
-  tempInfoCidade.setAttribute('disabled'," ");
-  tempInfoCidade.setAttribute('style','background-color: #333');
-  tempInfoHistorico.setAttribute('disabled'," ");
-  tempInfoHistorico.setAttribute('style','background-color: #333; width: 300px; height:150px');
-  tempInfoMedicamento.setAttribute('disabled'," ");
-  tempInfoMedicamento.setAttribute('style','background-color: #333; width: 300px; height:150px');
-  tempInfoCirurgia.setAttribute('disabled'," ");
-  tempInfoCirurgia.setAttribute('style','background-color: #333; width: 300px; height:150px');
-  tempInfoTrauma.setAttribute('disabled'," ");
-  tempInfoTrauma.setAttribute('style','background-color: #333; width: 300px; height:150px');
-  buttonGravar.setAttribute('disabled'," ");
-}
 
 
 
