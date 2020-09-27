@@ -161,11 +161,12 @@ tempInfoCpfresp.addEventListener('blur', function(){
     this.setAttribute('style','color: red;');
     MsgTop('error', 'CPF responsável inválido!');
   }
-  else if (isEmpty(this.value)) {  MsgTop('warning', 'Informe o CPF do responsável!');}
+  else if (isEmpty(this.value))  MsgTop('warning', 'Informe o CPF do responsável!');
+  else if (this.value==tempInfoCpf.value) MsgTop('error', 'CPF do responsável não pode ser igual do paciente!');
   else this.removeAttribute('style');
 });
 
-tempInfoCpf.addEventListener('focusout', function(){
+tempInfoCpf.addEventListener('blur', function(){
   this.value = ValidaCpf(this.value); 
   if (this.value.length != 14 && this.value.length != 0) {
     this.setAttribute('style','color: red;');
@@ -253,13 +254,12 @@ tempInfoCep.addEventListener('blur', function(){
   else this.removeAttribute('style');  
 });
 /****** END Linsteners ***********/  
-
+ClearData();
 DisableAll();
 
 tempInfoNome.focus(); 
 
 function DisableAll(){
-  ClearData();
   tempInfoMenor.setAttribute('disabled'," ");
   tempInfoMenor.setAttribute('style','background-color: #333');
   tempInfoResponsavel.setAttribute('disabled'," ");
@@ -344,10 +344,7 @@ function SearchRegister(){
 function EnableAll(){
   tempInfoMenor.removeAttribute('disabled');
   tempInfoMenor.removeAttribute('style');
-  // tempInfoResponsavel.removeAttribute('disabled');
-  // tempInfoResponsavel.removeAttribute('style');
-  // tempInfoCpfresp.removeAttribute('disabled');
-  // tempInfoCpfresp.removeAttribute('style');
+
   tempInfoCpf.removeAttribute('disabled');
   tempInfoCpf.removeAttribute('style');
   tempInfoCns.removeAttribute('disabled');
@@ -476,7 +473,6 @@ function ShowDataGetNome(data){
   tempInfoTrauma.value = data[0].trauma;
  }
  
-
 async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
 
@@ -490,6 +486,7 @@ if (tempInfoMenor.checked)
   else alertResponsavel = '';
   if (tempInfoCpfresp.value.length != 14 && tempInfoCpfresp.value.length != 0) alertCpfresp = `\n[CPF resp. ${tempInfoCpfresp.value}]`;
   else if (isEmpty(tempInfoCpfresp.value)) alertCpfresp = `\n[CPF resp. não informado]`;
+  else if (tempInfoCpfresp.value==tempInfoCpf.value) alertCpfresp = `\n[CPF do responsável igual do paciente]`;
   else  alertCpfresp = ''; 
 }
 
@@ -542,9 +539,11 @@ else {
       case 0:
         MsgCenter('success','Dados atualizados!', false); break;
       case 1:
-        MsgCenterButtonText('error','ID não localizado!', 'Corrija'); break;    
+        MsgCenterButtonText('error','ID não localizado.', 'Corrija!'); break;    
       case 2:
-        MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;  
+        MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI.'); break;  
+      case 3:
+        MsgCenterButtonText('error','CPF do responsável!', 'Não pode ser igual ao do paciente.'); break;   
       }
     }
   else {  
@@ -555,9 +554,10 @@ else {
       case 1:
         MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;  
       case 2:
-        MsgCenterButtonText('error','CPF não informado!', 'Corrija'); break;    
+        MsgCenterButtonText('error','CPF do responsável não pode ser igual ao do paciente', 'Corrija'); break;    
     }
   }
+  ClearData();
   DisableAll();
   }
 }
