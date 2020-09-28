@@ -59,6 +59,11 @@ async function GetDataFromNome(nome){
           console.log( `ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}` );
         });
         idDb = data[0].id_paciente;  // TEMP issue#1 implementar modal para seleção do registro desejado ou criar novo
+        if (data[0].nascimento) {
+          data[0].nascimento = `${data[0].nascimento.substring(0,10)}`;
+          let dataTemp = data[0].nascimento.split('-');
+          data[0].nascimento = `${dataTemp[1]}/${dataTemp[2]}/${dataTemp[0]}`;
+        }
         cameFromDb = true;
         ShowDataGetNome(data); // paciente.js
         break;
