@@ -1,4 +1,12 @@
-
+/*
+return  status_code
+0       200/201
+1       400 Bad Request
+2       404 Not Found
+3       406 Not Acceptable
+4       401 Unauthorized
+5       500 Internal Server Error
+*/
 
 async function PostDataPaciente (data){
  let url =  new URL('http://localhost:9001/pacientes');
@@ -11,10 +19,10 @@ async function PostDataPaciente (data){
     switch (response.status){
       case 201: 
         return 0;
-      case 500:
-        return 1;
       case 406:
-        return 2;
+        return 3;
+      case 500:
+        return 5;  
       }
   } catch (error) {console.log(error); return 1;}
 }
@@ -31,12 +39,12 @@ async function PutDataPaciente (idSearch, data){
     switch (response.status){
       case 200: 
         return 0;
-      case 500:
+      case 404:
         return 2;
-      case 400:
-        return 1;
       case 406:
         return 3;  
+      case 500:
+        return 5;  
       }
   } catch (error) {console.log(error); return 1;}
 }
@@ -48,12 +56,6 @@ async function GetDataFromNome(nome){
     let response = await fetch(url);
     let data = await response.json();
     switch (response.status) {  
-      case 500:{ cameFromDb = false; idDb = 0;
-          console.log('Erro no servidor - contacte Suporte TI');break;}
-      case 406:{ cameFromDb = false; idDb = 0;
-          console.log('Regra de negócio violada - Nome não informado');break;}
-      case 404:{ cameFromDb = false; idDb = 0;
-          console.log('Nome buscado não existe no Banco de Dados'); break;}
       case 200:
         data.forEach( (item, index, arr) => { 
           console.log( `ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}` );
@@ -67,6 +69,12 @@ async function GetDataFromNome(nome){
         cameFromDb = true;
         ShowDataGetNome(data); // paciente.js
         break;
+      case 404:{ cameFromDb = false; idDb = 0;
+          console.log('Nome buscado não existe no Banco de Dados'); break;}
+      case 406:{ cameFromDb = false; idDb = 0;
+          console.log('Regra de negócio violada - Nome não informado');break;}
+      case 500:{ cameFromDb = false; idDb = 0;
+          console.log('Erro no servidor - contacte Suporte TI');break;}
       }
    } catch (error) {console.log(error);};
 }
@@ -78,16 +86,14 @@ async function GetCpf(cpf) {
     let response = await fetch(url);
     let data = await response.json();
     switch (response.status) {  
-      case 500:
-          return 1;
+      case 200:
+          data.forEach( (item, index, arr) =>{console.log(`ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);});
+          return data ;
       case 404:{ 
           console.log('CPF buscado não existe no Banco de Dados'); 
-          return 0;}
-      case 200:
-          data.forEach( (item, index, arr) =>{ 
-            console.log(`ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);
-          });
-          return data ;
+          return 2;}
+      case 500:
+          return 5;
       }
     } catch (error) {console.log(error);};
 }
@@ -99,16 +105,14 @@ async function GetCns(cns) {
     let response = await fetch(url);
     let data = await response.json();
     switch (response.status) {  
-      case 500:
-          return 1;
-      case 404:{ 
-          console.log('CNS buscado não existe no Banco de Dados'); 
-          return 0;}
       case 200:
-          data.forEach( (item, index, arr) =>{ 
-            console.log(`ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);
-          });
+          data.forEach( (item, index, arr) =>{console.log(`ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);});
           return data ;
+      case 404:{ 
+        console.log('CNS buscado não existe no Banco de Dados'); 
+        return 2;}
+      case 500:
+          return 5;
       }
     } catch (error) {console.log(error);};
 }
@@ -121,16 +125,14 @@ async function GetRegistro(registro) {
     let response = await fetch(url);
     let data = await response.json();
     switch (response.status) {  
-      case 500:
-          return 1;
+      case 200:
+          data.forEach( (item, index, arr) =>{console.log(`ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);});
+          return data ;
       case 404:{ 
           console.log('Registro buscado não existe no Banco de Dados'); 
-          return 0;}
-      case 200:
-          data.forEach( (item, index, arr) =>{ 
-            console.log(`ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}`);
-          });
-          return data ;
+          return 2;}
+      case 500:
+          return 5;
       }
     } catch (error) {console.log(error);};
 }

@@ -156,7 +156,7 @@ tempInfoResponsavel.addEventListener('blur', function() {
 });
 
 tempInfoCpfresp.addEventListener('blur', function(){
-  this.value = ValidaCpf(this.value); 
+  this.value = ValidaCpf(this.value);  // valida.js
   if ((this.value.length != 14 && this.value.length != 0)) {
     this.setAttribute('style','color: red;');
     MsgTop('error', 'CPF responsável inválido!');
@@ -167,7 +167,7 @@ tempInfoCpfresp.addEventListener('blur', function(){
 });
 
 tempInfoCpf.addEventListener('blur', function(){
-  this.value = ValidaCpf(this.value); 
+  this.value = ValidaCpf(this.value);   // valida.js
   if (this.value.length != 14 && this.value.length != 0) {
     this.setAttribute('style','color: red;');
     MsgTop('error', 'CPF inválido!');
@@ -176,7 +176,7 @@ tempInfoCpf.addEventListener('blur', function(){
   else {
     this.removeAttribute('style');
     if (this.value.length != 0) {
-      ValidaExistenciaCpfDB(this.value)
+      ValidaExistenciaCpfDB(this.value)  // valida.js
       .then(response => {
         if (response!=0){MsgCenterButtonText('error','CPF já cadastrado!',`Paciente: ${response[0].nome}`);  }
       });
@@ -185,7 +185,7 @@ tempInfoCpf.addEventListener('blur', function(){
 });
 
 tempInfoCns.addEventListener('blur', function(){
-  this.value = ValidaCns(this.value);
+  this.value = ValidaCns(this.value);   // valida.js
   if (this.value.length != 18 && this.value.length != 0) {
     this.setAttribute('style','color: red;');  
     MsgTop('error', 'CNS inválido!');
@@ -193,7 +193,7 @@ tempInfoCns.addEventListener('blur', function(){
   else {
     this.removeAttribute('style');
     if (this.value.length != 0) {
-      ValidaExistenciaCnsDB(this.value)
+      ValidaExistenciaCnsDB(this.value) // valida.js
       .then(response => {
         if (response!=0){MsgCenterButtonText('error','CNS já cadastrado:',`Paciente: ${response[0].nome}`);  }
       });
@@ -202,7 +202,7 @@ tempInfoCns.addEventListener('blur', function(){
 });
 
 tempInfoRegistro.addEventListener('blur', function(){
-  this.value = ValidaRegistro(this.value);
+  this.value = ValidaRegistro(this.value);   // valida.js
   if (this.value.length != 9 && this.value.length != 0) {
     this.setAttribute('style','color: red;');  
     MsgTop('error', 'Registro inválido!');
@@ -210,7 +210,7 @@ tempInfoRegistro.addEventListener('blur', function(){
   else {
     this.removeAttribute('style');
     if (this.value.length != 0) {
-      ValidaExistenciaRegistroDB(this.value)
+      ValidaExistenciaRegistroDB(this.value)    // valida.js
       .then(response => {
         if (response!=0){MsgCenterButtonText('error','Registro já cadastrado:',`Paciente: ${response[0].nome}`);  }
       });
@@ -228,7 +228,7 @@ tempInfoNacionalidade.addEventListener('blur', function(){
 });
 
 tempInfoTel.addEventListener('blur', function(){
-  this.value = ValidaTel(this.value);
+  this.value = ValidaTel(this.value);  // valida.js
   if (this.value.length !=14 && this.value.length != 0) {
     this.setAttribute('style','color: red;'); 
     MsgTop('error', 'Telefone inválido!');
@@ -237,7 +237,7 @@ tempInfoTel.addEventListener('blur', function(){
 });
 
 tempInfoCel.addEventListener('blur', function(){
-  this.value = ValidaCel(this.value);
+  this.value = ValidaCel(this.value);   // valida.js
   if (this.value.length !=15 && this.value.length != 0) {
     this.setAttribute('style','color: red;');  
     MsgTop('error', 'Celular inválido!');
@@ -246,7 +246,7 @@ tempInfoCel.addEventListener('blur', function(){
 });
 
 tempInfoCep.addEventListener('blur', function(){
-  this.value = ValidaCep(this.value);
+  this.value = ValidaCep(this.value);   // valida.js
   if (this.value.length !=9 && this.value.length != 0) {
     this.setAttribute('style','color: red;');  
     MsgTop('error', 'CEP inválido!');
@@ -534,27 +534,27 @@ else {
   jsonPaciente = JSON.stringify(paciente);
 
   if (cameFromDb){
-    let retorno = await PutDataPaciente(idDb, jsonPaciente);
+    let retorno = await PutDataPaciente(idDb, jsonPaciente); // fetch.js
     switch (retorno){
       case 0:
         MsgCenter('success','Dados atualizados!', false); break;
-      case 1:
-        MsgCenterButtonText('error','ID não localizado.', 'Corrija!'); break;    
       case 2:
-        MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI.'); break;  
+        MsgCenterButtonText('error','ID não localizado.', 'Preencha novamente o nome.'); break;    
       case 3:
         MsgCenterButtonText('error','CPF do responsável!', 'Não pode ser igual ao do paciente.'); break;   
+      case 5:
+      MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI.'); break;  
       }
     }
   else {  
-    let retorno = await PostDataPaciente(jsonPaciente);
+    let retorno = await PostDataPaciente(jsonPaciente); // fetch.js
     switch (retorno){
       case 0:
         MsgCenter('success','Dados enviados!', false); break;
-      case 1:
-        MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;  
-      case 2:
+      case 3:
         MsgCenterButtonText('error','CPF do responsável não pode ser igual ao do paciente', 'Corrija'); break;    
+      case 5:
+        MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
     }
   }
   ClearData();

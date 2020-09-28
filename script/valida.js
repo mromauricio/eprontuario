@@ -91,7 +91,7 @@ return (cpf);
 
 async function ValidaExistenciaCpfDB(cpf){
   let retorno = await GetCpf(cpf);
-  if (retorno == 0 || retorno == 1 || idDb==retorno[0].id_paciente ) return 0
+  if (retorno == 2 || retorno == 5 || idDb==retorno[0].id_paciente ) return 0
   return retorno
   }
 
@@ -105,7 +105,7 @@ else { /* máscara 000.0000.0000.0000 */
 
 async function ValidaExistenciaCnsDB(cns){
   let retorno = await GetCns(cns);
-  if (retorno == 0 || retorno == 1 || idDb==retorno[0].id_paciente ) return 0
+  if (retorno == 2 || retorno == 5 || idDb==retorno[0].id_paciente ) return 0
   return retorno
   }
 
@@ -119,7 +119,7 @@ else { /* máscara 0.000.000  */
 
 async function ValidaExistenciaRegistroDB(registro){
 let retorno = await GetRegistro(registro);
-if (retorno == 0 || retorno == 1 || idDb==retorno[0].id_paciente ) return 0
+if (retorno == 2 || retorno == 5 || idDb==retorno[0].id_paciente ) return 0
 return retorno
 }
 
