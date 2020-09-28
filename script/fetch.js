@@ -69,7 +69,7 @@ async function GetDataFromNome(nome){
         cameFromDb = true;
         ShowDataGetNome(data); // paciente.js
         break;
-      case 404:{ cameFromDb = false; idDb = 0;
+      case 404:{ cameFromDb = false; idDb = 0; tempInfoAtivo.checked = true;
           console.log('Nome buscado não existe no Banco de Dados'); break;}
       case 406:{ cameFromDb = false; idDb = 0;
           console.log('Regra de negócio violada - Nome não informado');break;}

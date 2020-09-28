@@ -24,7 +24,6 @@ $('#form').w2form({
       { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 1 } },
       { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 1 /*, group:'Responsável - preencher para paciente menor de idade' */ } },
       { field: 'cpfresp',  type: 'text', html: { caption: 'CPF Resp.', page: 0, column: 1} },
-
       { field: 'email',  type: 'email', html: { caption: 'E-mail', page: 0, column: 0, group: 'Comunicação'} },
       { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 0, column: 0 } },
       { field: 'whatsapp',  type: 'checkbox', html: { caption: 'WhatsApp', page: 0, column: 0} },
@@ -34,6 +33,7 @@ $('#form').w2form({
       { field: 'cep', type: 'text', html: { caption: 'CEP', page: 0, column: 1 } },
       { field: 'uf', type: 'text', html: { caption: 'UF', page: 0, column: 1 } },
       { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 0, column: 1 } },
+      { field: 'ativo',  type: 'checkbox', html: { caption: 'Ativo', page: 0, column: 0, group: 'Habilitado para atendimento'} },
 
       { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 1, column: 0, attr: 'placeholder="Acontecimentos relevantes em ordem cronológica."' } },
       { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 1, column: 1, attr: 'placeholder="Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso"' } },
@@ -83,6 +83,7 @@ let tempInfoHistorico = document.querySelector('#historico');
 let tempInfoMedicamento = document.querySelector('#medicamento');
 let tempInfoCirurgia = document.querySelector('#cirurgia');
 let tempInfoTrauma = document.querySelector('#trauma');
+let tempInfoAtivo = document.querySelector('#ativo');
 
 let buttonGravar = document.querySelector('#gravar');
 
@@ -91,7 +92,7 @@ const isEmpty = str => !str.trim().length;
 class Paciente {
   constructor(nome, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,genero,
     tel, cel, whatsapp, email, endereco, cep, bairro, uf, cidade, historico, medicamento, cirurgia,
-    trauma){
+    trauma, ativo){
     this.nome = nome;
     this.menor = menor;
     this.responsavel = responsavel;
@@ -115,6 +116,7 @@ class Paciente {
     this.medicamento = medicamento;
     this.cirurgia = cirurgia;
     this.trauma = trauma;
+    this.ativo = ativo;
   }
 }
 
@@ -212,7 +214,7 @@ tempInfoRegistro.addEventListener('blur', function(){
     if (this.value.length != 0) {
       ValidaExistenciaRegistroDB(this.value)    // valida.js
       .then(response => {
-        if (response!=0){MsgCenterButtonText('error','Registro já cadastrado:',`Paciente: ${response[0].nome}`);  }
+        if (response!=0) MsgCenterButtonText('error','Registro já cadastrado:',`Paciente: ${response[0].nome}`);  
       });
     }
   }
@@ -252,6 +254,11 @@ tempInfoCep.addEventListener('blur', function(){
     MsgTop('error', 'CEP inválido!');
   }
   else this.removeAttribute('style');  
+});
+
+tempInfoAtivo.addEventListener('click', function(){
+  if (this.checked) MsgTop('success', 'Paciente habilitado para atendimento!');
+  else  MsgCenterButtonText('warning','Ativo foi desmarcado.',`Este paciente não aparecerá na tela: Atendimentos!`); 
 });
 /****** END Linsteners ***********/  
 ClearData();
@@ -304,6 +311,8 @@ function DisableAll(){
   tempInfoCirurgia.setAttribute('style','background-color: #333; width: 300px; height:150px');
   tempInfoTrauma.setAttribute('disabled'," ");
   tempInfoTrauma.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  tempInfoAtivo.setAttribute('disabled'," ");
+  tempInfoAtivo.setAttribute('style','background-color: #333');
   buttonGravar.setAttribute('disabled'," ");
 }
 
@@ -344,7 +353,6 @@ function SearchRegister(){
 function EnableAll(){
   tempInfoMenor.removeAttribute('disabled');
   tempInfoMenor.removeAttribute('style');
-
   tempInfoCpf.removeAttribute('disabled');
   tempInfoCpf.removeAttribute('style');
   tempInfoCns.removeAttribute('disabled');
@@ -387,6 +395,8 @@ function EnableAll(){
   tempInfoTrauma.removeAttribute('disabled');
   tempInfoTrauma.removeAttribute('style');
   tempInfoTrauma.setAttribute('style','width: 300px; height:150px');
+  tempInfoAtivo.removeAttribute('disabled');
+  tempInfoAtivo.removeAttribute('style');
   buttonGravar.removeAttribute('disabled');
   buttonGravar.removeAttribute('style');
 }
@@ -471,6 +481,8 @@ function ShowDataGetNome(data){
   tempInfoMedicamento.value = data[0].medicamento;
   tempInfoCirurgia.value = data[0].cirurgia;
   tempInfoTrauma.value = data[0].trauma;
+  (data[0].ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
+  if (!tempInfoAtivo.checked) MsgTop('warning', 'Paciente não habilitado para atendimento!');
  }
  
 async function GravaLocalInfo(){  
@@ -530,7 +542,8 @@ else {
     tempInfoCel.value, tempInfoWhatsapp.checked, tempInfoEmail.value, 
     tempInfoEndereco.value, tempInfoCep.value, tempInfoBairro.value, 
     tempInfoUf.value, tempInfoCidade.value, tempInfoHistorico.value,
-    tempInfoMedicamento.value, tempInfoCirurgia.value, tempInfoTrauma.value);
+    tempInfoMedicamento.value, tempInfoCirurgia.value, tempInfoTrauma.value,
+    tempInfoAtivo.checked);
   jsonPaciente = JSON.stringify(paciente);
 
   if (cameFromDb){
