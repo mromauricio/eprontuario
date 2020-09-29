@@ -258,7 +258,7 @@ tempInfoCep.addEventListener('blur', function(){
 
 tempInfoAtivo.addEventListener('click', function(){
   if (this.checked) MsgTop('success', 'Paciente habilitado para atendimento!');
-  else  MsgCenterButtonText('warning','Ativo foi desmarcado.',`Este paciente não aparecerá na tela: Atendimentos!`); 
+  else  MsgCenterButtonText('warning','Ativo foi desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
 });
 /****** END Linsteners ***********/  
 ClearData();
