@@ -258,7 +258,7 @@ tempInfoCep.addEventListener('blur', function(){
 
 tempInfoAtivo.addEventListener('click', function(){
   if (this.checked) MsgTop('success', 'Paciente habilitado para atendimento!');
-  else  MsgCenterButtonText('warning','Ativo foi desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
+  else  MsgCenterButtonText('info','Ativo está desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
 });
 /****** END Linsteners ***********/  
 ClearData();
@@ -482,7 +482,7 @@ function ShowDataGetNome(data){
   tempInfoCirurgia.value = data[0].cirurgia;
   tempInfoTrauma.value = data[0].trauma;
   (data[0].ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
-  if (!tempInfoAtivo.checked) MsgTop('warning', 'Paciente não habilitado para atendimento!');
+  if (!tempInfoAtivo.checked) MsgCenterButtonText('info','Ativo está desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
  }
  
 async function GravaLocalInfo(){  
