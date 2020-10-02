@@ -14,7 +14,7 @@ $('#form').w2form({
       { id: 'tab3', caption: 'Anexos' }
   ],
   fields : [
-      { field: 'nome', required: true, type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente', attr: 'placeholder="nome completo sem abreviações + tecla Enter"'} },
+      { field: 'nome', type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente', attr: 'placeholder="nome completo sem abreviações + tecla Enter"'} },
       { field: 'menor', type: 'checkbox',  html: { caption: 'Menor de idade', page: 0, column: 0 } },
       { field: 'nacionalidade', type: 'text',  html: { caption: 'Nacionalidade', page: 0, column: 0 } },
       { field: 'datanascimento', type: 'date', html: { caption: 'Data nascimento', page: 0, column: 0 } },
@@ -86,6 +86,7 @@ let tempInfoTrauma = document.querySelector('#trauma');
 let tempInfoAtivo = document.querySelector('#ativo');
 
 let buttonGravar = document.querySelector('#gravar');
+let buttonDescartar = document.querySelector('#descartar');
 
 const isEmpty = str => !str.trim().length;
 
@@ -123,6 +124,11 @@ class Paciente {
 /* Listeners */
 
 buttonGravar.addEventListener('click', GravaLocalInfo);
+buttonDescartar.addEventListener('click', ()=>{
+  ClearData();
+  DisableAll();
+  tempInfoNome.focus();
+});
 
 tempInfoNome.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
@@ -314,6 +320,7 @@ function DisableAll(){
   tempInfoAtivo.setAttribute('disabled'," ");
   tempInfoAtivo.setAttribute('style','background-color: #333');
   buttonGravar.setAttribute('disabled'," ");
+  buttonDescartar.setAttribute('disabled'," ");
 }
 
 function ClearData(){
@@ -398,7 +405,7 @@ function EnableAll(){
   tempInfoAtivo.removeAttribute('disabled');
   tempInfoAtivo.removeAttribute('style');
   buttonGravar.removeAttribute('disabled');
-  buttonGravar.removeAttribute('style');
+  buttonDescartar.removeAttribute('disabled');
 }
 
 function ClearDataMinusNome(){
@@ -484,63 +491,6 @@ function ShowDataGetNome(data){
   (data.ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
   if (!tempInfoAtivo.checked) MsgCenterButtonText('info','Ativo está desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
  }
- 
-//  function ShowDataGetNome(data){   // ANTIGO COM data[0]
-//   tempInfoNome.value = data[0].nome;
-//   if (data[0].menor) {
-//     tempInfoMenor.checked=true;
-//     tempInfoResponsavel.removeAttribute('disabled');
-//     tempInfoResponsavel.removeAttribute('style');
-//     tempInfoCpfresp.removeAttribute('disabled');
-//     tempInfoCpfresp.removeAttribute('style');
-//   }
-//   else {
-//     tempInfoMenor.checked=false;
-//     tempInfoResponsavel.setAttribute('disabled'," ");
-//     tempInfoResponsavel.setAttribute('style','background-color: #333');
-//     tempInfoCpfresp.setAttribute('disabled'," ");
-//     tempInfoCpfresp.setAttribute('style','background-color: #333');
-//   }
-//   tempInfoResponsavel.value = data[0].responsavel;
-
-//   tempInfoCpfresp.value = data[0].cpfresp;
-
-//   tempInfoCpf.value = data[0].cpf;
-  
-//   tempInfoCns.value = data[0].cns;
-//   if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
-
-//   tempInfoRegistro.value = data[0].registro;
-//   if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
-
-//   tempInfoNacionalidade.value = data[0].nacionalidade;
-//   tempInfoNascimento.value = data[0].nascimento;
-//   tempInfoGenero.value = data[0].genero;
-
-//   tempInfoTel.value = data[0].tel;
-//   if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
-
-//   tempInfoCel.value = data[0].cel;
-//   if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
-  
-//   (data[0].whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
-//   tempInfoEmail.value = data[0].email;
-//   tempInfoEndereco.value = data[0].endereco;
-
-//   tempInfoCep.value = data[0].cep;
-//   if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
-  
-//   tempInfoBairro.value = data[0].bairro;
-//   tempInfoUf.value = data[0].uf;
-//   tempInfoCidade.value = data[0].cidade;
-
-//   tempInfoHistorico.value = data[0].historico;
-//   tempInfoMedicamento.value = data[0].medicamento;
-//   tempInfoCirurgia.value = data[0].cirurgia;
-//   tempInfoTrauma.value = data[0].trauma;
-//   (data[0].ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
-//   if (!tempInfoAtivo.checked) MsgCenterButtonText('info','Ativo está desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
-//  }
 
 async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 

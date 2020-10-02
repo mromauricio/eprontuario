@@ -54,10 +54,6 @@ function MsgCenterButtonText(type, title, message){
     showConfirmButton: true,
   })
 }
-////MODAL HOMONINO
-// let htmlData=`'<a href="#">Mauricio Rodrigues </a>  CPF 045.319.137-10' 
-// +'<br><a href="#">Mauricio Rodrigues</a>  CPF 171.355.237-09'
-// +'<br> Mauricio 3 <a href="#">Este</a>'`
 
 async function MsgHomonio(htmlData){
   let result = await Swal.fire({
@@ -76,7 +72,6 @@ async function MsgHomonio(htmlData){
   })
   return result
 }
-
 
 function ValidaCpf(cpf)
 {
