@@ -1,4 +1,4 @@
-
+/// MÁSCARAS
 $(document).ready(function () { 
   let $cpf = $('#cpf');
   $cpf.mask('000.000.000-00', {reverse: false});
@@ -16,6 +16,7 @@ $(document).ready(function () {
   $cep.mask('00000-000', {reverse: false});
 });
 
+/// ALERTAS
 function MsgTop(type, message){
     const Toast = Swal.mixin({
       toast: true,
@@ -53,6 +54,29 @@ function MsgCenterButtonText(type, title, message){
     showConfirmButton: true,
   })
 }
+////MODAL HOMONINO
+// let htmlData=`'<a href="#">Mauricio Rodrigues </a>  CPF 045.319.137-10' 
+// +'<br><a href="#">Mauricio Rodrigues</a>  CPF 171.355.237-09'
+// +'<br> Mauricio 3 <a href="#">Este</a>'`
+
+async function MsgHomonio(htmlData){
+  let result = await Swal.fire({
+    title: 'Escolha opção desejada:',
+    icon: 'info',
+    html: htmlData,
+    showCloseButton: true,
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText:
+      '<i class="fa "></i>Incluir homônino',
+    confirmButtonAriaLabel: 'Thumbs up, great!',
+    cancelButtonText:
+      '<i class="fa ">Voltar</i>',
+    cancelButtonAriaLabel: 'Thumbs down'
+  })
+  return result
+}
+
 
 function ValidaCpf(cpf)
 {

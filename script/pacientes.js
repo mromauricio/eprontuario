@@ -429,8 +429,8 @@ function ClearDataMinusNome(){
 }
 
 function ShowDataGetNome(data){
-  tempInfoNome.value = data[0].nome;
-  if (data[0].menor) {
+  tempInfoNome.value = data.nome;
+  if (data.menor) {
     tempInfoMenor.checked=true;
     tempInfoResponsavel.removeAttribute('disabled');
     tempInfoResponsavel.removeAttribute('style');
@@ -444,47 +444,104 @@ function ShowDataGetNome(data){
     tempInfoCpfresp.setAttribute('disabled'," ");
     tempInfoCpfresp.setAttribute('style','background-color: #333');
   }
-  tempInfoResponsavel.value = data[0].responsavel;
+  tempInfoResponsavel.value = data.responsavel;
 
-  tempInfoCpfresp.value = data[0].cpfresp;
+  tempInfoCpfresp.value = data.cpfresp;
 
-  tempInfoCpf.value = data[0].cpf;
+  tempInfoCpf.value = data.cpf;
   
-  tempInfoCns.value = data[0].cns;
+  tempInfoCns.value = data.cns;
   if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
 
-  tempInfoRegistro.value = data[0].registro;
+  tempInfoRegistro.value = data.registro;
   if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
 
-  tempInfoNacionalidade.value = data[0].nacionalidade;
-  tempInfoNascimento.value = data[0].nascimento;
-  tempInfoGenero.value = data[0].genero;
+  tempInfoNacionalidade.value = data.nacionalidade;
+  tempInfoNascimento.value = data.nascimento;
+  tempInfoGenero.value = data.genero;
 
-  tempInfoTel.value = data[0].tel;
+  tempInfoTel.value = data.tel;
   if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
 
-  tempInfoCel.value = data[0].cel;
+  tempInfoCel.value = data.cel;
   if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
   
-  (data[0].whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
-  tempInfoEmail.value = data[0].email;
-  tempInfoEndereco.value = data[0].endereco;
+  (data.whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
+  tempInfoEmail.value = data.email;
+  tempInfoEndereco.value = data.endereco;
 
-  tempInfoCep.value = data[0].cep;
+  tempInfoCep.value = data.cep;
   if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
   
-  tempInfoBairro.value = data[0].bairro;
-  tempInfoUf.value = data[0].uf;
-  tempInfoCidade.value = data[0].cidade;
+  tempInfoBairro.value = data.bairro;
+  tempInfoUf.value = data.uf;
+  tempInfoCidade.value = data.cidade;
 
-  tempInfoHistorico.value = data[0].historico;
-  tempInfoMedicamento.value = data[0].medicamento;
-  tempInfoCirurgia.value = data[0].cirurgia;
-  tempInfoTrauma.value = data[0].trauma;
-  (data[0].ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
+  tempInfoHistorico.value = data.historico;
+  tempInfoMedicamento.value = data.medicamento;
+  tempInfoCirurgia.value = data.cirurgia;
+  tempInfoTrauma.value = data.trauma;
+  (data.ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
   if (!tempInfoAtivo.checked) MsgCenterButtonText('info','Ativo está desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
  }
  
+//  function ShowDataGetNome(data){   // ANTIGO COM data[0]
+//   tempInfoNome.value = data[0].nome;
+//   if (data[0].menor) {
+//     tempInfoMenor.checked=true;
+//     tempInfoResponsavel.removeAttribute('disabled');
+//     tempInfoResponsavel.removeAttribute('style');
+//     tempInfoCpfresp.removeAttribute('disabled');
+//     tempInfoCpfresp.removeAttribute('style');
+//   }
+//   else {
+//     tempInfoMenor.checked=false;
+//     tempInfoResponsavel.setAttribute('disabled'," ");
+//     tempInfoResponsavel.setAttribute('style','background-color: #333');
+//     tempInfoCpfresp.setAttribute('disabled'," ");
+//     tempInfoCpfresp.setAttribute('style','background-color: #333');
+//   }
+//   tempInfoResponsavel.value = data[0].responsavel;
+
+//   tempInfoCpfresp.value = data[0].cpfresp;
+
+//   tempInfoCpf.value = data[0].cpf;
+  
+//   tempInfoCns.value = data[0].cns;
+//   if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
+
+//   tempInfoRegistro.value = data[0].registro;
+//   if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
+
+//   tempInfoNacionalidade.value = data[0].nacionalidade;
+//   tempInfoNascimento.value = data[0].nascimento;
+//   tempInfoGenero.value = data[0].genero;
+
+//   tempInfoTel.value = data[0].tel;
+//   if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
+
+//   tempInfoCel.value = data[0].cel;
+//   if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
+  
+//   (data[0].whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
+//   tempInfoEmail.value = data[0].email;
+//   tempInfoEndereco.value = data[0].endereco;
+
+//   tempInfoCep.value = data[0].cep;
+//   if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
+  
+//   tempInfoBairro.value = data[0].bairro;
+//   tempInfoUf.value = data[0].uf;
+//   tempInfoCidade.value = data[0].cidade;
+
+//   tempInfoHistorico.value = data[0].historico;
+//   tempInfoMedicamento.value = data[0].medicamento;
+//   tempInfoCirurgia.value = data[0].cirurgia;
+//   tempInfoTrauma.value = data[0].trauma;
+//   (data[0].ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
+//   if (!tempInfoAtivo.checked) MsgCenterButtonText('info','Ativo está desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
+//  }
+
 async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
 

@@ -49,25 +49,39 @@ async function PutDataPaciente (idSearch, data){
   } catch (error) {console.log(error); return 1;}
 }
 
+let dataAux;
 async function GetDataFromNome(nome){  
   let url =  new URL('http://localhost:9001/pacientes/nome');
   url.href += (`/?nome=${nome}`);
   try {
     let response = await fetch(url);
     let data = await response.json();
+    dataAux = data;
     switch (response.status) {  
       case 200:
-        data.forEach( (item, index, arr) => { 
-          console.log( `ID:${arr[index].id_paciente}  ${arr[index].nome}  CPF:${arr[index].cpf}  CNS:${arr[index].cns}  Registro:${arr[index].registro}` );
-        });
-        idDb = data[0].id_paciente;  // TEMP issue#1 implementar modal para seleção do registro desejado ou criar novo
-        if (data[0].nascimento) {
-          data[0].nascimento = `${data[0].nascimento.substring(0,10)}`;
-          let dataTemp = data[0].nascimento.split('-');
-          data[0].nascimento = `${dataTemp[1]}/${dataTemp[2]}/${dataTemp[0]}`;
-        }
         cameFromDb = true;
-        ShowDataGetNome(data); // paciente.js
+        let modalData=`${data[0].nome}<br>`;
+        data.forEach( (item, index, arr) => { 
+          if (arr[index].nascimento == null) arr[index].nascimento='  /  / ';
+          else {
+            arr[index].nascimento = `${arr[index].nascimento.substring(0,10)}`;
+            let dataTemp = arr[index].nascimento.split('-');
+            arr[index].nascimento = `${dataTemp[2]}/${dataTemp[1]}/${dataTemp[0]}`;
+          }
+          modalData += (`<a href='javascript:selecionaPaciente(${index})'><b>CPF ${arr[index].cpf}  nasc. ${arr[index].nascimento.substring(0,10)}</b></a>  <br>`);  
+        });
+        let resultModal = await MsgHomonio(modalData);
+        if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
+          cameFromDb = false; 
+          idDb = 0;
+          ClearData(); 
+          DisableAll();
+        }
+        else if (resultModal.isConfirmed) {
+          cameFromDb = false; 
+          idDb = 0;
+          tempInfoAtivo.checked = true;
+        }
         break;
       case 404:{ cameFromDb = false; idDb = 0; tempInfoAtivo.checked = true;
           console.log('Nome buscado não existe no Banco de Dados'); break;}
@@ -75,9 +89,21 @@ async function GetDataFromNome(nome){
           console.log('Regra de negócio violada - Nome não informado');break;}
       case 500:{ cameFromDb = false; idDb = 0;
           console.log('Erro no servidor - contacte Suporte TI');break;}
-      }
+    }
    } catch (error) {console.log(error);};
 }
+
+function selecionaPaciente(index){
+  Swal.close(); 
+  idDb = dataAux[index].id_paciente;
+  if (dataAux[index].nascimento =='  /  / ' ) dataAux[index].nascimento = null;
+  else {
+    let dataTemp = dataAux[index].nascimento.split('/');
+    dataAux[index].nascimento = `${dataTemp[1]}/${dataTemp[0]}/${dataTemp[2]}`;
+  } 
+  ShowDataGetNome(dataAux[index]);
+}
+
 
 async function GetCpf(cpf) { 
   let url =  new URL('http://localhost:9001/pacientes/cpf');
