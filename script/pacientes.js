@@ -60,6 +60,7 @@ $('#form').w2form({
 
 let cameFromDb = false;
 let idDb = 0;
+let returnGetNome;
 let tempInfoNome = document.querySelector('#nome');
 let tempInfoResponsavel = document.querySelector('#responsavel');
 let tempInfoCpfresp = document.querySelector('#cpfresp');
@@ -350,11 +351,54 @@ function ClearData(){
   tempInfoTrauma.value = '';
 }
 
-function SearchRegister(){
+
+async function SearchRegister(){
   tempInfoNome.value = tempInfoNome.value.toUpperCase();
   EnableAll(); 
   ClearDataMinusNome();
-  GetDataFromNome(tempInfoNome.value); // fetch.js
+  let data = await GetNome(tempInfoNome.value);
+  if (data.length>0){ 
+    cameFromDb = true;
+    returnGetNome = data;
+    let modalData=`${data[0].nome}<br>`;
+    data.forEach( (item, index, arr) => { 
+      if (arr[index].nascimento == null) arr[index].nascimento='  /  / ';
+      else {
+        arr[index].nascimento = `${arr[index].nascimento.substring(0,10)}`;
+        let dataTemp = arr[index].nascimento.split('-');
+        arr[index].nascimento = `${dataTemp[2]}/${dataTemp[1]}/${dataTemp[0]}`;
+      }
+      modalData += (`<a href='javascript:selecionaPaciente(${index})'><b>CPF ${arr[index].cpf}  nasc. ${arr[index].nascimento.substring(0,10)}</b></a>  <br>`);  
+    });
+    let resultModal = await MsgHomonio(modalData);
+    if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
+      cameFromDb = false; 
+      idDb = 0;
+      ClearData(); 
+      DisableAll();
+    }
+    else if (resultModal.isConfirmed) {
+      cameFromDb = false; 
+      idDb = 0;
+      tempInfoAtivo.checked = true;
+    }
+  }
+  else {// SE RETURN 2, 3 OU 5 
+    cameFromDb = false;
+    idDb = 0;
+    tempInfoAtivo.checked = true;   
+  }
+}
+
+function selecionaPaciente(index){
+  Swal.close(); 
+  idDb = returnGetNome[index].id_paciente;
+  if (returnGetNome[index].nascimento =='  /  / ' ) returnGetNome[index].nascimento = null;
+  else {
+    let dataTemp = returnGetNome[index].nascimento.split('/');
+    returnGetNome[index].nascimento = `${dataTemp[1]}/${dataTemp[0]}/${dataTemp[2]}`;
+  } 
+ ShowDataGetNome(returnGetNome[index]);
 }
 
 function EnableAll(){

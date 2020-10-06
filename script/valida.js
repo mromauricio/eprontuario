@@ -45,6 +45,17 @@ function MsgCenter (type, title){
   })
 }
 
+function MsgCenterText(type, title, message){
+  Swal.fire({
+    position: 'center',
+    icon: type,
+    title: title,
+    text: message,
+    showConfirmButton: false,
+    timer: 3000
+  })
+}
+
 function MsgCenterButtonText(type, title, message){
   Swal.fire({
     position: 'center',
@@ -63,6 +74,23 @@ async function MsgHomonio(htmlData){
     showCloseButton: true,
     showCancelButton: true,
     focusConfirm: false,
+    confirmButtonColor: '#87CEFA',
+    confirmButtonText: 'Incluir homônino',
+    cancelButtonColor: '#87CEFA',
+    cancelButtonText: 'Voltar'
+  })
+  return result
+}
+async function MsgSearch(htmlData){
+  let result = await Swal.fire({
+    title: 'Escolha opção desejada:',
+    icon: 'info',
+    html: htmlData,
+    showConfirmButton: false,
+    showCloseButton: true,
+    showCancelButton: true,
+    cancelButtonColor: 'cyan',
+    focusConfirm: false,
     confirmButtonText:
       '<i class="fa "></i>Incluir homônino',
     confirmButtonAriaLabel: 'Thumbs up, great!',
@@ -72,6 +100,7 @@ async function MsgHomonio(htmlData){
   })
   return result
 }
+////////////// FIM ALERTAS
 
 function ValidaCpf(cpf)
 {
