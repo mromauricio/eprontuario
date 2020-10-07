@@ -41,7 +41,12 @@ function MsgCenter (type, title){
     icon: type,
     title: title,
     showConfirmButton: false,
-    timer: 2500
+    timer: 2500,
+    timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
   })
 }
 
@@ -52,7 +57,12 @@ function MsgCenterText(type, title, message){
     title: title,
     text: message,
     showConfirmButton: false,
-    timer: 3000
+    timer: 3000,
+    timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
   })
 }
 
@@ -68,6 +78,7 @@ function MsgCenterButtonText(type, title, message){
 
 async function MsgHomonio(htmlData){
   let result = await Swal.fire({
+    width: 800,
     title: 'Escolha opção desejada:',
     icon: 'info',
     html: htmlData,
@@ -83,20 +94,16 @@ async function MsgHomonio(htmlData){
 }
 async function MsgSearch(htmlData){
   let result = await Swal.fire({
+    width: 800,
     title: 'Escolha opção desejada:',
     icon: 'info',
     html: htmlData,
     showConfirmButton: false,
     showCloseButton: true,
     showCancelButton: true,
-    cancelButtonColor: 'cyan',
+    cancelButtonColor: '#87CEFA',
     focusConfirm: false,
-    confirmButtonText:
-      '<i class="fa "></i>Incluir homônino',
-    confirmButtonAriaLabel: 'Thumbs up, great!',
-    cancelButtonText:
-      '<i class="fa ">Voltar</i>',
-    cancelButtonAriaLabel: 'Thumbs down'
+    cancelButtonText: 'Voltar'
   })
   return result
 }

@@ -4,10 +4,16 @@ let searchCpf = document.querySelector('#cpf');
 let searchCns = document.querySelector('#cns');
 let searchRegistro = document.querySelector('#registro');
 let searchNome = document.querySelector('#nome');
-searchCpf.value='';
-searchCns.value='';
-searchRegistro.value='';
-searchNome.value='';
+let retornoGet;
+
+ClearSearch();
+
+function ClearSearch(){
+  searchCpf.value='';
+  searchCns.value='';
+  searchRegistro.value='';
+  searchNome.value='';
+}
 
 searchCpf.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
@@ -21,7 +27,10 @@ searchCpf.addEventListener('keyup', async function(event){
     }
     else {
       let retorno = await GetCpf(this.value);
-      if (retorno.length>0) console.log (retorno[0]);
+      if (retorno.length>0) {
+        retornoGet = retorno;
+        selecionaPacienteAtendimento(0);
+      }  
       else MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
     }  
  }
@@ -39,11 +48,15 @@ searchCns.addEventListener('keyup', async function(event){
     }
     else {
       let retorno = await GetCns(this.value);
-      if (retorno.length>0) console.log (retorno[0]);
+      if (retorno.length>0) {
+        retornoGet = retorno;
+        selecionaPacienteAtendimento(0);
+      }
       else MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
     }  
  }
 });
+
 
 searchRegistro.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
@@ -57,11 +70,15 @@ searchRegistro.addEventListener('keyup', async function(event){
     }
     else {
       let retorno = await GetRegistro(this.value);
-      if (retorno.length>0) console.log (retorno[0]);
+      if (retorno.length>0){
+        retornoGet = retorno;
+        selecionaPacienteAtendimento(0);
+      }
       else MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
     }  
  }
 });
+
 
 searchNome.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
@@ -70,13 +87,29 @@ searchNome.addEventListener('keyup', async function(event){
       MsgTop('warning', 'Informe o nome!');
     }
     else {
-      let retorno = await GetNome(this.value);
-      if (retorno.length>0) {
-        retorno.forEach( (item, index, arr) => {
-          console.log(arr[index]);
+      let data = await GetNome(this.value+'%');   // Search every name that begins with the input text
+      retornoGet = data;
+      if (data.length>1) {
+        let modalData='';
+        data.forEach( (item, index, arr) => { 
+          if (arr[index].cpf == null) modalData += (`<a href='javascript:selecionaPacienteAtendimento(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
+          else modalData += (`<a href='javascript:selecionaPacienteAtendimento(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
         });
+        let resultModal = await MsgSearch(modalData);
+        if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
+          ClearSearch();
+        }
       }
-      else MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
+      else if (data.length == 1) {
+        selecionaPacienteAtendimento(0);
+      }
+      else if (data == 2 || data == 4) MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
+      else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
     }  
  }
 });
+
+function selecionaPacienteAtendimento(index){
+  Swal.close(); 
+  console.log(retornoGet[index]);
+}

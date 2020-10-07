@@ -356,19 +356,14 @@ async function SearchRegister(){
   tempInfoNome.value = tempInfoNome.value.toUpperCase();
   EnableAll(); 
   ClearDataMinusNome();
-  let data = await GetNome(tempInfoNome.value);
+  let data = await GetNome(tempInfoNome.value+'%');
   if (data.length>0){ 
     cameFromDb = true;
     returnGetNome = data;
-    let modalData=`${data[0].nome}<br>`;
+    let modalData='';  
     data.forEach( (item, index, arr) => { 
-      if (arr[index].nascimento == null) arr[index].nascimento='  /  / ';
-      else {
-        arr[index].nascimento = `${arr[index].nascimento.substring(0,10)}`;
-        let dataTemp = arr[index].nascimento.split('-');
-        arr[index].nascimento = `${dataTemp[2]}/${dataTemp[1]}/${dataTemp[0]}`;
-      }
-      modalData += (`<a href='javascript:selecionaPaciente(${index})'><b>CPF ${arr[index].cpf}  nasc. ${arr[index].nascimento.substring(0,10)}</b></a>  <br>`);  
+      if (arr[index].cpf == null) modalData += (`<a href='javascript:selecionaPaciente(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
+      else modalData += (`<a href='javascript:selecionaPaciente(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
     });
     let resultModal = await MsgHomonio(modalData);
     if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
@@ -393,12 +388,7 @@ async function SearchRegister(){
 function selecionaPaciente(index){
   Swal.close(); 
   idDb = returnGetNome[index].id_paciente;
-  if (returnGetNome[index].nascimento =='  /  / ' ) returnGetNome[index].nascimento = null;
-  else {
-    let dataTemp = returnGetNome[index].nascimento.split('/');
-    returnGetNome[index].nascimento = `${dataTemp[1]}/${dataTemp[0]}/${dataTemp[2]}`;
-  } 
- ShowDataGetNome(returnGetNome[index]);
+  ShowDataGetNome(returnGetNome[index]);
 }
 
 function EnableAll(){
