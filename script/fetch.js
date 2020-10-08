@@ -100,6 +100,18 @@ async function GetRegistro(registro) {
     } catch (error) {console.log(error);};
 }
 
+async function GetHtml(html) { 
+  let url =  new URL('http://localhost:9001/atendimentos/html');
+  url.href += (`/?html=${html}`);
+  try {
+    let response = await fetch(url);
+    let data = await response.text();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      }
+    } catch (error) {console.log(error); return 5;};
+}
 
 
 //////// Fetch example////

@@ -208,7 +208,7 @@
 .swal2-container.swal2-grow-row > .swal2-modal {
   display: flex !important;
   flex: 1;
-  align-content: center;
+  align-content: center;  
   justify-content: center;
 }
 .swal2-container.swal2-grow-column {
@@ -438,7 +438,7 @@
   justify-content: center;
   margin: 0;
   padding: 0 1.6em;
-  color: #545454;
+  color: #545454;  
   font-size: 1.125em;
   font-weight: normal;
   line-height: normal;

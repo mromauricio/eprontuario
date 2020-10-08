@@ -1,10 +1,11 @@
-
-const isEmpty = str => !str.trim().length;
+let main = document.querySelector('main');
 let searchCpf = document.querySelector('#cpf');
 let searchCns = document.querySelector('#cns');
 let searchRegistro = document.querySelector('#registro');
 let searchNome = document.querySelector('#nome');
 let retornoGet;
+
+const isEmpty = str => !str.trim().length;
 
 ClearSearch();
 
@@ -27,9 +28,9 @@ searchCpf.addEventListener('keyup', async function(event){
     }
     else {
       let retorno = await GetCpf(this.value);
-      if (retorno.length>0) {
+      if (retorno.length==1) {
         retornoGet = retorno;
-        selecionaPacienteAtendimento(0);
+        selecionaPacienteAtendimento(retorno.length - 1);
       }  
       else MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
     }  
@@ -48,9 +49,9 @@ searchCns.addEventListener('keyup', async function(event){
     }
     else {
       let retorno = await GetCns(this.value);
-      if (retorno.length>0) {
+      if (retorno.length==1) {
         retornoGet = retorno;
-        selecionaPacienteAtendimento(0);
+        selecionaPacienteAtendimento(retorno.length - 1);
       }
       else MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
     }  
@@ -70,14 +71,15 @@ searchRegistro.addEventListener('keyup', async function(event){
     }
     else {
       let retorno = await GetRegistro(this.value);
-      if (retorno.length>0){
+      if (retorno.length==1){
         retornoGet = retorno;
-        selecionaPacienteAtendimento(0);
+        selecionaPacienteAtendimento(retorno.length - 1);
       }
       else MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
     }  
  }
 });
+
 
 
 searchNome.addEventListener('keyup', async function(event){
@@ -87,11 +89,11 @@ searchNome.addEventListener('keyup', async function(event){
       MsgTop('warning', 'Informe o nome!');
     }
     else {
-      let data = await GetNome(this.value+'%');   // Search every name that begins with the input text
-      retornoGet = data;
-      if (data.length>1) {
+      let retorno = await GetNome(this.value+'%');   // Search every name that begins with the input text
+      retornoGet = retorno;
+      if (retorno.length>1) {
         let modalData='';
-        data.forEach( (item, index, arr) => { 
+        retorno.forEach( (item, index, arr) => { 
           if (arr[index].cpf == null) modalData += (`<a href='javascript:selecionaPacienteAtendimento(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
           else modalData += (`<a href='javascript:selecionaPacienteAtendimento(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
         });
@@ -100,16 +102,46 @@ searchNome.addEventListener('keyup', async function(event){
           ClearSearch();
         }
       }
-      else if (data.length == 1) {
-        selecionaPacienteAtendimento(0);
+      else if (retorno.length == 1) {
+        selecionaPacienteAtendimento(retorno.length - 1);
       }
-      else if (data == 2 || data == 4) MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
+      else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o dado informado.');
       else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
     }  
  }
 });
 
-function selecionaPacienteAtendimento(index){
+async function renderSearch(){
+  let retorno = await GetHtml('busca');
+  if (retorno.length>0) {
+    main.innerHTML = retorno;
+    return true;
+  }
+  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
+  if (retorno == 5) MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI.'); 
+  return false;
+}
+
+async function selecionaPacienteAtendimento(index){
   Swal.close(); 
-  console.log(retornoGet[index]);
+  let retorno = await GetHtml('atendimentos');
+  if (retorno.length>0) { 
+    main.innerHTML = retorno;
+    executaAtendimento(retornoGet[index]);
+  }  
+  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
+  if (retorno == 5) MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI.'); 
+}
+
+function executaAtendimento(data){
+  const btnVoltar = document.querySelector('#voltar');
+  const mainDiv = document.querySelector('.paciente-atendimento');
+  const paragrafo = document.createElement('p'); 
+  paragrafo.setAttribute('class','paciente-atendimento');
+  paragrafo.textContent = `${data.nome}  -  CPF: ${data.cpf}`;
+  mainDiv.appendChild(paragrafo);
+
+  btnVoltar.addEventListener('click', () => {
+    renderSearch();
+   });
 }
