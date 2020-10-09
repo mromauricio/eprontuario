@@ -1,83 +1,82 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
-    <title>Atendimentos &ndash; projeto Academia do Programador</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/search.css">
-    <link rel="stylesheet" href="../css/forms.css">
-    <link rel="stylesheet" href="../css/forms-r.css">
-    <link rel="stylesheet" href="../css/atendimentos.css">
-    <link rel="stylesheet" href="../css/sweetalert2.css">
-    <!-- <link rel="stylesheet" type="text/css" href="../css/w2ui-1.5.rc1.css"/> -->
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
+        <title>Atendimentos &ndash; projeto Academia do Programador</title>
+        <link rel="stylesheet" href="../css/styles.css">
+        <link rel="stylesheet" href="../css/search.css">
+        <link rel="stylesheet" href="../css/forms.css">
+        <link rel="stylesheet" href="../css/forms-r.css">
+        <link rel="stylesheet" href="../css/atendimentos.css">
+        <link rel="stylesheet" href="../css/sweetalert2.css">
+    </head>
+    <body>
 
-<div id="layout">
-    <!-- Menu toggle -->
-    <a href="#menu" id="menuLink" class="menu-link">
-        <!-- Hamburger icon -->
-        <span></span>
-    </a>
+        <div id="layout">
+            <!-- Menu toggle -->
+            <a href="#menu" id="menuLink" class="menu-link">
+                <!-- Hamburger icon -->
+                <span></span>
+            </a>
 
-    <div id="menu">
-        <div class="pure-menu">
-            <a class="pure-menu-heading" href="../index.html"><img src="../images/paper-clip.png" ></a>
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a href="atendimentos.html" class="pure-menu-link">Atendimentos</a></li>
-                <li class="pure-menu-item"><a href="pacientes.html" class="pure-menu-link">Pacientes</a></li>
-                <li class="pure-menu-item"><a href="documentos.html" class="pure-menu-link">Documentos</a></li>
-                <li class="pure-menu-item"><a href="formularios.html" class="pure-menu-link">Formulários</a></li>
-                <li class="pure-menu-item"><a href="estatisticas.html" class="pure-menu-link">Estatísticas</a></li>
-                <li class="pure-menu-item"><a href="lembretes.html" class="pure-menu-link">Lembretes</a></li>
-            </ul>
+            <div id="menu">
+                <div class="pure-menu">
+                    <a class="pure-menu-heading" href="../index.html"><img src="../images/paper-clip.png" ></a>
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item"><a href="atendimentos.html" class="pure-menu-link">Atendimentos</a></li>
+                        <li class="pure-menu-item"><a href="pacientes.html" class="pure-menu-link">Pacientes</a></li>
+                        <li class="pure-menu-item"><a href="documentos.html" class="pure-menu-link">Documentos</a></li>
+                        <li class="pure-menu-item"><a href="formularios.html" class="pure-menu-link">Formulários</a></li>
+                        <li class="pure-menu-item"><a href="estatisticas.html" class="pure-menu-link">Estatísticas</a></li>
+                        <li class="pure-menu-item"><a href="lembretes.html" class="pure-menu-link">Lembretes</a></li>
+                    </ul>
+                </div>
+            </div>
+            <header>
+                <div class="header">
+                    <h1>Atendimentos</h1>
+                    <h2>Tudo que você precisa num só lugar</h2>
+                </div>
+            </header>
+            <main> 
+                <div class="pure-g">
+                    <div class="pure-u-1-4">
+                        <img class="pure-img-responsive" src="../images/iconfinder_paper-clip-academic-note-exam_512.png" alt="Em construção">
+                    </div>
+                </div>
+                <div class="content">
+                    <h2 class="content-subhead">Busque o paciente o qual deseja atender</h2>
+                    <p>Preencha uma das informações abaixo e tecle [Enter]:</p>
+                </div>
+                <form>
+                    <div class="container numbers">  
+                        <input type="search" id="cpf" name="cpf" placeholder="digite números e tecle Enter">
+                        <button class="button" type="button">CPF</button>
+                    </div>
+                    <div class="container numbers">  
+                        <input type="search" id="cns" name="cns" placeholder="digite números e tecle Enter">
+                        <button class="button" type="button">CNS</button>
+                    </div>
+                    <div class="container numbers">  
+                        <input type="search" id="registro" name="registro" placeholder="digite números e tecle Enter">
+                        <button class="button" type="button">Reg.</button>
+                    </div>
+                    <div class="container">  
+                    <input type="search" id="nome" name="nome" placeholder="nome completo sem abreviações e tecle Enter">
+                    <button class="button" type="button">Nome</button>
+                    </div>
+                </form>
+            </main>
         </div>
-    </div>
-    <header>
-        <div class="header">
-            <h1>Atendimentos</h1>
-            <h2>Tudo que você precisa num só lugar</h2>
-        </div>
-    </header>
-    <main> 
-        <div class="pure-g">
-            <div class="pure-u-1-4">
-                <img class="pure-img-responsive" src="../images/iconfinder_paper-clip-academic-note-exam_512.png" alt="Em construção">
-            </div>
-        </div>
-        <div class="content">
-            <h2 class="content-subhead">Busque o paciente o qual deseja atender</h2>
-            <p>Preencha uma das informações abaixo e tecle [Enter]:</p>
-        </div>
-        <form>
-            <div class="container numbers">  
-                <input type="search" id="cpf" name="cpf" placeholder="digite números e tecle Enter">
-                <button class="button" type="button">CPF</button>
-            </div>
-            <div class="container numbers">  
-                <input type="search" id="cns" name="cns" placeholder="digite números e tecle Enter">
-                <button class="button" type="button">CNS</button>
-            </div>
-            <div class="container numbers">  
-                <input type="search" id="registro" name="registro" placeholder="digite números e tecle Enter">
-                <button class="button" type="button">Reg.</button>
-            </div>
-            <div class="container">  
-              <input type="search" id="nome" name="nome" placeholder="nome completo sem abreviações e tecle Enter">
-              <button class="button" type="button">Nome</button>
-            </div>
-        </form>
-    </main>
-</div>
-<script type="text/javascript" src="../script/sweetalert2.all.min.js"></script>
-<script type="text/javascript" src="../script/jquery351.js"></script>
-<script type="text/javascript" src="../script/jquery.mask.min.js"></script>
-<script type="text/javascript" src="../script/ui.js"></script>
-<script type="text/javascript" src="../script/valida.js"></script> 
-<script type="text/javascript" src="../script/fetch.js"></script> 
-<script type="text/javascript" src="../script/atendimentos.js"></script> 
+    <script type="text/javascript" src="../script/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="../script/jquery351.js"></script>
+    <script type="text/javascript" src="../script/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="../script/ui.js"></script>
+    <script type="text/javascript" src="../script/valida.js"></script> 
+    <script type="text/javascript" src="../script/fetch.js"></script> 
+    <script type="text/javascript" src="../script/atendimentos.js"></script> 
 
-</body>
+    </body>
 </html>
