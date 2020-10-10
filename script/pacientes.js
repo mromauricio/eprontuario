@@ -356,7 +356,7 @@ async function SearchRegister(){
   tempInfoNome.value = tempInfoNome.value.toUpperCase();
   EnableAll(); 
   ClearDataMinusNome();
-  let data = await GetNome(tempInfoNome.value+'%');
+  let data = await GetNome(tempInfoNome.value);
   if (data.length>0){ 
     cameFromDb = true;
     returnGetNome = data;
