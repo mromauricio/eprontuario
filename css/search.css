@@ -19,7 +19,7 @@ cursor: pointer;
 }
 input:focus { 
 border: 1px solid #ccc;
-border-radius: 25px;
+border-radius: 10px;
 width: 40%;
 z-index: 1;
 transition: width 1s ease-in;
@@ -27,7 +27,7 @@ transition: width 1s ease-in;
 
 .numbers input:focus  { 
   border: 1px solid #ccc;
-  border-radius: 25px;
+  border-radius: 10px;
   width: 20%;
   z-index: 1;
   transition: width 1s ease-in;

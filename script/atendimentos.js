@@ -20,12 +20,8 @@ searchCpf.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
     this.value = ValidaCpf(this.value);
-    if (isEmpty(this.value)) {
-      MsgTop('warning', 'Informe o CPF!');
-    }
-    else if (this.value.length != 14 && this.value.length != 0) {
-        MsgTop('error', 'CPF inválido!');
-    }
+    if (isEmpty(this.value)) MsgTop('warning', 'Informe o CPF!');
+    else if (this.value.length != 14 && this.value.length != 0) MsgTop('error', 'CPF inválido!');
     else {
       let retorno = await GetCpf(this.value);
       if (retorno.length==1) {
@@ -41,12 +37,8 @@ searchCns.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
     this.value = ValidaCns(this.value);
-    if (isEmpty(this.value)) {
-      MsgTop('warning', 'Informe o CNS!');
-    }
-    else if (this.value.length != 18 && this.value.length != 0) {
-        MsgTop('error', 'CNS inválido!');
-    }
+    if (isEmpty(this.value)) MsgTop('warning', 'Informe o CNS!');
+    else if (this.value.length != 18 && this.value.length != 0) MsgTop('error', 'CNS inválido!');
     else {
       let retorno = await GetCns(this.value);
       if (retorno.length==1) {
@@ -62,12 +54,8 @@ searchRegistro.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
     this.value = ValidaRegistro(this.value);
-    if (isEmpty(this.value)) {
-      MsgTop('warning', 'Informe o Registro!');
-    }
-    else if (this.value.length != 9 && this.value.length != 0) {
-        MsgTop('error', 'Registro inválido!');
-    }
+    if (isEmpty(this.value)) MsgTop('warning', 'Informe o Registro!');
+    else if (this.value.length != 9 && this.value.length != 0)  MsgTop('error', 'Registro inválido!');
     else {
       let retorno = await GetRegistro(this.value);
       if (retorno.length==1){
@@ -82,9 +70,7 @@ searchRegistro.addEventListener('keyup', async function(event){
 searchNome.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
-    if (isEmpty(this.value)) {
-      MsgTop('warning', 'Informe o nome!');
-    }
+    if (isEmpty(this.value)) MsgTop('warning', 'Informe o nome!');
     else {
       let retorno = await GetNome(this.value+'%');   // Search every name that begins with the input text
       retornoBd = retorno;
@@ -99,9 +85,7 @@ searchNome.addEventListener('keyup', async function(event){
           ClearSearch();
         }
       }
-      else if (retorno.length == 1) {
-        selecionaPacienteAtendimento(retorno.length - 1);
-      }
+      else if (retorno.length == 1) selecionaPacienteAtendimento(retorno.length - 1);
       else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
       else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
     }  
@@ -110,7 +94,7 @@ searchNome.addEventListener('keyup', async function(event){
 
 async function SelecionaPacienteAtendimento(index){
   Swal.close(); 
-  let retorno = await GetHtml('atendimentos');
+  let retorno = await GetHtmlMain('view-atendimentos.html');
   if (retorno.length>0) { 
     main.innerHTML = retorno;
     ExecutaAtendimento(retornoBd[index]);
@@ -134,7 +118,7 @@ function ExecutaAtendimento(data){
 }
 
 async function RetornaHtmlBusca(){
-  let retorno = await GetHtml('busca');
+  let retorno = await GetHtmlMain('view-search.html');
   if (retorno.length>0) {
     main.innerHTML = retorno;
     return true;
