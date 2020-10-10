@@ -101,7 +101,7 @@ async function GetRegistro(registro) {
 
 async function GetHtmlMain(html) { 
   try {
-    let response = await fetch(`../html/${html}`);
+    let response = await fetch(`../view/${html}`);
     let data = await response.text();
     switch (response.status) {  
       case 200: return data;

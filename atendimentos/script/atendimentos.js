@@ -85,7 +85,7 @@ searchNome.addEventListener('keyup', async function(event){
           ClearSearch();
         }
       }
-      else if (retorno.length == 1) selecionaPacienteAtendimento(retorno.length - 1);
+      else if (retorno.length == 1) SelecionaPacienteAtendimento(retorno.length - 1);
       else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
       else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
     }  
@@ -103,7 +103,7 @@ async function SelecionaPacienteAtendimento(index){
 }
 
 function ExecutaAtendimento(data){
-  const btnVoltar = document.querySelector('#voltar');
+  // const btnVoltar = document.querySelector('#voltar');
   const divPaciente = document.querySelector('.paciente-atendimento');
   const paragrafo = document.createElement('p'); 
   paragrafo.setAttribute('class','paciente-atendimento');
@@ -112,17 +112,17 @@ function ExecutaAtendimento(data){
     paragrafo.textContent = `${data.nome}  -  CPF responsável: ${data.cpfresp}`
   divPaciente.appendChild(paragrafo);
 
-  btnVoltar.addEventListener('click', () => {
-    RetornaHtmlBusca();
-   });
+  // btnVoltar.addEventListener('click', () => {
+  //   RetornaHtmlBusca();
+  //  });
 }
 
-async function RetornaHtmlBusca(){
-  let retorno = await GetHtmlMain('view-search.html');
-  if (retorno.length>0) {
-    main.innerHTML = retorno;
-    return true;
-  }
-  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
-  return false;
-}
+// async function RetornaHtmlBusca(){
+//   let retorno = await GetHtmlMain('view-search.html');
+//   if (retorno.length>0) {
+//     main.innerHTML = retorno;
+//     return true;
+//   }
+//   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
+//   return false;
+// }
