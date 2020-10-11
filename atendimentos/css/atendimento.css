@@ -4,8 +4,12 @@ main{
 }
 
 .paciente-atendimento{
-  font-size: 100%;
+  font-size: 80%;
   color: cyan;
+}
+
+sub{
+  font-size: 60%;
 }
 
 .container {

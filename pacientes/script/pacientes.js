@@ -265,7 +265,7 @@ tempInfoCep.addEventListener('blur', function(){
 
 tempInfoAtivo.addEventListener('click', function(){
   if (this.checked) MsgTop('success', 'Paciente habilitado para atendimento!');
-  else  MsgCenterButtonText('info','Ativo está desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
+  else  MsgCenterButtonText('info','Ativo está desmarcado.',`Não será possível incluir atendimentos.`); 
 });
 /****** END Linsteners ***********/  
 ClearData();
@@ -523,7 +523,7 @@ function ShowDataGetNome(data){
   tempInfoCirurgia.value = data.cirurgia;
   tempInfoTrauma.value = data.trauma;
   (data.ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
-  if (!tempInfoAtivo.checked) MsgCenterButtonText('info','Ativo está desmarcado.',`Paciente não aparecerá na tela: Atendimentos`); 
+  if (!tempInfoAtivo.checked) MsgCenterButtonText('info','Ativo está desmarcado.',`Não será possível incluir atendimentos.`); 
  }
 
 async function GravaLocalInfo(){  
@@ -588,7 +588,7 @@ else {
   jsonPaciente = JSON.stringify(paciente);
 
   if (cameFromDb){
-    let retorno = await PutDataPaciente(idDb, jsonPaciente); // fetch.js
+    let retorno = await PutPaciente(idDb, jsonPaciente); // fetch.js
     switch (retorno){
       case 0:
         MsgCenter('success','Dados atualizados!', false); break;
@@ -601,7 +601,7 @@ else {
       }
     }
   else {  
-    let retorno = await PostDataPaciente(jsonPaciente); // fetch.js
+    let retorno = await PostPaciente(jsonPaciente); // fetch.js
     switch (retorno){
       case 0:
         MsgCenter('success','Dados enviados!', false); break;

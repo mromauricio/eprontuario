@@ -8,7 +8,7 @@ return  status_code
 5       500 Internal Server Error
 */
 
-async function PostDataPaciente (data){
+async function PostPaciente (data){
  let url =  new URL('http://localhost:9001/pacientes');
   try {
     let response = await fetch(url, {
@@ -24,7 +24,7 @@ async function PostDataPaciente (data){
   } catch (error) {console.log(error); return 1;}
 }
 
-async function PutDataPaciente (idSearch, data){
+async function PutPaciente (idSearch, data){
   let url =  new URL('http://localhost:9001/pacientes');
   url.href += (`/id${idSearch}`);
   try {
