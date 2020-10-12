@@ -1,8 +1,9 @@
-let main = document.querySelector('main');
-let searchCpf = document.querySelector('#cpf');
-let searchCns = document.querySelector('#cns');
-let searchRegistro = document.querySelector('#registro');
-let searchNome = document.querySelector('#nome');
+let tagHtml = document.querySelector('main');
+let tagMain = document.querySelector('main');
+let idCpf = document.querySelector('#cpf');
+let idCns = document.querySelector('#cns');
+let idRegistro = document.querySelector('#registro');
+let idNome = document.querySelector('#nome');
 let retornoBd;
 
 const isEmpty = str => !str.trim().length;
@@ -10,13 +11,13 @@ const isEmpty = str => !str.trim().length;
 ClearSearch();
 
 function ClearSearch(){
-  searchCpf.value='';
-  searchCns.value='';
-  searchRegistro.value='';
-  searchNome.value='';
+  idCpf.value='';
+  idCns.value='';
+  idRegistro.value='';
+  idNome.value='';
 }
 
-searchCpf.addEventListener('keyup', async function(event){
+idCpf.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
     this.value = ValidaCpf(this.value);
@@ -33,7 +34,7 @@ searchCpf.addEventListener('keyup', async function(event){
  }
 });
 
-searchCns.addEventListener('keyup', async function(event){
+idCns.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
     this.value = ValidaCns(this.value);
@@ -50,7 +51,7 @@ searchCns.addEventListener('keyup', async function(event){
  }
 });
 
-searchRegistro.addEventListener('keyup', async function(event){
+idRegistro.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
     this.value = ValidaRegistro(this.value);
@@ -67,7 +68,7 @@ searchRegistro.addEventListener('keyup', async function(event){
  }
 });
 
-searchNome.addEventListener('keyup', async function(event){
+idNome.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
     if (isEmpty(this.value)) MsgTop('warning', 'Informe o nome!');
@@ -96,55 +97,64 @@ async function CriaTelaAtendimento(index){
   Swal.close(); 
   let retorno = await GetHtmlMain('view-atendimentos.html');
   if (retorno.length>0) { 
-    main.innerHTML = retorno;
+    tagMain.innerHTML = retorno;
     IniciaAtendimento(retornoBd[index]);
   }  
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
 }
 
-function IniciaAtendimento(data){
-  // const btnVoltar = document.querySelector('#voltar');
+async function IniciaAtendimento(data){
   let idade = CalculaIdade(data.nascimento);
+  let diasLog = CalculaDiferencaDias(data.datalog);
   const divPaciente = document.querySelector('.paciente-atendimento');
   const paragrafo = document.createElement('p'); 
   paragrafo.setAttribute('class','paciente-atendimento');
   paragrafo.textContent = `${data.nome}`; 
-  paragrafo.textContent += ` - idade: ${idade}`
+  paragrafo.textContent += ` - idade: ${idade}`;
+  paragrafo.textContent += ` - última atualização do cadastro tem: ${diasLog} dias`;
   if (!data.ativo) paragrafo.textContent += ` - paciente não habilitado para novos atendimentos`;   
   divPaciente.appendChild(paragrafo);
-  // btnVoltar.addEventListener('click', () => {
-  //   RetornaHtmlBusca();
-  //  });
+  if (diasLog>=0) {
+    let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
+    if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";
+    else if (resultModal.isDenied) AtualizaDataLog(data.id_paciente); 
+  }
 }
 
-// async function RetornaHtmlBusca(){
-//   let retorno = await GetHtmlMain('view-search.html');
-//   if (retorno.length>0) {
-//     main.innerHTML = retorno;
-//     return true;
-//   }
-//   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
-//   return false;
-// }
+async function AtualizaDataLog(id_paciente){
+  // Adicionar modal para confirmar execução
+  let retorno = await PutAtualizaDataPaciente (id_paciente)
+  if (retorno == 0) MsgTop('success', 'Data do cadastro foi atualizada!');
+  if (retorno == 2 || retorno == 3 || retorno == 5) MsgTop('error', 'Falha na atualização da data!');
+}
 
 function CalculaIdade(nascimento){
   if (!nascimento) return 'não informada';
-  let idade = '';
+  let age = '';
   let today = new Date();
   let years = today.getFullYear()-nascimento.substring(0,4);
   let months = today.getMonth()+1-nascimento.substring(5,7);
   let days = today.getDate()-nascimento.substring(8,10);
   if (days<0)  months = months-1; 
   if (years<=0) {
-    if (months == 1) idade = (`${months} mês`) 
-    if (months  > 1) idade = (`${months} meses`)
-    if (months == 0) (days>1) ? idade = (`${days} dias`) : idade = (`${days} dia`)
+    if (months == 1) age = (`${months} mês`) 
+    if (months  > 1) age = (`${months} meses`)
+    if (months == 0) (days == 1) ? age = (`${days} dia`) : age = (`${days} dias`)
   }  
-  else if (months == 0) (years == 1) ? idade = (`${years} ano`) : idade = (`${years} anos`);
-  else if (months == 1) (years == 1) ? idade = (`${years} ano e ${months} mês`) : idade = (`${years} anos e ${months} mês`);
-  else if (months  > 1)  (years == 1) ? idade = (`${years} ano e ${months} meses`)  : idade = (`${years} anos e ${months} meses`);
-  else if (12+months == 1) (years-1 == 1) ? idade = (`${years-1} ano e ${12+months} mês`) : idade = (`${years-1} anos e ${12+months} mês`)
-  else (years-1 == 1) ? idade = (`${years-1} ano e ${12+months} meses`) : idade = (`${years-1} anos e ${12+months} meses`);
-  return idade;
+  else if (months == 0) (years == 1) ? age = (`${years} ano`) : age = (`${years} anos`);
+  else if (months == 1) (years == 1) ? age = (`${years} ano e ${months} mês`) : age = (`${years} anos e ${months} mês`);
+  else if (months  > 1)  (years == 1) ? age = (`${years} ano e ${months} meses`)  : age = (`${years} anos e ${months} meses`);
+  else if (12+months == 1) (years-1 == 1) ? age = (`${years-1} ano e ${12+months} mês`) : age = (`${years-1} anos e ${12+months} mês`)
+  else (years-1 == 1) ? age = (`${years-1} ano e ${12+months} meses`) : age = (`${years-1} anos e ${12+months} meses`);
+  return age;
 }
 
+function CalculaDiferencaDias(datalog){
+  let year = datalog.substring(0,4);
+  let month = datalog.substring(5,7) - 1;
+  let day = datalog.substring(8,10);
+  let dateAux = new Date(year, month, day);
+  let msDatalog = dateAux.getTime();
+  let msHoje = Date.now();
+  return (parseInt((msHoje-msDatalog)/86400000));
+}

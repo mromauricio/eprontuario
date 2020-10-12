@@ -187,7 +187,7 @@ tempInfoCpf.addEventListener('blur', function(){
     if (this.value.length != 0) {
       ValidaExistenciaCpfDB(this.value)  // valida.js
       .then(response => {
-        if (response!=0){MsgCenterButtonText('error','CPF já cadastrado!',`Paciente: ${response[0].nome}`);  }
+        if (response!=0){MsgCenterButtonOkText('error','CPF já cadastrado!',`Paciente: ${response[0].nome}`);  }
       });
     }
   }
@@ -204,7 +204,7 @@ tempInfoCns.addEventListener('blur', function(){
     if (this.value.length != 0) {
       ValidaExistenciaCnsDB(this.value) // valida.js
       .then(response => {
-        if (response!=0){MsgCenterButtonText('error','CNS já cadastrado:',`Paciente: ${response[0].nome}`);  }
+        if (response!=0){MsgCenterButtonOkText('error','CNS já cadastrado:',`Paciente: ${response[0].nome}`);  }
       });
     }
   }
@@ -221,7 +221,7 @@ tempInfoRegistro.addEventListener('blur', function(){
     if (this.value.length != 0) {
       ValidaExistenciaRegistroDB(this.value)    // valida.js
       .then(response => {
-        if (response!=0) MsgCenterButtonText('error','Registro já cadastrado:',`Paciente: ${response[0].nome}`);  
+        if (response!=0) MsgCenterButtonOkText('error','Registro já cadastrado:',`Paciente: ${response[0].nome}`);  
       });
     }
   }
@@ -265,7 +265,7 @@ tempInfoCep.addEventListener('blur', function(){
 
 tempInfoAtivo.addEventListener('click', function(){
   if (this.checked) MsgTop('success', 'Paciente habilitado para atendimento!');
-  else  MsgCenterButtonText('info','Ativo está desmarcado.',`Não será possível incluir atendimentos.`); 
+  else  MsgCenterButtonOkText('info','Ativo está desmarcado.',`Não será possível incluir atendimentos.`); 
 });
 /****** END Linsteners ***********/  
 ClearData();
@@ -523,7 +523,7 @@ function ShowDataGetNome(data){
   tempInfoCirurgia.value = data.cirurgia;
   tempInfoTrauma.value = data.trauma;
   (data.ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
-  if (!tempInfoAtivo.checked) MsgCenterButtonText('info','Ativo está desmarcado.',`Não será possível incluir atendimentos.`); 
+  if (!tempInfoAtivo.checked) MsgCenterButtonOkText('info','Ativo está desmarcado.',`Não será possível incluir atendimentos.`); 
  }
 
 async function GravaLocalInfo(){  
@@ -568,7 +568,7 @@ else alertCep = '';
 
 if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
   { 
-  MsgCenterButtonText('warning','Dados inconsistentes!',`Corrija: \n${alertNome} \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
+  MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: \n${alertNome} \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
   if (alertResponsavel!='') tempInfoResponsavel.focus();
   else if (alertCpfresp!='') tempInfoCpfresp.focus();
   else if (alertCpf!='')   tempInfoCpf.focus(); 
@@ -593,11 +593,11 @@ else {
       case 0:
         MsgCenter('success','Dados atualizados!', false); break;
       case 2:
-        MsgCenterButtonText('error','ID não localizado.', 'Preencha novamente o nome.'); break;    
+        MsgCenterButtonOkText('error','ID não localizado.', 'Preencha novamente o nome.'); break;    
       case 3:
-        MsgCenterButtonText('error','CPF do responsável!', 'Não pode ser igual ao do paciente.'); break;   
+        MsgCenterButtonOkText('error','CPF do responsável!', 'Não pode ser igual ao do paciente.'); break;   
       case 5:
-      MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI.'); break;  
+      MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI.'); break;  
       }
     }
   else {  
@@ -606,9 +606,9 @@ else {
       case 0:
         MsgCenter('success','Dados enviados!', false); break;
       case 3:
-        MsgCenterButtonText('error','CPF do responsável não pode ser igual ao do paciente', 'Corrija'); break;    
+        MsgCenterButtonOkText('error','CPF do responsável não pode ser igual ao do paciente', 'Corrija'); break;    
       case 5:
-        MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
+        MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
     }
   }
   ClearData();

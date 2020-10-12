@@ -66,14 +66,32 @@ function MsgCenterText(type, title, message){
   })
 }
 
-function MsgCenterButtonText(type, title, message){
+function MsgCenterButtonOkText(type, title, message){
   Swal.fire({
     position: 'center',
     icon: type,
     title: title,
     text: message,
-    showConfirmButton: true,
+    showConfirmButton: true
   })
+}
+
+async function MsgCenterButtonsText(type, title, message){
+  let result = await Swal.fire({
+    position: 'center',
+    icon: type,
+    title: title,
+    text: message,
+    showDenyButton: true,
+    denyButtonText: 'Nada mudou',
+    denyButtonColor: '#3085d6',
+    confirmButtonText: 'Ir para cadastro',
+    showConfirmButton: true,
+    showCancelButton: true,
+    cancelButtonText: 'Farei depois',
+    focusCancel: true
+  })
+  return result
 }
 
 async function MsgHomonio(htmlData){
@@ -82,16 +100,17 @@ async function MsgHomonio(htmlData){
     title: 'Escolha opção desejada:',
     icon: 'info',
     html: htmlData,
-    showCloseButton: true,
+    // showCloseButton: true,
     showCancelButton: true,
     focusConfirm: false,
-    confirmButtonColor: '#87CEFA',
+    // confirmButtonColor: '#87CEFA',
     confirmButtonText: 'Incluir homônino',
-    cancelButtonColor: '#87CEFA',
+    // cancelButtonColor: '#87CEFA',
     cancelButtonText: 'Voltar'
   })
   return result
 }
+
 async function MsgSearch(htmlData){
   let result = await Swal.fire({
     width: 800,
@@ -99,9 +118,9 @@ async function MsgSearch(htmlData){
     icon: 'info',
     html: htmlData,
     showConfirmButton: false,
-    showCloseButton: true,
+    // showCloseButton: true,
     showCancelButton: true,
-    cancelButtonColor: '#87CEFA',
+    // cancelButtonColor: '#87CEFA',
     focusConfirm: false,
     cancelButtonText: 'Voltar'
   })

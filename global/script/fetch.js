@@ -42,6 +42,25 @@ async function PutPaciente (idSearch, data){
   } catch (error) {console.log(error); return 1;}
 }
 
+async function PutAtualizaDataPaciente (id_paciente){
+  let data ={"id_paciente":`${id_paciente}`};
+  data = JSON.stringify(data);
+  let url =  new URL('http://localhost:9001/pacientes');
+  try {
+    let response = await fetch(url, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json;charset=utf-8'},
+      body: data
+    })
+    switch (response.status){
+      case 200: return 0;
+      case 404: return 2;
+      case 406: return 3;  
+      case 500: return 5;  
+      }
+  } catch (error) {console.log(error); return 1;}
+}
+
 async function GetNome(nome){  
   let url =  new URL('http://localhost:9001/pacientes/nome');
   url.href += (`/?nome=${nome}`);
