@@ -1,11 +1,26 @@
 
+#layout{
+  width: 100%;
+  margin-block-start: -110px;
+}
+
+.header-relative{
+  position: relative; 
+  margin-top: 0px;
+}
+
 main{
   margin-inline-start: 50px;
   margin-inline-end: 20px;
-  margin-block-start: 100px;
+  margin-block-start: 0px;
+}
+
+.busca-paciente {
+  margin-block-start: -35px;
 }
 
 .busca-paciente a{
+  margin-block-start: -35px;
   font-size: 80%;
   text-decoration: none;
   color:#777;
@@ -15,8 +30,8 @@ main{
   color: cyan;
 }
 
-sub{
-  font-size: 60%;
+.content-subhead {
+  margin: 0px;
 }
 
 .container {

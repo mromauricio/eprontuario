@@ -13,7 +13,8 @@
 }
 
 .header-relative{
-  position: relative;
+  position: relative; 
+  margin-top: -20px;
 }
 
 /* All above created by MRO */

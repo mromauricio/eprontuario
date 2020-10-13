@@ -1,22 +1,42 @@
+
+
 body{
   /* 
   font-family: 'Nunito', sans-serif;
   padding: 50px;  
   */
   /* color: #777;  */
+  font-family: Verdana, Arial, Helvetica, sans-serif;
   background-color: #333;
-  position: relative;
-
+  position: fixed;
 }
+
+#layout{
+  width: 100%;
+  margin-block-start: 20px;
+  transition: none;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
 .card{
   font-size: 70%;  /*  MRO */
   border-radius: 4px;
   background: #333; /* #fff */
   box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-  transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
   padding: 5px 10px 5px 10px;
+  transition: none;
+  /* transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12); */
   /* cursor: pointer; */
 }
+
+.card-1 p,  .card-3 p {
+  line-height: 0;
+  font-family: 'Courier New', Courier, monospace;
+}
+
 
 /* .card:hover{
      transform: scale(1.05);
@@ -27,6 +47,10 @@ body{
   font-weight: 50;
 }
 
+.card-2, .card-2 h6{
+  color: cyan;
+  text-align: center;
+}
 /* .card img{
   position: absolute;
   top: 20px;

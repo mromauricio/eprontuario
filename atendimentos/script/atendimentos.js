@@ -106,25 +106,54 @@ async function CriaTelaAtendimento(index){
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
 }
 
-async function IniciaAtendimento(data){
-  let idade = CalculaIdade(data.nascimento);
-  let diasLog = CalculaDiferencaDias(data.datalog);
-  const headCard = document.querySelector('.card-title'); 
-  headCard.textContent = `${data.nome}`; 
-  const pCard = document.querySelector('.card-text');
+function IniciaAtendimento(data){
+  PreencheCard1(data.cpfresp, data.cpf, data.cns, data.registro);
+  PreencheCard2(data.nascimento,data.datalog,data.nome,data.ativo,data.id_paciente);
+  PreencheCard3(data.cel,data.whatsapp,data.tel);
+}
+
+function PreencheCard1(cpfresp,cpf,cns,registro){
+  const headCard = document.querySelector('.card-1');
+  const pCard1 = document.createElement('p');
+  (cpf) ? pCard1.textContent = `CPF: ${cpf}`: pCard1.textContent = `CPF resp.: ${cpfresp}`
+  headCard.appendChild(pCard1);
+  const pCard2 = document.createElement('p');
+  (cns) ? pCard2.textContent = `CNS: ${cns}` : pCard2.textContent = `CNS:`
+  headCard.appendChild(pCard2);
+  const pCard3 = document.createElement('p');
+  (registro) ? pCard3.textContent = `Registro: ${registro}` : pCard3.textContent = `Registro:`
+  headCard.appendChild(pCard3);
+}
+
+
+async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
+  let idade = CalculaIdade(nascimento);
+  let diasLog = CalculaDiferencaDias(datalog);
+  const headCard = document.querySelector('.card-2 h6'); 
+  headCard.textContent = `${nome}`; 
+  const pCard = document.querySelector('.card-2 p');
   pCard.textContent = `${idade}`;
-  if (diasLog) pCard.textContent += ` - última atualização do cadastro tem: ${diasLog} dias`;
-  if (!data.ativo) pCard.textContent += ` - paciente não habilitado para novos atendimentos`;   
+  if (diasLog) pCard.textContent += ` - atualização do cadastro tem: ${diasLog} dias`;
+  if (!ativo) pCard.textContent += ` - paciente não habilitado para novos atendimentos`;   
   if (diasLog>=180) {
     let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
     if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";
     else if (resultModal.isDenied) { 
-      AtualizaDataLog(data.id_paciente);
+      AtualizaDataLog(id_paciente);
       pCard.textContent = `${idade}`;
     }
   }
-  const h5card = document.querySelector('.card-title');
-  h5card.textContent = `${data.nome}`; 
+}
+
+function PreencheCard3(cel,whatsapp,tel){
+  const headCard = document.querySelector('.card-3');
+  const pCard1 = document.createElement('p');
+  pCard1.textContent = `Celular: ${cel}`;
+  if (cel) (whatsapp) ? pCard1.textContent += ' usa Whatsapp' : pCard1.textContent += ' SEM Whatsapp'
+  headCard.appendChild(pCard1);
+  const pCard2 = document.createElement('p');
+  pCard2.textContent = `Telefone: ${tel}`
+  headCard.appendChild(pCard2);
 }
 
 async function AtualizaDataLog(id_paciente,index){
@@ -135,7 +164,7 @@ async function AtualizaDataLog(id_paciente,index){
 }
 
 function CalculaIdade(nascimento){
-  if (!nascimento) return 'não informada';
+  if (!nascimento) return 'não informado idade';
   let age = '';
   let today = new Date();
   let years = today.getFullYear()-nascimento.substring(0,4);
