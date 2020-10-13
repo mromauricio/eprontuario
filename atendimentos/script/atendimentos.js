@@ -1,3 +1,6 @@
+
+
+
 let tagHtml = document.querySelector('main');
 let tagMain = document.querySelector('main');
 let idCpf = document.querySelector('#cpf');
@@ -106,22 +109,25 @@ async function CriaTelaAtendimento(index){
 async function IniciaAtendimento(data){
   let idade = CalculaIdade(data.nascimento);
   let diasLog = CalculaDiferencaDias(data.datalog);
-  const divPaciente = document.querySelector('.paciente-atendimento');
-  const paragrafo = document.createElement('p'); 
-  paragrafo.setAttribute('class','paciente-atendimento');
-  paragrafo.textContent = `${data.nome}`; 
-  paragrafo.textContent += ` - idade: ${idade}`;
-  paragrafo.textContent += ` - última atualização do cadastro tem: ${diasLog} dias`;
-  if (!data.ativo) paragrafo.textContent += ` - paciente não habilitado para novos atendimentos`;   
-  divPaciente.appendChild(paragrafo);
-  if (diasLog>=0) {
+  const headCard = document.querySelector('.card-title'); 
+  headCard.textContent = `${data.nome}`; 
+  const pCard = document.querySelector('.card-text');
+  pCard.textContent = `${idade}`;
+  if (diasLog) pCard.textContent += ` - última atualização do cadastro tem: ${diasLog} dias`;
+  if (!data.ativo) pCard.textContent += ` - paciente não habilitado para novos atendimentos`;   
+  if (diasLog>=180) {
     let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
     if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";
-    else if (resultModal.isDenied) AtualizaDataLog(data.id_paciente); 
+    else if (resultModal.isDenied) { 
+      AtualizaDataLog(data.id_paciente);
+      pCard.textContent = `${idade}`;
+    }
   }
+  const h5card = document.querySelector('.card-title');
+  h5card.textContent = `${data.nome}`; 
 }
 
-async function AtualizaDataLog(id_paciente){
+async function AtualizaDataLog(id_paciente,index){
   // Adicionar modal para confirmar execução
   let retorno = await PutAtualizaDataPaciente (id_paciente)
   if (retorno == 0) MsgTop('success', 'Data do cadastro foi atualizada!');
@@ -158,3 +164,4 @@ function CalculaDiferencaDias(datalog){
   let msHoje = Date.now();
   return (parseInt((msHoje-msDatalog)/86400000));
 }
+

@@ -1,10 +1,17 @@
 
 main{
-  margin-inline-start: 30px;
+  margin-inline-start: 50px;
+  margin-inline-end: 20px;
+  margin-block-start: 100px;
 }
 
-.paciente-atendimento{
+.busca-paciente a{
   font-size: 80%;
+  text-decoration: none;
+  color:#777;
+}
+
+.busca-paciente a:hover{
   color: cyan;
 }
 
