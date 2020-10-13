@@ -10,8 +10,8 @@ $('#form').w2form({
   tabs: [
       { id: 'tab1', caption: 'Dados'  },
    //   { id: 'tab2', caption: 'Contato'},
-      { id: 'tab2', caption: 'Histórico clínico' },
-      { id: 'tab3', caption: 'Anexos' }
+      // { id: 'tab2', caption: 'Histórico clínico' },
+      { id: 'tab2', caption: 'Anexos' }
   ],
   fields : [
       { field: 'nome', type: 'text',  html: { caption: 'Nome', page: 0, column: 0, group:'Paciente', attr: 'placeholder="nome completo sem abreviações + tecla Enter"'} },
@@ -22,7 +22,7 @@ $('#form').w2form({
       { field: 'cpf',  type: 'text', html: { caption: 'CPF', page: 0, column: 1, group:'Documentos' } },
       { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 1 } },
       { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 1 } },
-      { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 1 /*, group:'Responsável - preencher para paciente menor de idade' */ } },
+      { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 1 } },
       { field: 'cpfresp',  type: 'text', html: { caption: 'CPF Resp.', page: 0, column: 1} },
       { field: 'email',  type: 'email', html: { caption: 'E-mail', page: 0, column: 0, group: 'Comunicação'} },
       { field: 'cel',  type: 'text', html: { caption: 'Celular', page: 0, column: 0 } },
@@ -33,12 +33,15 @@ $('#form').w2form({
       { field: 'cep', type: 'text', html: { caption: 'CEP', page: 0, column: 1 } },
       { field: 'uf', type: 'text', html: { caption: 'UF', page: 0, column: 1 } },
       { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 0, column: 1 } },
+
+      { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 0, column: 0, group: 'Histórico clínico', attr: 'placeholder="Acontecimentos relevantes em ordem cronológica"' } },
+      { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 0, column: 0, attr: 'placeholder="Toda cirurgia pode ser relevante"' } },
+      { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 0, column: 1, attr: 'placeholder="Medicamentos de uso regular"' } },
+      { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 0, column: 1, attr: 'placeholder="Trauma por mais simples que seja pode influenciar"'} },
+
       { field: 'ativo',  type: 'checkbox', html: { caption: 'Ativo', page: 0, column: 0, group: 'Habilitado para atendimento'} },
 
-      { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 1, column: 0, attr: 'placeholder="Acontecimentos relevantes em ordem cronológica."' } },
-      { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 1, column: 1, attr: 'placeholder="Caso algum medicamento deixe de ser utilizado, mantenha-o aqui com a informação - data desuso"' } },
-      { field: 'cirurgia', type: 'textarea', html: { caption: 'Cirurgias', page: 1, column: 0, attr: '' } },
-      { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 1, column: 1, attr: '' } },
+      
       
       { field: 'pdf', type: 'checkbox', html: { caption: 'Anexar PDF', page: 2 } },
       { field: 'imagem', type: 'checkbox', html: { caption: 'Anexar JPG/PNG', page: 2 } },

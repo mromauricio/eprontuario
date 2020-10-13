@@ -4,6 +4,7 @@
 let tagHtml = document.querySelector('main');
 let tagMain = document.querySelector('main');
 let idCpf = document.querySelector('#cpf');
+let idCpfResp = document.querySelector('#cpfresp');
 let idCns = document.querySelector('#cns');
 let idRegistro = document.querySelector('#registro');
 let idNome = document.querySelector('#nome');
@@ -15,6 +16,7 @@ ClearSearch();
 
 function ClearSearch(){
   idCpf.value='';
+  idCpfResp.value='';
   idCns.value='';
   idRegistro.value='';
   idNome.value='';
@@ -71,6 +73,33 @@ idRegistro.addEventListener('keyup', async function(event){
  }
 });
 
+idCpfResp.addEventListener('keyup', async function(event){
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    this.value = ValidaCpf(this.value);
+    if (isEmpty(this.value)) MsgTop('warning', 'Informe o CPF!');
+    else if (this.value.length != 14 && this.value.length != 0) MsgTop('error', 'CPF inválido!');
+    else {
+      let retorno = await GetCpfResp(this.value);
+      retornoBd = retorno;
+      if (retorno.length > 1) {
+        let modalData='';
+        retorno.forEach( (item, index, arr) => { 
+          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimento(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
+          else modalData += (`<a href='javascript:CriaTelaAtendimento(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
+        });
+        let resultModal = await MsgSearch(modalData);
+        if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
+          ClearSearch();
+        }
+      }  
+      else if (retorno.length == 1) CriaTelaAtendimento(retorno.length - 1);
+      else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
+      else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
+    }  
+ }
+});
+
 idNome.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();
@@ -107,24 +136,36 @@ async function CriaTelaAtendimento(index){
 }
 
 function IniciaAtendimento(data){
-  PreencheCard1(data.cpfresp, data.cpf, data.cns, data.registro);
+  PreencheCard1(data.cpfresp, data.responsavel, data.cpf, data.cns, data.registro);
   PreencheCard2(data.nascimento,data.datalog,data.nome,data.ativo,data.id_paciente);
-  PreencheCard3(data.cel,data.whatsapp,data.tel);
+  PreencheCard3(data.cel,data.whatsapp,data.tel,data.email);
+  PreencheCard4(data.historico);
+  PreencheCard5(data.cirurgia);
+  PreencheCard6(data.trauma);
+  PreencheCard7(data.medicamento);
 }
 
-function PreencheCard1(cpfresp,cpf,cns,registro){
+function PreencheCard1(cpfresp,responsavel,cpf,cns,registro){
   const headCard = document.querySelector('.card-1');
   const pCard1 = document.createElement('p');
-  (cpf) ? pCard1.textContent = `CPF: ${cpf}`: pCard1.textContent = `CPF resp.: ${cpfresp}`
+  (cpf) ? pCard1.textContent = `CPF.....: `: pCard1.textContent = `CPF resp: `
   headCard.appendChild(pCard1);
+  sCard1 = document.createElement('span');
+  (cpf) ? sCard1.textContent = cpf : sCard1.textContent = `${cpfresp} ${responsavel}`
+  pCard1.appendChild(sCard1)
   const pCard2 = document.createElement('p');
-  (cns) ? pCard2.textContent = `CNS: ${cns}` : pCard2.textContent = `CNS:`
+  pCard2.textContent = `CNS.....: `
   headCard.appendChild(pCard2);
+  sCard2 = document.createElement('span');
+  if (cns) sCard2.textContent = cns;
+  pCard2.appendChild(sCard2)
   const pCard3 = document.createElement('p');
-  (registro) ? pCard3.textContent = `Registro: ${registro}` : pCard3.textContent = `Registro:`
+  pCard3.textContent = `Registro: `;
   headCard.appendChild(pCard3);
+  sCard3 = document.createElement('span');
+  if (registro) sCard3.textContent = registro;
+  pCard3.appendChild(sCard3)
 }
-
 
 async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
   let idade = CalculaIdade(nascimento);
@@ -145,15 +186,63 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
   }
 }
 
-function PreencheCard3(cel,whatsapp,tel){
+function PreencheCard3(cel,whatsapp,tel,email){
   const headCard = document.querySelector('.card-3');
   const pCard1 = document.createElement('p');
-  pCard1.textContent = `Celular: ${cel}`;
-  if (cel) (whatsapp) ? pCard1.textContent += ' usa Whatsapp' : pCard1.textContent += ' SEM Whatsapp'
+  pCard1.textContent = `Celular : `;
   headCard.appendChild(pCard1);
+  sCard1 = document.createElement('span');
+  sCard1.textContent = cel;
+  if (cel) (whatsapp) ? sCard1.textContent += ' usa Whatsapp' : sCard1.textContent += ' SEM Whatsapp'
+  pCard1.appendChild(sCard1)
   const pCard2 = document.createElement('p');
-  pCard2.textContent = `Telefone: ${tel}`
+  pCard2.textContent = `Telefone: `
   headCard.appendChild(pCard2);
+  sCard2 = document.createElement('span');
+  sCard2.textContent = tel;
+  pCard2.appendChild(sCard2)
+  const pCard3 = document.createElement('p');
+  pCard3.textContent = `E-mail..: `
+  headCard.appendChild(pCard3);
+  sCard3 = document.createElement('span');
+  sCard3.textContent = email;
+  pCard3.appendChild(sCard3)
+}
+
+function PreencheCard4(historico){
+  const headCard = document.querySelector('.card-4');
+  const pCard1 = document.createElement('p');
+  headCard.appendChild(pCard1);
+  sCard1 = document.createElement('span');
+  sCard1.textContent = historico;
+  pCard1.appendChild(sCard1)
+}
+
+function PreencheCard5(cirurgia){
+  const headCard = document.querySelector('.card-5');
+  const pCard1 = document.createElement('p');
+  headCard.appendChild(pCard1);
+  sCard1 = document.createElement('span');
+  sCard1.textContent = cirurgia;
+  pCard1.appendChild(sCard1)
+}
+
+function PreencheCard6(trauma){
+  const headCard = document.querySelector('.card-6');
+  const pCard1 = document.createElement('p');
+  headCard.appendChild(pCard1);
+  sCard1 = document.createElement('span');
+  sCard1.textContent = trauma;
+  pCard1.appendChild(sCard1)
+}
+
+function PreencheCard7(medicamento){
+  const headCard = document.querySelector('.card-7');
+  const pCard1 = document.createElement('p');
+  headCard.appendChild(pCard1);
+  sCard1 = document.createElement('span');
+  sCard1.textContent = medicamento;
+  pCard1.appendChild(sCard1)
 }
 
 async function AtualizaDataLog(id_paciente,index){

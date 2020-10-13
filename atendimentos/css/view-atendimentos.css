@@ -32,9 +32,22 @@ h2 {
   /* cursor: pointer; */
 }
 
-.card-1 p,  .card-3 p {
-  line-height: 0;
+.card-1 p, .card-1 span, .card-3 p, .card-3 span, .card-4 p,  .card-4 span
+, .card-5 p,  .card-5 span, .card-6 p,  .card-6 span, .card-7 p,  .card-7 span{
   font-family: 'Courier New', Courier, monospace;
+  margin-top: 5px;
+  line-height: 0;
+}
+
+.card-4 p,  .card-4 span, .card-5 p,  .card-5 span, 
+.card-6 p,  .card-6 span, .card-7 p,  .card-7 span{
+  margin-top: 5px;
+  line-height: 1.5;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+span{
+  color: cyan;
 }
 
 

@@ -90,6 +90,20 @@ async function GetCpf(cpf) {
     } catch (error) {console.log(error);};
 }
 
+async function GetCpfResp(cpfresp) { 
+  let url =  new URL('http://localhost:9001/pacientes/cpfresp');
+  url.href += (`/?cpf=${cpfresp}`);
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      case 500: return 5;
+      }
+    } catch (error) {console.log(error);};
+}
+
 async function GetCns(cns) { 
   let url =  new URL('http://localhost:9001/pacientes/cns');
   url.href += (`/?cns=${cns}`);
