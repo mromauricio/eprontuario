@@ -8,13 +8,18 @@ body{
   /* color: #777;  */
   font-family: Verdana, Arial, Helvetica, sans-serif;
   background-color: #333;
-  position: fixed;
+  position: relative;
 }
 
 #layout{
   width: 100%;
   margin-block-start: 20px;
   transition: none;
+}
+
+.header-relative{
+  position: relative; 
+  margin-top: -110px;
 }
 
 h2 {
@@ -28,12 +33,11 @@ h2 {
   box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
   padding: 5px 10px 5px 10px;
   transition: none;
-  /* transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12); */
+  transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
   /* cursor: pointer; */
 }
 
-.card-1 p, .card-1 span, .card-3 p, .card-3 span, .card-4 p,  .card-4 span
-, .card-5 p,  .card-5 span, .card-6 p,  .card-6 span, .card-7 p,  .card-7 span{
+.card-1 p, .card-1 span, .card-3 p, .card-3 span {
   font-family: 'Courier New', Courier, monospace;
   margin-top: 5px;
   line-height: 0;
@@ -50,11 +54,20 @@ span{
   color: cyan;
 }
 
+.col-lg-12{
+  width: 1235px; 
+  flex: max-width;
+}
 
-/* .card:hover{
+.card-4 h6{
+  text-align: center;
+}
+
+
+.card:hover{
      transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-} */
+}
 
 .card h6{
   font-weight: 50;

@@ -588,10 +588,8 @@ else {
     tempInfoUf.value, tempInfoCidade.value, tempInfoHistorico.value,
     tempInfoMedicamento.value, tempInfoCirurgia.value, tempInfoTrauma.value,
     tempInfoAtivo.checked);
-  jsonPaciente = JSON.stringify(paciente);
-
   if (cameFromDb){
-    let retorno = await PutPaciente(idDb, jsonPaciente); // fetch.js
+    let retorno = await PutPaciente(idDb, JSON.stringify(paciente)); // fetch.js
     switch (retorno){
       case 0:
         MsgCenter('success','Dados atualizados!', false); break;
@@ -604,7 +602,7 @@ else {
       }
     }
   else {  
-    let retorno = await PostPaciente(jsonPaciente); // fetch.js
+    let retorno = await PostPaciente(JSON.stringify(paciente)); // fetch.js
     switch (retorno){
       case 0:
         MsgCenter('success','Dados enviados!', false); break;

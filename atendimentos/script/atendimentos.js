@@ -1,6 +1,3 @@
-
-
-
 let tagHtml = document.querySelector('main');
 let tagMain = document.querySelector('main');
 let idCpf = document.querySelector('#cpf');
@@ -245,9 +242,8 @@ function PreencheCard7(medicamento){
   pCard1.appendChild(sCard1)
 }
 
-async function AtualizaDataLog(id_paciente,index){
-  // Adicionar modal para confirmar execução
-  let retorno = await PutAtualizaDataPaciente (id_paciente)
+async function AtualizaDataLog(id_paciente){
+  let retorno = await PutAtualizaDataPaciente (JSON.stringify({"id_paciente":`${id_paciente}`}));
   if (retorno == 0) MsgTop('success', 'Data do cadastro foi atualizada!');
   if (retorno == 2 || retorno == 3 || retorno == 5) MsgTop('error', 'Falha na atualização da data!');
 }

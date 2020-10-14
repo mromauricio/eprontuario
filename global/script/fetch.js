@@ -42,9 +42,8 @@ async function PutPaciente (idSearch, data){
   } catch (error) {console.log(error); return 1;}
 }
 
-async function PutAtualizaDataPaciente (id_paciente){
-  let data ={"id_paciente":`${id_paciente}`};
-  data = JSON.stringify(data);
+async function PutAtualizaDataPaciente (data){
+ 
   let url =  new URL('http://localhost:9001/pacientes');
   try {
     let response = await fetch(url, {
