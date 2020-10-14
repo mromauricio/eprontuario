@@ -3,7 +3,7 @@
 //
 //////////////////////////
 
-$('#form').w2form({ 
+$('#form-pacientes').w2form({ 
   name   : 'form',
   header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
   url    : 'http://localhost:3000/pacientes',
@@ -64,6 +64,7 @@ $('#form').w2form({
 let cameFromDb = false;
 let idDb = 0;
 let returnGetNome;
+let headerForm = document.querySelector('.w2ui-form-header')
 let tempInfoNome = document.querySelector('#nome');
 let tempInfoResponsavel = document.querySelector('#responsavel');
 let tempInfoCpfresp = document.querySelector('#cpfresp');
@@ -328,6 +329,7 @@ function DisableAll(){
 }
 
 function ClearData(){
+  headerForm.textContent = '';
   tempInfoNome.value = '';
   tempInfoNome.removeAttribute('style'); 
   tempInfoMenor.checked=false;
@@ -357,6 +359,7 @@ function ClearData(){
 
 async function SearchRegister(){
   tempInfoNome.value = tempInfoNome.value.toUpperCase();
+  headerForm.textContent = tempInfoNome.value;
   EnableAll(); 
   ClearDataMinusNome();
   let data = await GetNome(tempInfoNome.value);
@@ -474,6 +477,7 @@ function ClearDataMinusNome(){
 
 function ShowDataGetNome(data){
   tempInfoNome.value = data.nome;
+  headerForm.textContent = `${tempInfoNome.value} - última atualização do cadastro faz ${CalculaDiferencaDias(data.datalog)} dias`;
   if (data.menor) {
     tempInfoMenor.checked=true;
     tempInfoResponsavel.removeAttribute('disabled');

@@ -891,7 +891,7 @@ button.w2ui-btn-small:focus:before {
 /*************************************************
 * ---- Forms ----
 */
-#form{
+#form-pacientes{
   margin-inline-start: 30px 
 }
 
@@ -916,9 +916,9 @@ button.w2ui-btn-small:focus:before {
   /*border-bottom: 1px solid #99bbe8 !important; MRO */
   overflow: hidden;
  /* color: #444444;  MRO */
-  color: #888;   /* MRO */
+  color: cyan;   /* MRO #888 */
   font-size: 13px;
-  text-align: left;  /* MRO */
+  text-align: center;  /* MRO */
   padding: 8px;
   /*  MRO
   background-image: -webkit-linear-gradient(#dae6f3, #c2d5ed);

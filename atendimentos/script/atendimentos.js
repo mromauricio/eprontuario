@@ -1,10 +1,11 @@
+
 let tagHtml = document.querySelector('main');
 let tagMain = document.querySelector('main');
-let idCpf = document.querySelector('#cpf');
-let idCpfResp = document.querySelector('#cpfresp');
-let idCns = document.querySelector('#cns');
-let idRegistro = document.querySelector('#registro');
-let idNome = document.querySelector('#nome');
+let idCpf = document.querySelector('#cpf-busca');
+let idCpfResp = document.querySelector('#cpfresp-busca');
+let idCns = document.querySelector('#cns-busca');
+let idRegistro = document.querySelector('#registro-busca');
+let idNome = document.querySelector('#nome-busca');
 let retornoBd;
 
 const isEmpty = str => !str.trim().length;
@@ -144,102 +145,108 @@ function IniciaAtendimento(data){
 
 function PreencheCard1(cpfresp,responsavel,cpf,cns,registro){
   const headCard = document.querySelector('.card-1');
-  const pCard1 = document.createElement('p');
-  (cpf) ? pCard1.textContent = `CPF.....: `: pCard1.textContent = `CPF resp: `
-  headCard.appendChild(pCard1);
-  sCard1 = document.createElement('span');
-  (cpf) ? sCard1.textContent = cpf : sCard1.textContent = `${cpfresp} ${responsavel}`
-  pCard1.appendChild(sCard1)
-  const pCard2 = document.createElement('p');
-  pCard2.textContent = `CNS.....: `
-  headCard.appendChild(pCard2);
-  sCard2 = document.createElement('span');
-  if (cns) sCard2.textContent = cns;
-  pCard2.appendChild(sCard2)
-  const pCard3 = document.createElement('p');
-  pCard3.textContent = `Registro: `;
-  headCard.appendChild(pCard3);
-  sCard3 = document.createElement('span');
-  if (registro) sCard3.textContent = registro;
-  pCard3.appendChild(sCard3)
+  const p1Card = document.createElement('p');
+  (cpf) ? p1Card.textContent = `CPF.....: `: p1Card.textContent = `CPF resp: `
+  headCard.appendChild(p1Card);
+  s1Card = document.createElement('span');
+  (cpf) ? s1Card.textContent = cpf : s1Card.textContent = `${cpfresp} ${responsavel}`
+  p1Card.appendChild(s1Card)
+  const p2Card = document.createElement('p');
+  p2Card.textContent = `CNS.....: `
+  headCard.appendChild(p2Card);
+  s2Card = document.createElement('span');
+  if (cns) s2Card.textContent = cns;
+  p2Card.appendChild(s2Card)
+  const p3Card = document.createElement('p');
+  p3Card.textContent = `Registro: `;
+  headCard.appendChild(p3Card);
+  s3Card = document.createElement('span');
+  if (registro) s3Card.textContent = registro;
+  p3Card.appendChild(s3Card)
 }
 
 async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
-  let idade = CalculaIdade(nascimento);
-  let diasLog = CalculaDiferencaDias(datalog);
   const headCard = document.querySelector('.card-2 h6'); 
-  headCard.textContent = `${nome}`; 
+  headCard.textContent = nome; 
   const pCard = document.querySelector('.card-2 p');
-  pCard.textContent = `${idade}`;
-  if (diasLog) pCard.textContent += ` - atualização do cadastro tem: ${diasLog} dias`;
-  if (!ativo) pCard.textContent += ` - paciente não habilitado para novos atendimentos`;   
-  if (diasLog>=180) {
-    let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
-    if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";
-    else if (resultModal.isDenied) { 
-      AtualizaDataLog(id_paciente);
-      pCard.textContent = `${idade}`;
+  if (!ativo) {
+    sCard = document.createElement('span');
+    sCard.textContent = `Paciente não habilitado para novos atendimentos`;  
+    pCard.appendChild(sCard)
+  }
+  else {  
+    let idade = CalculaIdade(nascimento);          // global/script/calcula.js
+    let diasLog = CalculaDiferencaDias(datalog);  // global/script/calcula.js
+    pCard.textContent = idade;
+    if (diasLog) pCard.textContent += ` - atualização do cadastro tem: ${diasLog} dias`;
+    if (diasLog>=180) {
+      let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
+      if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";
+      else if (resultModal.isDenied) { 
+        AtualizaDataLog(id_paciente);
+        pCard.textContent = idade;
+      }
     }
   }
 }
 
 function PreencheCard3(cel,whatsapp,tel,email){
   const headCard = document.querySelector('.card-3');
-  const pCard1 = document.createElement('p');
-  pCard1.textContent = `Celular : `;
-  headCard.appendChild(pCard1);
-  sCard1 = document.createElement('span');
-  sCard1.textContent = cel;
-  if (cel) (whatsapp) ? sCard1.textContent += ' usa Whatsapp' : sCard1.textContent += ' SEM Whatsapp'
-  pCard1.appendChild(sCard1)
-  const pCard2 = document.createElement('p');
-  pCard2.textContent = `Telefone: `
-  headCard.appendChild(pCard2);
-  sCard2 = document.createElement('span');
-  sCard2.textContent = tel;
-  pCard2.appendChild(sCard2)
-  const pCard3 = document.createElement('p');
-  pCard3.textContent = `E-mail..: `
-  headCard.appendChild(pCard3);
-  sCard3 = document.createElement('span');
-  sCard3.textContent = email;
-  pCard3.appendChild(sCard3)
+  const p1Card = document.createElement('p');
+  p1Card.textContent = `Celular : `;
+  headCard.appendChild(p1Card);
+  s1Card = document.createElement('span');
+  s1Card.textContent = cel;
+  if (cel) (whatsapp) ? s1Card.textContent += ' usa Whatsapp' : s1Card.textContent += ' SEM Whatsapp'
+  p1Card.appendChild(s1Card)
+  const p2Card = document.createElement('p');
+  p2Card.textContent = `Telefone: `
+  headCard.appendChild(p2Card);
+  s2Card = document.createElement('span');
+  s2Card.textContent = tel;
+  p2Card.appendChild(s2Card)
+  const p3Card = document.createElement('p');
+  p3Card.textContent = `E-mail..: `
+  headCard.appendChild(p3Card);
+  s3Card = document.createElement('span');
+  s3Card.textContent = email;
+  p3Card.appendChild(s3Card)
 }
 
 function PreencheCard4(historico){
   const headCard = document.querySelector('.card-4');
-  const pCard1 = document.createElement('p');
-  headCard.appendChild(pCard1);
-  sCard1 = document.createElement('span');
-  sCard1.textContent = historico;
-  pCard1.appendChild(sCard1)
+  const pCard = document.createElement('p');
+  headCard.appendChild(pCard);
+  sCard = document.createElement('span');
+  sCard.textContent = historico;
+  pCard.appendChild(sCard)
 }
 
 function PreencheCard5(cirurgia){
   const headCard = document.querySelector('.card-5');
-  const pCard1 = document.createElement('p');
-  headCard.appendChild(pCard1);
-  sCard1 = document.createElement('span');
-  sCard1.textContent = cirurgia;
-  pCard1.appendChild(sCard1)
+  const pCard = document.createElement('p');
+  headCard.appendChild(pCard);
+  sCard = document.createElement('span');
+  sCard.textContent = cirurgia;
+  pCard.appendChild(sCard)
 }
 
 function PreencheCard6(trauma){
   const headCard = document.querySelector('.card-6');
-  const pCard1 = document.createElement('p');
-  headCard.appendChild(pCard1);
-  sCard1 = document.createElement('span');
-  sCard1.textContent = trauma;
-  pCard1.appendChild(sCard1)
+  const pCard = document.createElement('p');
+  headCard.appendChild(pCard);
+  sCard = document.createElement('span');
+  sCard.textContent = trauma;
+  pCard.appendChild(sCard)
 }
 
 function PreencheCard7(medicamento){
   const headCard = document.querySelector('.card-7');
-  const pCard1 = document.createElement('p');
-  headCard.appendChild(pCard1);
-  sCard1 = document.createElement('span');
-  sCard1.textContent = medicamento;
-  pCard1.appendChild(sCard1)
+  const pCard = document.createElement('p');
+  headCard.appendChild(pCard);
+  sCard = document.createElement('span');
+  sCard.textContent = medicamento;
+  pCard.appendChild(sCard)
 }
 
 async function AtualizaDataLog(id_paciente){
@@ -248,34 +255,4 @@ async function AtualizaDataLog(id_paciente){
   if (retorno == 2 || retorno == 3 || retorno == 5) MsgTop('error', 'Falha na atualização da data!');
 }
 
-function CalculaIdade(nascimento){
-  if (!nascimento) return 'não informado idade';
-  let age = '';
-  let today = new Date();
-  let years = today.getFullYear()-nascimento.substring(0,4);
-  let months = today.getMonth()+1-nascimento.substring(5,7);
-  let days = today.getDate()-nascimento.substring(8,10);
-  if (days<0)  months = months-1; 
-  if (years<=0) {
-    if (months == 1) age = (`${months} mês`) 
-    if (months  > 1) age = (`${months} meses`)
-    if (months == 0) (days == 1) ? age = (`${days} dia`) : age = (`${days} dias`)
-  }  
-  else if (months == 0) (years == 1) ? age = (`${years} ano`) : age = (`${years} anos`);
-  else if (months == 1) (years == 1) ? age = (`${years} ano e ${months} mês`) : age = (`${years} anos e ${months} mês`);
-  else if (months  > 1)  (years == 1) ? age = (`${years} ano e ${months} meses`)  : age = (`${years} anos e ${months} meses`);
-  else if (12+months == 1) (years-1 == 1) ? age = (`${years-1} ano e ${12+months} mês`) : age = (`${years-1} anos e ${12+months} mês`)
-  else (years-1 == 1) ? age = (`${years-1} ano e ${12+months} meses`) : age = (`${years-1} anos e ${12+months} meses`);
-  return age;
-}
-
-function CalculaDiferencaDias(datalog){
-  let year = datalog.substring(0,4);
-  let month = datalog.substring(5,7) - 1;
-  let day = datalog.substring(8,10);
-  let dateAux = new Date(year, month, day);
-  let msDatalog = dateAux.getTime();
-  let msHoje = Date.now();
-  return (parseInt((msHoje-msDatalog)/86400000));
-}
 

@@ -50,8 +50,12 @@ h2 {
   font-family: 'Courier New', Courier, monospace;
 }
 
-span{
+p span{
   color: cyan;
+}
+
+.card-2 span{
+  color: red;
 }
 
 .col-lg-12{
