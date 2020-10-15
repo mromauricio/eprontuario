@@ -1,11 +1,11 @@
 
 let tagHtml = document.querySelector('main');
 let tagMain = document.querySelector('main');
-let idCpf = document.querySelector('#cpf-busca');
-let idCpfResp = document.querySelector('#cpfresp-busca');
-let idCns = document.querySelector('#cns-busca');
-let idRegistro = document.querySelector('#registro-busca');
-let idNome = document.querySelector('#nome-busca');
+let idCpf = document.querySelector('#cpf');
+let idCpfResp = document.querySelector('#cpfresp');
+let idCns = document.querySelector('#cns');
+let idRegistro = document.querySelector('#registro');
+let idNome = document.querySelector('#nome');
 let retornoBd;
 
 const isEmpty = str => !str.trim().length;
@@ -172,7 +172,9 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
   if (!ativo) {
     sCard = document.createElement('span');
     sCard.textContent = `Paciente não habilitado para novos atendimentos`;  
-    pCard.appendChild(sCard)
+    pCard.appendChild(sCard);
+    const btnAlert = document.querySelector('.spinner');
+    btnAlert.setAttribute('class',"spinner-grow spinner-grow-sm")
   }
   else {  
     let idade = CalculaIdade(nascimento);          // global/script/calcula.js
@@ -183,7 +185,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
       let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
       if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";
       else if (resultModal.isDenied) { 
-        AtualizaDataLog(id_paciente);
+        (AtualizaDataLog(id_paciente)) ? MsgTop('success', 'Data do cadastro foi atualizada!') : MsgTop('error', 'Falha na atualização da data!');  // global/script/calcula.js
         pCard.textContent = idade;
       }
     }
@@ -249,10 +251,5 @@ function PreencheCard7(medicamento){
   pCard.appendChild(sCard)
 }
 
-async function AtualizaDataLog(id_paciente){
-  let retorno = await PutAtualizaDataPaciente (JSON.stringify({"id_paciente":`${id_paciente}`}));
-  if (retorno == 0) MsgTop('success', 'Data do cadastro foi atualizada!');
-  if (retorno == 2 || retorno == 3 || retorno == 5) MsgTop('error', 'Falha na atualização da data!');
-}
 
 

@@ -6,7 +6,7 @@
 $('#form-pacientes').w2form({ 
   name   : 'form',
   header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
-  url    : 'http://localhost:3000/pacientes',
+  url    : 'http://localhost:9001/pacientes',
   tabs: [
       { id: 'tab1', caption: 'Dados'  },
    //   { id: 'tab2', caption: 'Contato'},
@@ -19,7 +19,7 @@ $('#form-pacientes').w2form({
       { field: 'nacionalidade', type: 'text',  html: { caption: 'Nacionalidade', page: 0, column: 0 } },
       { field: 'datanascimento', type: 'date', html: { caption: 'Data nascimento', page: 0, column: 0 } },
       { field: 'genero', type: 'text',  html: { caption: 'Gênero', page: 0, column: 0 } },
-      { field: 'cpf',  type: 'text', html: { caption: 'CPF', page: 0, column: 1, group:'Documentos' } },
+      { field: 'cpf', type: 'text', html: { caption: 'CPF', page: 0, column: 1, group:'Documentos'} },
       { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 1 } },
       { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 1 } },
       { field: 'responsavel', type: 'text',  html: { caption: 'Responsável', page: 0, column: 1 } },
@@ -64,6 +64,7 @@ $('#form-pacientes').w2form({
 let cameFromDb = false;
 let idDb = 0;
 let returnGetNome;
+let diasLog;
 let headerForm = document.querySelector('.w2ui-form-header')
 let tempInfoNome = document.querySelector('#nome');
 let tempInfoResponsavel = document.querySelector('#responsavel');
@@ -477,7 +478,9 @@ function ClearDataMinusNome(){
 
 function ShowDataGetNome(data){
   tempInfoNome.value = data.nome;
-  headerForm.textContent = `${tempInfoNome.value} - última atualização do cadastro faz ${CalculaDiferencaDias(data.datalog)} dias`;
+  diasLog = CalculaDiferencaDias(data.datalog);
+  headerForm.textContent = `${tempInfoNome.value} - última atualização do cadastro faz ${diasLog} dias`;
+  if (diasLog>=180) MsgCenter('warning','Cadastro desatualizado!')
   if (data.menor) {
     tempInfoMenor.checked=true;
     tempInfoResponsavel.removeAttribute('disabled');
@@ -595,25 +598,22 @@ else {
   if (cameFromDb){
     let retorno = await PutPaciente(idDb, JSON.stringify(paciente)); // fetch.js
     switch (retorno){
-      case 0:
-        MsgCenter('success','Dados atualizados!', false); break;
-      case 2:
-        MsgCenterButtonOkText('error','ID não localizado.', 'Preencha novamente o nome.'); break;    
-      case 3:
-        MsgCenterButtonOkText('error','CPF do responsável!', 'Não pode ser igual ao do paciente.'); break;   
-      case 5:
-      MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI.'); break;  
+      case 0: {
+        MsgCenter('success','Dados atualizados!', false); 
+        AtualizaDataLog(idDb);
+        break;
+      }
+      case 2: MsgCenterButtonOkText('error','ID não localizado.', 'Preencha novamente o nome.'); break;    
+      case 3: MsgCenterButtonOkText('error','CPF do responsável!', 'Não pode ser igual ao do paciente.'); break;   
+      case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI.'); break;  
       }
     }
   else {  
     let retorno = await PostPaciente(JSON.stringify(paciente)); // fetch.js
     switch (retorno){
-      case 0:
-        MsgCenter('success','Dados enviados!', false); break;
-      case 3:
-        MsgCenterButtonOkText('error','CPF do responsável não pode ser igual ao do paciente', 'Corrija'); break;    
-      case 5:
-        MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
+      case 0: MsgCenter('success','Dados enviados!', false); break;
+      case 3: MsgCenterButtonOkText('error','CPF do responsável não pode ser igual ao do paciente', 'Corrija'); break;    
+      case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
     }
   }
   ClearData();
