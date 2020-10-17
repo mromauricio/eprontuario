@@ -108,8 +108,8 @@ idNome.addEventListener('keyup', async function(event){
       if (retorno.length>1) {
         let modalData='';
         retorno.forEach( (item, index, arr) => { 
-          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
-          else modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
+          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'><b>${arr[index].nome} CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
+          else modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'><b>${arr[index].nome} CPF ${arr[index].cpf}</b></a>  <br>`);  
         });
         let resultModal = await MsgSearch(modalData);
         if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {

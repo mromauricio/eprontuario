@@ -10,7 +10,9 @@ body{
   position: relative;
 } 
 
-
+main{
+  margin-inline-start: 2.5em;
+}
 
 #layout{
   width: 100%;
@@ -23,30 +25,27 @@ body{
   margin-top: -110px;
 }
 
+.busca-paciente {
+  margin-block-start: -10px;
+  font-size: 80%;
+}
+
+.button-link-image a {
+  color: black;
+  text-decoration: none;
+}
+.button-link-image a:hover {
+  color: cyan;
+}
 
 h2 {
   font-size: 1.5rem;
 }
 
-.busca-paciente {
-  margin-block-start: -10px;
-}
-
 .incluir-paciente {
-  margin-block-start: 0px;
-}
-
-.busca-paciente a {
-  margin-block-start: -35px;
+  margin-block-start: 10px;
   font-size: 80%;
-  text-decoration: none;
-  color:#777;
 }
-
-.busca-paciente a:hover{
-  color: cyan;
-}
-
 
 .card{
   font-size: 70%;  /*  MRO */
@@ -89,10 +88,10 @@ p span{
   text-align: center;
 }
 
-.card:hover{
+/* .card:hover{
   transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-}
+} */
 
 .card h6{
   font-weight: 50;

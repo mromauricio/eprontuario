@@ -369,8 +369,8 @@ async function SearchRegister(){
     returnGetNome = data;
     let modalData='';  
     data.forEach( (item, index, arr) => { 
-      if (arr[index].cpf == null) modalData += (`<a href='javascript:selecionaPaciente(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
-      else modalData += (`<a href='javascript:selecionaPaciente(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
+      if (arr[index].cpf == null) modalData += (`<a href='javascript:selecionaPaciente(${index})'><b>${arr[index].nome} CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
+      else modalData += (`<a href='javascript:selecionaPaciente(${index})'><b>${arr[index].nome} CPF ${arr[index].cpf}</b></a>  <br>`);  
     });
     let resultModal = await MsgHomonio(modalData);
     if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {

@@ -1,21 +1,4 @@
-#nome, #responsavel, #email, #endereco, #link{
-  width: 300px;
-}
-#datanascimento{
-  width: 80px;
-}
-#gravar{
-  margin-block-start: 10px;
-  margin-inline-start: 180px;
-}
-.btntemp{
-  border-radius: 5px;
-}
 
-.header-relative{
-  position: relative; 
-  margin-top: -20px;
-}
 
 /* All above created by MRO */
 
@@ -900,7 +883,7 @@ button.w2ui-btn-small:focus:before {
   color: #000000;
   /* background-color: #f2f2f2;  MRO */
  /*  border: 1px solid #c0c0c0;  */
- border: 1px solid cyan;
+ border: 4px solid #777;
   border-radius: 3px;
   padding: 0px;
   overflow: hidden !important;

@@ -1,0 +1,29 @@
+#nome, #responsavel, #email, #endereco, #link{
+  width: 300px;
+}
+#datanascimento{
+  width: 80px;
+}
+#gravar{
+  margin-block-start: 10px;
+  margin-inline-start: 180px;
+}
+.btntemp{
+  border-radius: 5px;
+}
+
+.header-relative{
+  position: relative; 
+  margin-top: -20px;
+}
+
+a b {
+  text-decoration: underline;
+}
+a b:hover {
+  color: #3085d6;
+}
+
+#form-pacientes{
+  margin-block-start: -15px;
+}

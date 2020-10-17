@@ -10,9 +10,17 @@
 }
 
 main{
-  margin-inline-start: 50px;
+  margin-inline-start: 0px;
   margin-inline-end: 20px;
   margin-block-start: 0px;
+}
+
+.content{
+  text-align: center;
+}
+
+.content-subhead + p, dd {
+  text-align: center;
 }
 
 
@@ -20,10 +28,19 @@ main{
   margin: 0px;
 }
 
+a b {
+  text-decoration: underline;
+}
+a b:hover {
+  color: #3085d6;
+}
+
 .container {
 width:100%;
 position: relative;
 height: 50px;
+font-size: 70%;
+margin-inline-start: 37em;
 }
 
 input {
@@ -42,7 +59,7 @@ cursor: pointer;
 }
 
 input:focus { 
-border: 1px solid #ccc;
+border: 1px solid #333; /* #ccc  */
 border-radius: 10px;
 width: 400px;
 z-index: 1;
@@ -50,9 +67,9 @@ transition: width 1s ease-in;
 }
 
 .numbers input:focus  { 
-  border: 1px solid #ccc;
+  border: 1px solid #333;
   border-radius: 10px;
-  width: 220px;
+  width: 230px;
   z-index: 1;
   transition: width 1s ease-in;
 }
@@ -60,9 +77,13 @@ transition: width 1s ease-in;
 .button { 
 height: 50px;
 width: 50px;
-background:  url('/global/images/iconfinder_Search_858732.png')  center no-repeat;
-border: none;
-position: absolute;
+/* background:  url('/global/images/iconfinder_Search_858732.png')  center no-repeat; */
+background:  url('')  center no-repeat;
+background-color: #333;
+border-right: 1px solid #333;
+border-bottom: none;
+border-top: none;
+border-left: none;
 top: 0;
 left: 0;
 z-index: 2;
@@ -86,21 +107,24 @@ border: 0;
 } 
  
 
-
-/* 
+/* width: define a largura do campo */
+/* position: cria o contexto de posicionamento do botão */
 .container {
-  width: 50%; /* define a largura do campo 
-  position: relative;  /* cria o contexto de posicionamento do botão 
+  width: 50%; 
+  position: relative;  
 }
-label {display:block;}
-input {width: 100%;} /* define a largura do campo igual a largura do container 
+
+/* input: define a largura do campo igual a largura do container */
+/* label {display:block;}*/
+
+/* input {width: 100%;} 
 input,  button {padding: 10px;}
 button {
   position: absolute;   
   top: 0; 
   right: 0;
-  /* posiciona o botão em relação ao container, mas
+}   */
+
+ /* posiciona o botão em relação ao container, mas
   como o campo está exatamente contido no container
-  o posicionamento se dá também em relação ao campo 
-} 
-*/
+  o posicionamento se dá também em relação ao campo */
