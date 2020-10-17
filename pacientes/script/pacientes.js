@@ -479,7 +479,10 @@ function ClearDataMinusNome(){
 function ShowDataGetNome(data){
   tempInfoNome.value = data.nome;
   diasLog = CalculaDiferencaDias(data.datalog);
-  headerForm.textContent = `${tempInfoNome.value} - última atualização do cadastro faz ${diasLog} dias`;
+  headerForm.textContent = tempInfoNome.value;
+  spanHeaderForm = document.createElement('small');
+  spanHeaderForm.textContent = ` (última atualização do cadastro faz ${diasLog} dias)`;
+  headerForm.appendChild(spanHeaderForm);
   if (diasLog>=180) MsgCenter('warning','Cadastro desatualizado!')
   if (data.menor) {
     tempInfoMenor.checked=true;

@@ -42,11 +42,7 @@ function MsgCenter (type, title){
     title: title,
     showConfirmButton: false,
     timer: 2500,
-    timerProgressBar: true,
-      onOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
+    timerProgressBar: true
   })
 }
 
@@ -58,11 +54,7 @@ function MsgCenterText(type, title, message){
     text: message,
     showConfirmButton: false,
     timer: 3000,
-    timerProgressBar: true,
-      onOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
+    timerProgressBar: true
   })
 }
 

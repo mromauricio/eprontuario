@@ -15,20 +15,6 @@ main{
   margin-block-start: 0px;
 }
 
-.busca-paciente {
-  margin-block-start: -20px;
-}
-
-.busca-paciente a{
-  margin-block-start: -35px;
-  font-size: 80%;
-  text-decoration: none;
-  color:#777;
-}
-
-.busca-paciente a:hover{
-  color: cyan;
-}
 
 .content-subhead {
   margin: 0px;

@@ -1,12 +1,12 @@
 
-let tagHtml = document.querySelector('main');
 let tagMain = document.querySelector('main');
 let idCpf = document.querySelector('#cpf');
 let idCpfResp = document.querySelector('#cpfresp');
 let idCns = document.querySelector('#cns');
 let idRegistro = document.querySelector('#registro');
 let idNome = document.querySelector('#nome');
-let retornoBd;
+let dataBd;
+let indexDataBd;
 
 const isEmpty = str => !str.trim().length;
 
@@ -29,10 +29,37 @@ idCpf.addEventListener('keyup', async function(event){
     else {
       let retorno = await GetCpf(this.value);
       if (retorno.length==1) {
-        retornoBd = retorno;
-        CriaTelaAtendimento(retorno.length - 1);
+        dataBd = retorno;
+        CriaTelaAtendimentoMaster(retorno.length - 1);
       }  
       else MsgCenterText('info','Paciente não localizado!','Confira o CPF informado.');
+    }  
+ }
+});
+
+idCpfResp.addEventListener('keyup', async function(event){
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    this.value = ValidaCpf(this.value);
+    if (isEmpty(this.value)) MsgTop('warning', 'Informe o CPF!');
+    else if (this.value.length != 14 && this.value.length != 0) MsgTop('error', 'CPF inválido!');
+    else {
+      let retorno = await GetCpfResp(this.value);
+      dataBd = retorno;
+      if (retorno.length > 1) {
+        let modalData='';
+        retorno.forEach( (item, index, arr) => { 
+          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
+          else modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
+        });
+        let resultModal = await MsgSearch(modalData);
+        if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
+          ClearSearch();
+        }
+      }  
+      else if (retorno.length == 1) CriaTelaAtendimentoMaster(retorno.length - 1);
+      else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
+      else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
     }  
  }
 });
@@ -46,8 +73,8 @@ idCns.addEventListener('keyup', async function(event){
     else {
       let retorno = await GetCns(this.value);
       if (retorno.length==1) {
-        retornoBd = retorno;
-        CriaTelaAtendimento(retorno.length - 1);
+        dataBd = retorno;
+        CriaTelaAtendimentoMaster(retorno.length - 1);
       }
       else MsgCenterText('info','Paciente não localizado!','Confira o CNS informado.');
     }  
@@ -63,37 +90,10 @@ idRegistro.addEventListener('keyup', async function(event){
     else {
       let retorno = await GetRegistro(this.value);
       if (retorno.length==1){
-        retornoBd = retorno;
-        CriaTelaAtendimento(retorno.length - 1);
+        dataBd = retorno;
+        CriaTelaAtendimentoMaster(retorno.length - 1);
       }
       else MsgCenterText('info','Paciente não localizado!','Confira o Registro informado.');
-    }  
- }
-});
-
-idCpfResp.addEventListener('keyup', async function(event){
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    this.value = ValidaCpf(this.value);
-    if (isEmpty(this.value)) MsgTop('warning', 'Informe o CPF!');
-    else if (this.value.length != 14 && this.value.length != 0) MsgTop('error', 'CPF inválido!');
-    else {
-      let retorno = await GetCpfResp(this.value);
-      retornoBd = retorno;
-      if (retorno.length > 1) {
-        let modalData='';
-        retorno.forEach( (item, index, arr) => { 
-          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimento(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
-          else modalData += (`<a href='javascript:CriaTelaAtendimento(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
-        });
-        let resultModal = await MsgSearch(modalData);
-        if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
-          ClearSearch();
-        }
-      }  
-      else if (retorno.length == 1) CriaTelaAtendimento(retorno.length - 1);
-      else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
-      else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
     }  
  }
 });
@@ -104,36 +104,37 @@ idNome.addEventListener('keyup', async function(event){
     if (isEmpty(this.value)) MsgTop('warning', 'Informe o nome!');
     else {
       let retorno = await GetNome(this.value+'%');   // Search every name that begins with the input text
-      retornoBd = retorno;
+      dataBd = retorno;
       if (retorno.length>1) {
         let modalData='';
         retorno.forEach( (item, index, arr) => { 
-          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimento(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
-          else modalData += (`<a href='javascript:CriaTelaAtendimento(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
+          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'>${arr[index].nome} <b>CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
+          else modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'>${arr[index].nome} <b>CPF ${arr[index].cpf}</b></a>  <br>`);  
         });
         let resultModal = await MsgSearch(modalData);
         if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
           ClearSearch();
         }
       }
-      else if (retorno.length == 1) CriaTelaAtendimento(retorno.length - 1);
+      else if (retorno.length == 1) CriaTelaAtendimentoMaster(retorno.length - 1);
       else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
       else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
     }  
  }
 });
 
-async function CriaTelaAtendimento(index){
+async function CriaTelaAtendimentoMaster(index){
+  indexDataBd = index;
   Swal.close(); 
-  let retorno = await GetHtmlMain('view-atendimentos.html');
+  let retorno = await GetHtmlMain('view-atendimentos-master.html');
   if (retorno.length>0) { 
     tagMain.innerHTML = retorno;
-    IniciaAtendimento(retornoBd[index]);
+    ExibePacienteAtendimento(dataBd[index]);
   }  
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
 }
 
-function IniciaAtendimento(data){
+function ExibePacienteAtendimento(data){
   PreencheCard1(data.cpfresp, data.responsavel, data.cpf, data.cns, data.registro);
   PreencheCard2(data.nascimento,data.datalog,data.nome,data.ativo,data.id_paciente);
   PreencheCard3(data.cel,data.whatsapp,data.tel,data.email);
@@ -174,7 +175,10 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
     sCard.textContent = `Paciente não habilitado para novos atendimentos`;  
     pCard.appendChild(sCard);
     const btnAlert = document.querySelector('.spinner');
-    btnAlert.setAttribute('class',"spinner-grow spinner-grow-sm")
+    btnAlert.setAttribute('class',"spinner-grow spinner-grow-sm");
+    setTimeout( ()=> { btnAlert.removeAttribute('class'); }, 5000);
+    
+    
   }
   else {  
     let idade = CalculaIdade(nascimento);          // global/script/calcula.js
@@ -252,4 +256,13 @@ function PreencheCard7(medicamento){
 }
 
 
+async function CriaTelaAtendimento(){
+  let retorno = await GetHtmlMain('view-atendimentos-inclusao.html');
+  if (retorno.length>0) tagMain.innerHTML = retorno;
+  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
+}
 
+
+function RetornaTelaAtendimentoMaster(){
+  CriaTelaAtendimentoMaster(indexDataBd);
+}
