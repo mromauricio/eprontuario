@@ -15,16 +15,16 @@ main{
   margin-block-start: 0px;
 }
 
-.content{
+.content-busca-paciente{
   text-align: center;
 }
 
-.content-subhead + p, dd {
+.content-subhead-busca-paciente + p, dd {
   text-align: center;
 }
 
 
-.content-subhead {
+.content-subhead-busca-paciente {
   margin: 0px;
 }
 
@@ -35,7 +35,7 @@ a b:hover {
   color: #3085d6;
 }
 
-.container {
+.container-busca-paciente {
 width:100%;
 position: relative;
 height: 50px;
@@ -43,7 +43,7 @@ font-size: 70%;
 margin-inline-start: 37em;
 }
 
-input {
+.container-busca-paciente input {
 height: 50px;
 border: none;
 outline: none;
@@ -51,14 +51,14 @@ padding-left: 50px;
 width: 0;
 position: absolute;
 top: 0;
-left: 0;
+left: 5px;
 background: none;
 z-index: 3;
 transition: width 1s ease-out;
 cursor: pointer;
 }
 
-input:focus { 
+.container-busca-paciente input:focus { 
 border: 1px solid #333; /* #ccc  */
 border-radius: 10px;
 width: 400px;
@@ -66,15 +66,7 @@ z-index: 1;
 transition: width 1s ease-in;
 }
 
-.numbers input:focus  { 
-  border: 1px solid #333;
-  border-radius: 10px;
-  width: 230px;
-  z-index: 1;
-  transition: width 1s ease-in;
-}
-
-.button { 
+.button-busca-paciente { 
 height: 50px;
 width: 50px;
 /* background:  url('/global/images/iconfinder_Search_858732.png')  center no-repeat; */
@@ -90,12 +82,16 @@ z-index: 2;
 cursor: pointer;
 }
 
+.button-busca-paciente b{
+  color: black;
+}
+
 button:focus {
 outline: none;
 }
 
 /* esconde o LABEL "Buscar" */
-label {
+label .button-busca-paciente {
 position: absolute;
 width: 1px;
 height: 1px;
@@ -109,7 +105,7 @@ border: 0;
 
 /* width: define a largura do campo */
 /* position: cria o contexto de posicionamento do botão */
-.container {
+.container-busca-paciente {
   width: 50%; 
   position: relative;  
 }

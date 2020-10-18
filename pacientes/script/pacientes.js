@@ -1,7 +1,7 @@
-// Funções com nome Valida... e  Msg... encontram-se no arquivo /scripts/valida.js
-// Funções com nome Get/Put/Post... encontram-se no arquivo /scripts/fetch.js
-//
-//////////////////////////
+// FOREIGN FUNCTION´S LOCATION
+// Get... Put... Post... (/global/script/fetch.js)
+// Msg... (/global/script/mensagens.js)
+// Valida... (/global/script/valida.js)
 
 $('#form-pacientes').w2form({ 
   name   : 'form',

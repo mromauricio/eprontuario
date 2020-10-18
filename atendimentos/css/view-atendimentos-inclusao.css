@@ -1,4 +1,15 @@
-.incluir-paciente{
-  margin-block-start: 20px;
-  text-align: center;
+.button-link-image{
+  margin-block-start: -10px;
+  margin-inline-start: -1px;
+  text-align: left;
+  font-size: 80%;
 }
+
+.button-link-image a {
+  color: black;
+  text-decoration: none;
+}
+.button-link-image a:hover {
+  color: cyan;
+}
+
