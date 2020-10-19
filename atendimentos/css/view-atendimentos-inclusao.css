@@ -12,4 +12,107 @@
 .button-link-image a:hover {
   color: cyan;
 }
+.button-link-image p {
+  margin-top: 5px;
+  color: cyan;
+}
+
+.form-atendimento-inclusao{
+  font-size: 80%;
+}
+
+.form-atendimento-inclusao h6{
+  text-align: center;
+}
+
+.form-atendimento-inclusao input, 
+.form-atendimento-inclusao select,
+.form-atendimento-inclusao textarea {
+  font-size: 80%;
+}
+
+.form-atendimento-inclusao .text-align-center{
+  text-align: center;
+}
+
+
+.form-atendimento-inclusao h3 {
+  font-size: 100%;
+}
+
+.btn span.glyphicon {
+  opacity: 0;
+}
+
+.btn.active span.glyphicon {
+  opacity: 1;
+}
+input[type="checkbox"]:indeterminate {
+    color: red;
+    background: black;
+}
+input[type="checkbox"]:indeterminate:hover {
+    cursor: wait;
+}
+
+.btn-lightblue {
+  color: #fff;
+  background-color: lightblue;
+  border-color: lightblue;
+}
+.btn-blue {
+  color: #fff;
+  background-color: blue;
+  border-color: blue;
+}
+.btn-darkblue {
+  color: #fff;
+  background-color: darkblue;
+  border-color: darkblue;
+}
+.btn-green {
+  color: #fff;
+  background-color: green;
+  border-color: green;
+}
+.btn-darkgreen {
+  color: #fff;
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+.btn-yellow {
+  color: #fff;
+  background-color: yellow;
+  border-color: yellow;
+}
+.btn-darkyellow {
+  color: #fff;
+  background-color: rgb(212, 212, 8);
+  border-color: rgb(212, 212, 8);
+}
+.btn-orange {
+  color: #fff;
+  background-color: orange;
+  border-color: orange;
+}
+.btn-darkorange {
+  color: #fff;
+  background-color: darkorange;
+  border-color: darkorange;
+}
+.btn-red {
+  color: #fff;
+  background-color: red;
+  border-color: red;
+}
+.btn-darkred {
+  color: #fff;
+  background-color: darkred;
+  border-color: darkred;
+}
+
+.corpo-humano{
+  width: 260;
+  height: 377;
+}
 

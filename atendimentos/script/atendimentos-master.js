@@ -52,6 +52,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
   const headCard = document.querySelector('.card-2 h6'); 
   headCard.textContent = nome; 
   const pCard = document.querySelector('.card-2 p');
+  btnIncluirPaciente = document.querySelector('.incluir-paciente');
   if (!ativo) {
     sCard = document.createElement('span');
     sCard.textContent = `Paciente não habilitado para novos atendimentos`;  
@@ -59,8 +60,8 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
     const btnAlert = document.querySelector('.spinner');
     btnAlert.setAttribute('class',"spinner-grow spinner-grow-sm");
     setTimeout( ()=> { btnAlert.removeAttribute('class'); }, 5000);
-    
-    
+    btnIncluirPaciente.innerHTML = `<a href='#'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`
+    btnIncluirPaciente.setAttribute('class','desabilitar-incluir-atendimento')
   }
   else {  
     let idade = CalculaIdade(nascimento);          //
@@ -75,6 +76,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
         pCard.textContent = idade;
       }
     }
+    btnIncluirPaciente.innerHTML = `<a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
   }
 }
 

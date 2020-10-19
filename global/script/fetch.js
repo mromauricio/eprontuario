@@ -24,6 +24,22 @@ async function PostPaciente (data){
   } catch (error) {console.log(error); return 1;}
 }
 
+async function PostAtendimento (data){
+  let url =  new URL('http://localhost:9001/atendimentos');
+   try {
+     let response = await fetch(url, {
+       method: 'POST',
+       headers: {'Content-Type': 'application/json;charset=utf-8'},
+       body: data
+     })
+     switch (response.status){
+       case 201: return 0;
+       case 406: return 3;
+       case 500: return 5;  
+       }
+   } catch (error) {console.log(error); return 1;}
+ }
+
 async function PutPaciente (idSearch, data){
   let url =  new URL('http://localhost:9001/pacientes');
   url.href += (`/id${idSearch}`);

@@ -6,95 +6,117 @@
 
 <div class="button-link-image">
   <a href='javascript:RetornaTelaAtendimentoMaster()'> <img src='/global/images/iconfinder_multimedia-18_2849818.png'>Voltar para visão geral do paciente</a>
+  <p></p>
 </div>
-
-<form>
-  <div class="form-group">
-    <label for="exampleFormControlInput1">Email address</label>
-    <input type="email" class="form-control form-control-sm" id="exampleFormControlInput1" placeholder="name@example.com">
+<hr>
+<form class="form-atendimento-inclusao">
+  <div class="form-row">
+    <div class="col-auto" style="margin-bottom: 10px">
+      <label for="data-atendimento">Data do atendimento</label>
+      <input type="date" required class="form-control form-control-sm text-align-center" id="data-atendimento">
+    </div>
+    <div class="col-auto">
+      <label for="horario-atendimento">Horário</label>
+      <input type="time" required class="form-control form-control-sm text-align-center" id="horario-atendimento">
+    </div>
+    <div class="col-1">
+      <label for="duracao-atendimento">Duração</label>
+      <input type="number" required min="1" max="240" class="form-control form-control-sm" id="duracao-atendimento" placeholder="minutos">
+    </div>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control form-control-sm" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
+    <label for="profissional">Profissional</label>
+    <input type="text" required  maxlength="255"  class="form-control form-control-sm col-6" id="profissional" placeholder="VIRÁ PREENCHIDO DO LOGIN">
+  </div>
+  <hr>
+  <div class="form-group">
+    <label for="queixa">Queixa principal</label>
+    <textarea rows="1" class="form-control form-control-sm col-6" id="queixa"></textarea>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlSelect2">Example multiple select</label>
-    <select multiple class="form-control form-control-sm" id="exampleFormControlSelect2">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
+    <label for="trajeto-dor">Trajeto da dor</label>
+    <textarea rows="1" class="form-control form-control-sm col-6" id="trajeto-dor" ></textarea>
+  </div>
+  <div class="form-group" >
+    <div class="well well-sm text-left">
+      <h3 style="margin-inline-start: 0px;">Intensidade da dor&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10</h3>
+      <div class="btn-group" data-toggle="buttons" style="margin-inline-start: 120px;" id="intensidade-dor" >
+        <label class="btn btn-lightblue"  >
+          <input type="radio" name="options" id="dor0" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-blue"  >
+          <input type="radio" name="options" id="dor1" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-darkblue ">
+          <input type="radio" name="options" id="dor2" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-green">
+          <input type="radio" name="options" id="dor3" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-darkgreen ">
+          <input type="radio" name="options" id="dor4" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-yellow"  >
+          <input type="radio" name="options" id="dor5" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-darkyellow ">
+          <input type="radio" name="options" id="dor6" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-orange">
+          <input type="radio" name="options" id="dor7" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-darkorange ">
+          <input type="radio" name="options" id="dor8" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-red">
+          <input type="radio" name="options" id="dor9" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+        <label class="btn btn-darkred">
+          <input type="radio" name="options" id="dor10" autocomplete="off">
+          <span class="glyphicon glyphicon-ok"></span>
+        </label>
+      </div>
+    </div>  
   </div>
   <div class="form-group">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1" rows="3"></textarea>
+    <label for="tipo-dor">Tipo da dor</label>
+    <textarea rows="1" class="form-control form-control-sm col-6" id="tipo-dor" ></textarea>
   </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-    <label class="form-check-label" for="inlineRadio1">1</label>
+  <div class="form-group">
+    <label for="tipo-dor">Indicação do local</label>
+    <img class="corpo-humano"  src="/global/images/corpo-humano.png" id="boneco">
   </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-    <label class="form-check-label" for="inlineRadio2">2</label>
+  <hr>
+  <div class="form-group">
+    <label for="evolucao-quadro">Evolução do quadro</label>
+    <textarea rows="1" class="form-control form-control-sm col-6" id="evolucao-quadro" ></textarea>
   </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled>
-    <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
+  <div class="form-group">
+    <label for="fatores-agravantes">Fatores agravantes ( + )</label>
+    <textarea rows="1" class="form-control form-control-sm col-6" id="fatores-agravantes" ></textarea>
+  </div>
+  <div class="form-group">
+    <label for="fatores-atenuantes">Fatores atenuantes ( - )</label>
+    <textarea rows="1" class="form-control form-control-sm col-6" id="fatores-atenuantes" ></textarea>
+  </div>
+  <div class="form-group">
+    <label for="tratamentos-anteriores">Tratamentos anteriores</label>
+    <textarea rows="1" class="form-control form-control-sm col-6" id="tratamentos-anteriores" ></textarea>
   </div>
 </form>
+<hr>
+<button type="button" class="btn btn-primary btn-sm" id="gravar-atendimento">Salvar</button>
 
 
-<form>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Email</label>
-      <input type="email" class="form-control" id="inputEmail4">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Password</label>
-      <input type="password" class="form-control" id="inputPassword4">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputAddress">Address</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-  </div>
-  <div class="form-group">
-    <label for="inputAddress2">Address 2</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity">
-    </div>
-    <div class="form-group col-md-4">
-      <label for="inputState">State</label>
-      <select id="inputState" class="form-control">
-        <option selected>Choose...</option>
-        <option>...</option>
-      </select>
-    </div>
-    <div class="form-group col-md-2">
-      <label for="inputZip">Zip</label>
-      <input type="text" class="form-control" id="inputZip">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
+
+

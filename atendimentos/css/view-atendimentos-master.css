@@ -47,6 +47,13 @@ h2 {
   font-size: 80%;
 }
 
+.desabilitar-incluir-atendimento a{
+  color: rgb(66, 66, 66);
+  font-size: 80%;
+  text-decoration: none;
+  cursor: unset;
+}
+
 .card{
   font-size: 70%;  /*  MRO */
   border-radius: 4px;
