@@ -23,16 +23,8 @@ main{
   text-align: center;
 }
 
-
 .content-subhead-busca-paciente {
   margin: 0px;
-}
-
-a b {
-  text-decoration: underline;
-}
-a b:hover {
-  color: #3085d6;
 }
 
 .container-busca-paciente {

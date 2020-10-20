@@ -4,6 +4,23 @@
 color: #888;
 }
 
+/* Modal */
+a b {  
+  font-size: 80%;
+  text-decoration: underline;
+  text-align: left;
+}
+a b:hover {
+  color: #3085d6;
+}
+.swal2-header{
+  font-size: 80%;
+}
+.swal2-content{
+  text-align: left;
+}
+
+
 body {
   color: #777;
   background-color: #333;

@@ -67,7 +67,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
     let idade = CalculaIdade(nascimento);          //
     let diasLog = CalculaDiferencaDias(datalog);  // global/script/calcula.js
     pCard.textContent = idade;
-    if (diasLog) pCard.textContent += ` - atualização do cadastro tem: ${diasLog} dias`;
+    if (diasLog) pCard.textContent += ` - cadastro atualizado há ${diasLog} dias`;
     if (diasLog>=180) {
       let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
       if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";

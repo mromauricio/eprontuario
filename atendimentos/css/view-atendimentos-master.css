@@ -55,7 +55,7 @@ h2 {
 }
 
 .card{
-  font-size: 70%;  /*  MRO */
+  font-size: 75%;  /*  MRO */
   border-radius: 4px;
   background: #333; /* #fff */
   box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
@@ -76,6 +76,10 @@ h2 {
   margin-top: 5px;
   line-height: 1.5;
   font-family: 'Courier New', Courier, monospace;
+}
+
+.card-2 p{
+  font-size: 80%;
 }
 
 p span{
@@ -102,11 +106,14 @@ p span{
 
 .card h6{
   font-weight: 50;
+  font-size: 95%;
+  text-align: center;
 }
 
 .card-2, .card-2 h6{
   color: cyan;
   text-align: center;
+  font-size: 80%;
 }
 /* .card img{
   position: absolute;
