@@ -16,6 +16,8 @@ $(document).ready(function () {
   $cep.mask('00000-000', {reverse: false});
 });
 
+const isEmpty = str => !str.trim().length;
+
 function ValidaCpf(cpf)
 {
 cpf= cpf.replace(/[^0-9\'']+/g,'');

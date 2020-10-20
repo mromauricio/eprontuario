@@ -29,6 +29,16 @@ function CalculaDiferencaDias(datalog){
   return (parseInt((msHoje-msDatalog)/86400000));
 }
 
+function CalculaDiferencaDiasAtendimento(dataatendimento){
+  let year = dataatendimento.substring(0,4);
+  let month = dataatendimento.substring(5,7) - 1;
+  let day = dataatendimento.substring(8,10);
+  let dateAux = new Date(year, month, day);
+  let msDatalog = dateAux.getTime();
+  let msHoje = Date.now();
+  return ((msHoje-msDatalog)/86400000);
+}
+
 async function AtualizaDataLog(id_paciente){
   let retorno = await PutAtualizaDataPaciente (JSON.stringify({"id_paciente":`${id_paciente}`}));
   if (retorno == 0) return true

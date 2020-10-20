@@ -94,7 +94,7 @@ let tempInfoAtivo = document.querySelector('#ativo');
 let buttonGravar = document.querySelector('#gravar');
 let buttonDescartar = document.querySelector('#descartar');
 
-const isEmpty = str => !str.trim().length;
+
 
 class Paciente {
   constructor(nome, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,genero,

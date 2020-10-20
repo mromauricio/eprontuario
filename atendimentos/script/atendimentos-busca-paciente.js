@@ -13,7 +13,6 @@ let idNome = document.querySelector('#nome');
 let arrayPacienteBd;
 let indexPacienteBd;
 
-const isEmpty = str => !str.trim().length;
 
 ClearSearch();
 

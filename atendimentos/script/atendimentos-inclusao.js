@@ -63,25 +63,42 @@ async function CriaTelaAtendimento(){
 }
 
 function ValidaAtendimento(){
-// VALIDAR OS CAMPOS ANTES DE ATRIBUIR A CLASSE
 atendimento.id_paciente = idPaciente;
+
 atendimento.id_profissional = 1; // MOCK - id virá do login
-let alertData, alertHorario, alertDuracao = ''
-if (dataAtendimento.value=='') alertData='Preencha a data';
-// SE DATA MAIOR QUE HOJE - TAMBÉM CRITICAR 
-atendimento.data = dataAtendimento.value;
-atendimento.horario = horarioAtendimento.value;
-atendimento.duracao = duracaoAtendimento.value;
-atendimento.queixa = queixa.value;
-atendimento.trajetodor = trajetoDor.value;
-atendimento.intensidadedor = IntensidadeDorChecked(intensidadeDor);
-atendimento.tipodor = tipoDor.value;
-atendimento.evolucao = evolucaoQuadro.value;
-atendimento.agravante = fatoresAgravantes.value;
-atendimento.atenuante = fatoresAtenuantes.value;
+
+let alertData='', alertHorario='' , alertDuracao='', alertQueixa='', alertIntensidade='', alertTrajetodor='', alertTipodor='', alertEvolucao='', alertAgravante='', alertAtenuante='';
+if (dataAtendimento.value=='' || CalculaDiferencaDiasAtendimento(dataAtendimento.value) < 0) alertData='data';
+else atendimento.data = dataAtendimento.value;
+if (horarioAtendimento.value=='') alertHorario='horário';
+else atendimento.horario = horarioAtendimento.value;
+if (duracaoAtendimento.value=='') alertDuracao='duração';
+else atendimento.duracao = duracaoAtendimento.value;
+if (isEmpty(queixa.value)) alertQueixa='queixa';
+else atendimento.queixa = queixa.value;
+if (IntensidadeDorChecked(intensidadeDor) == 99) alertIntensidade='intensidade'
+else atendimento.intensidadedor = IntensidadeDorChecked(intensidadeDor);
+if (IntensidadeDorChecked(intensidadeDor) == 0){
+  atendimento.trajetodor = trajetoDor.value;
+  atendimento.tipodor = tipoDor.value;
+  atendimento.agravante = fatoresAgravantes.value;
+  atendimento.atenuante = fatoresAtenuantes.value;
+}
+else {
+  if (isEmpty(trajetoDor.value)) alertTrajetodor='trajeto dor';
+  else atendimento.trajetodor = trajetoDor.value;
+  if (isEmpty(tipoDor.value)) alertTipodor='tipo dor';
+  else atendimento.tipodor = tipoDor.value;
+  if (isEmpty(fatoresAgravantes.value)) alertAgravante='agravantes';
+  else atendimento.agravante = fatoresAgravantes.value;
+  if (isEmpty(fatoresAtenuantes.value)) alertAtenuante='atenuantes';
+  else atendimento.atenuante = fatoresAtenuantes.value;
+}
+if (isEmpty(evolucaoQuadro.value)) alertEvolucao='evolução';
+else atendimento.evolucao = evolucaoQuadro.value;
 atendimento.tratamentoanterior = tratamentosAnteriores.value;
-if (alertData=='') GravaAtendimento(atendimento);
-else console.log('ATENDIMENTO NÃO SERÁ GRAVADO');
+if (alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertTrajetodor=='' && alertTipodor=='' && alertEvolucao=='' && alertAgravante=='' && alertAtenuante=='') GravaAtendimento(atendimento);
+else MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${alertData} - ${alertHorario} - ${alertDuracao} - ${alertQueixa} - ${alertIntensidade} - ${alertTrajetodor} - ${alertTipodor} - ${alertEvolucao} - ${alertAgravante} - ${alertAtenuante}`);
 }
 
 async function GravaAtendimento(atendimento){
