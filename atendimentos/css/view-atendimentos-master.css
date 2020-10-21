@@ -135,4 +135,54 @@ p span{
   }
 } 
 
-/* url(https://ionicframework.com/img/getting-started/theming-card.png); */
+/* table{
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 70%; 
+  width: 100%;
+} */
+
+/* TABLE */
+
+table {
+  border-collapse: collapse;
+  border: 1px solid #777;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 1px;
+  font-size: 70%;
+  
+}
+th{
+  height: 20px;
+}
+
+td, th {
+  border: 0.5px solid #777;
+  padding: 1.5px 4px;
+  max-width: 480px;
+}
+
+td {
+  text-align: left;
+  color: rgba(245, 245, 245, 0.801);
+}
+
+
+/* th {
+  background-color: rgb(235,235,235);
+} */
+th{
+  text-align: center;
+}
+
+/* tr:nth-child(even) td {
+  background-color:grey
+}
+*/
+
+tr:nth-child(odd) td {
+  background-color: rgb(66, 66, 66)
+}  
+
+caption {
+  padding: 10px;
+}

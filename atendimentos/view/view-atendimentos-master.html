@@ -1,12 +1,11 @@
-
-
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> -->
-<!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,900" rel="stylesheet"> -->
-
 <link rel="stylesheet" href="/global/css/bootstrap.css">
 <link rel="stylesheet" href="/global/css/styles.css">
 <link rel="stylesheet" href="/atendimentos/css/view-atendimentos-master.css">
 
+<link rel="stylesheet" href="/atendimentos/css/jsgrid.css">
+<link rel="stylesheet" href="/atendimentos/css/jsgrid-theme.css">
+<script type="text/javascript" src="/atendimentos/script/jsgrid.min.js"></script>
+<script type="text/javascript" src="/atendimentos/script/atendimentos-grid.js"></script>
 
 <div class="busca-paciente button-link-image">  
   <a href="atendimentos.html" ><img src='/global/images/iconfinder_multimedia-07_2849829.png'  >Buscar outro paciente</a>
@@ -58,10 +57,57 @@
   </div>
 </div>
 
-<hr>
 
 <div class="incluir-paciente button-link-image" >  
   <a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>
   <!-- Função encontra-se em /atendimentos/script/atendimentos-inclusao.js -->
 </div>
+
+
+<!-- <a href="/atendimentos/html/atendimentos-grid.html" class="btn btn-outline-secondary btn-sm" style="width: 150px; align-self: center;"><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span>Carregar Grid</a> -->
+
+<div id="jsGrid"></div> 
+<hr>
+<p style="text-align: center;">Atendimentos anteriores</p>
+<table>
+  <thead>
+    <tr>
+      <th class="view"> </th>
+      <th>Nº</th>
+      <th>Data</th>
+      <th>Queixa</th>
+      <th>Evolução</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td ><a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a></td>
+      <td >4</td>
+      <td>01.10.20</td>
+      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
+      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
+    </tr>
+    <tr>
+      <td ><a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a></td>
+      <td >3</td>
+      <td>12.09.20</td>
+      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
+      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
+    </tr>
+    <tr>
+      <td ><a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a></td>
+      <td >2</td>
+      <td>03.09.20</td>
+      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
+      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
+    </tr>
+    <tr>
+      <td ><a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a></td>
+      <td  >1</td>
+      <td>04.07.20</td>
+      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
+      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
+    </tr>
+  </tbody>
+</table>
 
