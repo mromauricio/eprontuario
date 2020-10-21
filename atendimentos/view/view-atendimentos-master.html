@@ -21,7 +21,7 @@
     <div class="card card-2">
       <h6></h6> 
       <p ></p> 
-        <a href="/pacientes/html/pacientes.html" class="btn btn-outline-secondary btn-sm" style="width: 150px; align-self: center;"><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span>Ir para cadastro</a>
+      <a href="/pacientes/html/pacientes.html" class="btn btn-outline-secondary btn-sm" style="width: 150px;"><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span>Ir para cadastro</a>
     </div>
   </div>
   <div class="col-md-4">
@@ -64,50 +64,28 @@
 </div>
 
 
-<!-- <a href="/atendimentos/html/atendimentos-grid.html" class="btn btn-outline-secondary btn-sm" style="width: 150px; align-self: center;"><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span>Carregar Grid</a> -->
+<!-- <a href="/atendimentos/html/atendimentos-grid.html" class="btn btn-outline-secondary btn-sm" style="width: 150px; text-self: center;"><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span>Carregar Grid</a> -->
 
 <div id="jsGrid"></div> 
 <hr>
-<p style="text-align: center;">Atendimentos anteriores</p>
+<p class="table-title">Atendimentos</p>
+
 <table>
+  <colgroup>
+    <col style="text-align: center;" >
+    <col style="text-align: center;">
+    <col style="text-align: justify; width: 400px;">
+    <col style="text-align: justify; width: 400px" >
+  </colgroup>
   <thead>
     <tr>
-      <th class="view"> </th>
-      <th>Nº</th>
-      <th>Data</th>
+      <th>&nbsp;</th>
+      <th><a  href='javascript:OrdenaData(arrayAtendimentos)' title="Clique aqui para inverter ordenação"><img src="/global/images/iconfinder_Arrows_thin_arrow_up_down_directions_6588514.png">Data</a></th>
       <th>Queixa</th>
       <th>Evolução</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td ><a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a></td>
-      <td >4</td>
-      <td>01.10.20</td>
-      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
-      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
-    </tr>
-    <tr>
-      <td ><a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a></td>
-      <td >3</td>
-      <td>12.09.20</td>
-      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
-      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
-    </tr>
-    <tr>
-      <td ><a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a></td>
-      <td >2</td>
-      <td>03.09.20</td>
-      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
-      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
-    </tr>
-    <tr>
-      <td ><a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a></td>
-      <td  >1</td>
-      <td>04.07.20</td>
-      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
-      <td>dfndfjd dfif ~lrwgmrg sdlfdsfçmdsfdsd dafkdnfwk ~kq ~qlkeneq  ~qekne~lwkrnqe q]dssacaseq.f/weçcd</td>
-    </tr>
+
   </tbody>
 </table>
-

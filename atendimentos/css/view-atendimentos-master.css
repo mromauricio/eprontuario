@@ -81,6 +81,9 @@ h2 {
 .card-2 p{
   font-size: 80%;
 }
+.card-2 a{
+  font-size: 80%;
+}
 
 p span{
   color: cyan;
@@ -145,44 +148,79 @@ p span{
 
 table {
   border-collapse: collapse;
-  border: 1px solid #777;
-  font-family: 'Courier New', Courier, monospace;
+  /* border: 1px solid #777; */
+  /* font-family: 'Courier New', Courier, monospace; */
   letter-spacing: 1px;
   font-size: 70%;
-  
+
+  table-layout: fixed;
+  width: 100%;
 }
+
+
+thead th:nth-child(1) {
+  width: 4%;
+}
+
+thead th:nth-child(2) {
+  width: 10%;
+}
+
+thead th:nth-child(3) {
+  width: 43%;
+}
+
+thead th:nth-child(4) {
+  width: 43%;
+}
+
+
+.table-title{
+  text-align: center; 
+  margin-bottom: 4px;
+  font-size: 80%;
+}
+
 th{
   height: 20px;
 }
 
 td, th {
-  border: 0.5px solid #777;
-  padding: 1.5px 4px;
-  max-width: 480px;
+  /* border: 0.5px solid #777; */
+  padding: 3px 4px;
+  /* max-width: 480px; */
 }
 
 td {
-  text-align: left;
+  /* border: 0.5px solid #777; */
+  text-align: justify;
   color: rgba(245, 245, 245, 0.801);
 }
-
-
+th a{
+  text-decoration: underline;
+  color: black;
+}
+th a:hover{
+  text-decoration: wavy;
+  color: cyan;
+}
 /* th {
   background-color: rgb(235,235,235);
 } */
-th{
+thead th, thead td{
+  padding: 5px 4px;
   text-align: center;
+  /* border-bottom: 1px solid #777; */
+  /* background-color: rgb(66, 66, 66) */
 }
-
-/* tr:nth-child(even) td {
-  background-color:grey
-}
-*/
 
 tr:nth-child(odd) td {
   background-color: rgb(66, 66, 66)
 }  
+/* tr:nth-child(odd) th {
+  background-color: rgb(66, 66, 66)
+}   */
 
-caption {
-  padding: 10px;
-}
+/* thead th{
+  color: black;
+} */
