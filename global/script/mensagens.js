@@ -35,7 +35,7 @@ Swal.fire({
   title: title,
   text: message,
   showConfirmButton: false,
-  timer: 3000,
+  timer: 2500,
   timerProgressBar: true
 })
 }

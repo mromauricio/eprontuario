@@ -77,7 +77,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
         pCard.textContent = idade;
       }
     }
-    btnIncluirPaciente.innerHTML = `<a href='javascript:IncluiAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
+    btnIncluirPaciente.innerHTML = `<a href='javascript:IncluiAtendimento(${id_paciente})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
   }
 }
 

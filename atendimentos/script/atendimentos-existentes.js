@@ -8,14 +8,18 @@ async function VaiParaAtendimento (id_paciente, id_atendimento){
   let retorno = await GetAtendimento(id_paciente, id_atendimento);
   if (retorno.length>0) ExibeAtendimento(retorno[0]);
 }
+
 let id_atendimento, id_paciente, id_profissional;
+
 async function ExibeAtendimento(data){
   id_atendimento = data.id_atendimento;
   id_paciente = data.id_paciente;
   id_profissional = data.id_profissional;
+
   let retorno = await GetHtmlMain('view-atendimentos-formulario.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
+
   let nomePaciente = document.querySelector('.button-link-image p');
   nomePaciente.textContent = data.paciente;
   profissional = document.querySelector('#profissional');
@@ -45,48 +49,14 @@ async function ExibeAtendimento(data){
   tratamentosAnteriores.value = data.tratamentoanterior;
 
   btnGravarAtendimento = document.querySelector('#gravar-atendimento');
-  btnGravarAtendimento.addEventListener('click', ValidaAlteracaoAtendimento);
+  btnGravarAtendimento.addEventListener('click', ProcessaAlteracaoAtendimento);
 }
 
-function ValidaAlteracaoAtendimento(){
-  atendimento.id_atendimento = id_atendimento;
-  atendimento.id_paciente = id_paciente;
-  atendimento.id_profissional = id_profissional;
-  let alertData='', alertHorario='' , alertDuracao='', alertQueixa='', alertIntensidade='', alertTrajetodor='', alertTipodor='', alertEvolucao='', alertAgravante='', alertAtenuante='';
-  if (dataAtendimento.value=='' || CalculaDiferencaDiasAtendimento(dataAtendimento.value) < 0) alertData='data';
-  else atendimento.data = dataAtendimento.value;
-  if (horarioAtendimento.value=='') alertHorario='horário';
-  else atendimento.horario = horarioAtendimento.value;
-  if (duracaoAtendimento.value=='') alertDuracao='duração';
-  else atendimento.duracao = duracaoAtendimento.value;
-  if (isEmpty(queixa.value)) alertQueixa='queixa';
-  else atendimento.queixa = queixa.value;
-  if (IntensidadeDorChecked(intensidadeDor) == 99) alertIntensidade='intensidade'
-  else atendimento.intensidadedor = IntensidadeDorChecked(intensidadeDor);
-  if (IntensidadeDorChecked(intensidadeDor) == 0){
-    atendimento.trajetodor = trajetoDor.value;
-    atendimento.tipodor = tipoDor.value;
-    atendimento.agravante = fatoresAgravantes.value;
-    atendimento.atenuante = fatoresAtenuantes.value;
-  }
-  else {
-    if (isEmpty(trajetoDor.value)) alertTrajetodor='trajeto dor';
-    else atendimento.trajetodor = trajetoDor.value;
-    if (isEmpty(tipoDor.value)) alertTipodor='tipo dor';
-    else atendimento.tipodor = tipoDor.value;
-    if (isEmpty(fatoresAgravantes.value)) alertAgravante='agravantes';
-    else atendimento.agravante = fatoresAgravantes.value;
-    if (isEmpty(fatoresAtenuantes.value)) alertAtenuante='atenuantes';
-    else atendimento.atenuante = fatoresAtenuantes.value;
-  }
-  if (isEmpty(evolucaoQuadro.value)) alertEvolucao='evolução';
-  else atendimento.evolucao = evolucaoQuadro.value;
-  atendimento.tratamentoanterior = tratamentosAnteriores.value;
-  if (alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertTrajetodor=='' && alertTipodor=='' && alertEvolucao=='' && alertAgravante=='' && alertAtenuante=='') {
-    AlteraAtendimento(atendimento);
-  }  
-  else MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${alertData} - ${alertHorario} - ${alertDuracao} - ${alertQueixa} - ${alertIntensidade} - ${alertTrajetodor} - ${alertTipodor} - ${alertEvolucao} - ${alertAgravante} - ${alertAtenuante}`);
-  }
+function ProcessaAlteracaoAtendimento(){
+  let atendimento = ValidaAtendimento (id_atendimento, id_paciente, id_profissional);
+  if (atendimento) AlteraAtendimento(atendimento)
+}
+
 
   async function AlteraAtendimento(atendimento){
     let retorno = await PutAtendimento(JSON.stringify(atendimento)); 
@@ -95,7 +65,7 @@ function ValidaAlteracaoAtendimento(){
       case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
       case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
     }
-    setTimeout( ()=> { RetornaTelaAtendimentosMaster(); }, 3500);
+    setTimeout( ()=> { RetornaTelaAtendimentosMaster(); }, 2500);
   };
 
   async function RetornaTelaAtendimentosMaster() {
