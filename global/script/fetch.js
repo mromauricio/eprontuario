@@ -43,7 +43,6 @@ async function PutPaciente (idSearch, data){
 }
 
 async function PutAtualizaDataPaciente (data){
- 
   let url =  new URL('http://localhost:9001/pacientes');
   try {
     let response = await fetch(url, {
@@ -63,6 +62,21 @@ async function PutAtualizaDataPaciente (data){
 async function GetNome(nome){  
   let url =  new URL('http://localhost:9001/pacientes/nome');
   url.href += (`/?nome=${nome}`);
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      case 406: return 3;
+      case 500: return 5;
+    }
+   } catch (error) {console.log(error);};
+}
+
+async function GetPaciente(id_paciente){  
+  let url =  new URL('http://localhost:9001/pacientes/id');
+  url.href += (`/?id=${id_paciente}`);
   try {
     let response = await fetch(url);
     let data = await response.json();
@@ -158,6 +172,22 @@ async function PostAtendimento (data){
    } catch (error) {console.log(error); return 1;}
  }
 
+ async function PutAtendimento (data){
+  let url =  new URL('http://localhost:9001/atendimentos');
+   try {
+     let response = await fetch(url, {
+       method: 'PUT',
+       headers: {'Content-Type': 'application/json;charset=utf-8'},
+       body: data
+     })
+     switch (response.status){
+       case 200: return 0;
+       case 406: return 3;
+       case 500: return 5;  
+       }
+   } catch (error) {console.log(error); return 1;}
+ }
+
  async function GetAtendimentosPaciente (id_paciente){
   let url =  new URL('http://localhost:9001/atendimentos/paciente');
   url.href += (`/?id=${id_paciente}`);
@@ -173,7 +203,20 @@ async function PostAtendimento (data){
    } catch (error) {console.log(error);};
  }
 
-
+ async function GetAtendimento (id_paciente, id_atendimento){
+  let url =  new URL('http://localhost:9001/atendimentos/atendimento');
+  url.href += (`/?paciente=${id_paciente}&atendimento=${id_atendimento}`);
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      case 406: return 3;
+      case 500: return 5;
+    }
+   } catch (error) {console.log(error);};
+ }
 
 //////// Fetch example////
 

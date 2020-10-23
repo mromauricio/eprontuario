@@ -30,13 +30,13 @@ function ExibePacienteAtendimento(data){
 function PreencheCard1(cpfresp,responsavel,cpf,cns,registro){
   const headCard = document.querySelector('.card-1');
   const p1Card = document.createElement('p');
-  (cpf) ? p1Card.textContent = `CPF.....: `: p1Card.textContent = `CPF resp: `
+  (cpf) ? p1Card.textContent = `CPF.......: `: p1Card.textContent = `CPF resp: `
   headCard.appendChild(p1Card);
   s1Card = document.createElement('span');
-  (cpf) ? s1Card.textContent = cpf : s1Card.textContent = `${cpfresp} ${responsavel}`
+  (cpf) ? s1Card.textContent = cpf : s1Card.textContent = `${cpfresp}`
   p1Card.appendChild(s1Card)
   const p2Card = document.createElement('p');
-  p2Card.textContent = `CNS.....: `
+  p2Card.textContent = `CNS......: `
   headCard.appendChild(p2Card);
   s2Card = document.createElement('span');
   if (cns) s2Card.textContent = cns;
@@ -53,7 +53,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
   const headCard = document.querySelector('.card-2 h6'); 
   headCard.textContent = nome; 
   const pCard = document.querySelector('.card-2 p');
-  btnIncluirPaciente = document.querySelector('.incluir-paciente');
+  btnIncluirPaciente = document.querySelector('.incluir-atendimento');
   if (!ativo) {
     sCard = document.createElement('span');
     sCard.textContent = `Paciente não habilitado para novos atendimentos`;  
@@ -68,7 +68,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
     let idade = CalculaIdade(nascimento);          //
     let diasLog = CalculaDiferencaDias(datalog);  // global/script/calcula.js
     pCard.textContent = idade;
-    if (diasLog) pCard.textContent += ` - cadastro atualizado há ${diasLog} dias`;
+    // if (diasLog) pCard.textContent += ` - cadastro atualizado há ${diasLog} dias`;
     if (diasLog>=180) {
       let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
       if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";
@@ -77,18 +77,17 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
         pCard.textContent = idade;
       }
     }
-    btnIncluirPaciente.innerHTML = `<a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
+    btnIncluirPaciente.innerHTML = `<a href='javascript:IncluiAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
   }
 }
 
 function PreencheCard3(cel,whatsapp,tel,email){
   const headCard = document.querySelector('.card-3');
   const p1Card = document.createElement('p');
-  p1Card.textContent = `Celular : `;
+  p1Card.textContent = `Celular..: `;
   headCard.appendChild(p1Card);
   s1Card = document.createElement('span');
   s1Card.textContent = cel;
-  if (cel) (whatsapp) ? s1Card.textContent += ' usa Whatsapp' : s1Card.textContent += ' SEM Whatsapp'
   p1Card.appendChild(s1Card)
   const p2Card = document.createElement('p');
   p2Card.textContent = `Telefone: `
@@ -97,11 +96,16 @@ function PreencheCard3(cel,whatsapp,tel,email){
   s2Card.textContent = tel;
   p2Card.appendChild(s2Card)
   const p3Card = document.createElement('p');
-  p3Card.textContent = `E-mail..: `
+  p3Card.textContent = `E-mail...: `
   headCard.appendChild(p3Card);
   s3Card = document.createElement('span');
   s3Card.textContent = email;
   p3Card.appendChild(s3Card)
+  if (cel) if (whatsapp) {
+              p1Card.setAttribute('id','cel');
+              s1Card.innerHTML +=`<img src='/global/images/iconfinder_Whatsapp_2460226.png' >` ;
+              p2Card.setAttribute('id','tel');
+            }
 }
 
 function PreencheCard4(historico){
@@ -147,6 +151,12 @@ async function ExibeAtendimentosAnteriores(id_paciente){
     MontaTabelaAtendimentosAnteriores(retorno);
     arrayAtendimentos = retorno;
   }
+  else {
+    const theadClean = document.querySelector('thead');
+    theadClean.setAttribute('class','clean');
+    const caption = document.querySelector('caption');
+    caption.innerText = 'Não existem atendimentos para este paciente'
+  }
 }
 
 function MontaTabelaAtendimentosAnteriores(data){
@@ -155,7 +165,7 @@ function MontaTabelaAtendimentosAnteriores(data){
     const tr = document.createElement('tr');
     bodyAtendimentos.appendChild(tr);
     const rowCol1 = document.createElement('td');
-    rowCol1.innerHTML = `<a href='javascript:VaiParaAtendimento()' title="Clique e vá para o atendimento"  ><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a>`
+    rowCol1.innerHTML = `<a href='javascript:VaiParaAtendimento(${arr[index].id_paciente}, ${arr[index].id_atendimento})' title="Clique e vá para o atendimento"  ><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a>`
     rowCol1.setAttribute('style','text-align: center');
     tr.appendChild(rowCol1);
     const rowCol2 = document.createElement('td');
@@ -164,7 +174,7 @@ function MontaTabelaAtendimentosAnteriores(data){
         arr[index].data = `${dataTemp[2]}.${dataTemp[1]}.${dataTemp[0].substring(2,4)}`;
     }    
     rowCol2.innerText = `${arr[index].data}`;
-    rowCol2.setAttribute('style','text-align: center');
+    rowCol2.setAttribute('style','text-align: left');
     tr.appendChild(rowCol2);
     const rowCol3 = document.createElement('td');
     rowCol3.innerText = `${arr[index].queixa}`;

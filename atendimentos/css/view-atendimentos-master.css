@@ -42,7 +42,7 @@ h2 {
   font-size: 1.5rem;
 }
 
-.incluir-paciente {
+.incluir-atendimento {
   margin-block-start: 10px;
   font-size: 80%;
 }
@@ -55,7 +55,8 @@ h2 {
 }
 
 .card{
-  font-size: 75%;  /*  MRO */
+  font-size: 70%;  /*  MRO */
+  letter-spacing: 1px;
   border-radius: 4px;
   background: #333; /* #fff */
   box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
@@ -66,7 +67,7 @@ h2 {
 }
 
 .card-1 p, .card-1 span, .card-3 p, .card-3 span {
-  font-family: 'Courier New', Courier, monospace;
+  /* font-family: 'Courier New', Courier, monospace; */
   margin-top: 5px;
   line-height: 0;
 }
@@ -75,20 +76,37 @@ h2 {
 .card-6 p,  .card-6 span, .card-7 p,  .card-7 span{
   margin-top: 5px;
   line-height: 1.5;
-  font-family: 'Courier New', Courier, monospace;
+  /* font-family: 'Courier New', Courier, monospace; */
 }
 
 .card-2 p{
+  margin-top: 5px;
   font-size: 80%;
+  color: rgba(245, 245, 245, 0.801);
 }
 .card-2 a{
   font-size: 80%;
+  letter-spacing: 0px;
+  color: black;
+}
+.card-2 a:hover{
+  color: cyan;
+  text-decoration: none;
 }
 
 p span{
-  color: cyan;
+  /* color: cyan; */
+  color: rgba(245, 245, 245, 0.801);
+  letter-spacing: 1px;
 }
 
+#cel {
+  margin-top: 0px;
+  margin-bottom: 3px;
+}
+#tel{
+  margin-bottom: 14px;
+}
 /* .card-2 span{
   color: #777;
 } */
@@ -108,15 +126,15 @@ p span{
 } */
 
 .card h6{
-  font-weight: 50;
-  font-size: 95%;
-  text-align: center;
+  /* font-weight: 50; */
+  font-size: 100%;
+  text-align: left;
 }
 
 .card-2, .card-2 h6{
   color: cyan;
   text-align: center;
-  font-size: 80%;
+  font-size: 90%;
 }
 /* .card img{
   position: absolute;
@@ -175,14 +193,15 @@ thead th:nth-child(4) {
 }
 
 
-.table-title{
+/* .table-title{
   text-align: center; 
-  margin-bottom: 4px;
+  margin-bottom: -5px;
   font-size: 80%;
-}
+} */
 
 th{
   height: 20px;
+  font-weight: 500;
 }
 
 td, th {
@@ -197,22 +216,29 @@ td {
   color: rgba(245, 245, 245, 0.801);
 }
 th a{
-  text-decoration: underline;
+  text-decoration: none;
   color: black;
 }
 th a:hover{
-  text-decoration: wavy;
+  text-decoration: none;
   color: cyan;
 }
 /* th {
   background-color: rgb(235,235,235);
 } */
-thead th, thead td{
+thead th{
+  padding: 5px 4px;
+  text-align: left;
+  /* border-bottom: 1px solid #777; */
+  /* background-color: rgb(66, 66, 66) */
+}
+thead td{
   padding: 5px 4px;
   text-align: center;
   /* border-bottom: 1px solid #777; */
   /* background-color: rgb(66, 66, 66) */
 }
+
 
 tr:nth-child(odd) td {
   background-color: rgb(66, 66, 66)
@@ -224,3 +250,7 @@ tr:nth-child(odd) td {
 /* thead th{
   color: black;
 } */
+
+.clean{
+  display: none;
+}

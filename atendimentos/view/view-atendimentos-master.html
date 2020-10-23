@@ -2,10 +2,7 @@
 <link rel="stylesheet" href="/global/css/styles.css">
 <link rel="stylesheet" href="/atendimentos/css/view-atendimentos-master.css">
 
-<link rel="stylesheet" href="/atendimentos/css/jsgrid.css">
-<link rel="stylesheet" href="/atendimentos/css/jsgrid-theme.css">
-<script type="text/javascript" src="/atendimentos/script/jsgrid.min.js"></script>
-<script type="text/javascript" src="/atendimentos/script/atendimentos-grid.js"></script>
+
 
 <div class="busca-paciente button-link-image">  
   <a href="atendimentos.html" ><img src='/global/images/iconfinder_multimedia-07_2849829.png'  >Buscar outro paciente</a>
@@ -14,19 +11,21 @@
 <div class="row">
   <div class="col-md-4">
     <div class="card card-1">
-      <h6>Documentos</h6>
+      <h6></h6>
     </div>
   </div>
   <div class="col-md-4">
     <div class="card card-2">
       <h6></h6> 
-      <p ></p> 
-      <a href="/pacientes/html/pacientes.html" class="btn btn-outline-secondary btn-sm" style="width: 150px;"><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span>Ir para cadastro</a>
+      <p ><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span></p> 
+      <!-- <a href="/pacientes/html/pacientes.html" class="btn btn-outline-secondary btn-sm" style="width: 150px;"><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span>Ir para cadastro</a> -->
+      <a href="/pacientes/html/pacientes.html" >Atalho para o cadastro do paciente</a>
+      
     </div>
   </div>
   <div class="col-md-4">
     <div class="card card-3">
-      <h6>Contato</h6>
+      <h6></h6>
     </div>
   </div>
 </div>
@@ -57,30 +56,26 @@
   </div>
 </div>
 
-
-<div class="incluir-paciente button-link-image" >  
-  <a href='javascript:CriaTelaAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>
+<div class="incluir-atendimento button-link-image" >  
+  <a href='javascript:IncluiAtendimento()'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>
   <!-- Função encontra-se em /atendimentos/script/atendimentos-inclusao.js -->
 </div>
 
-
-<!-- <a href="/atendimentos/html/atendimentos-grid.html" class="btn btn-outline-secondary btn-sm" style="width: 150px; text-self: center;"><span class="spinner" role="status" aria-hidden="true" style="color: darkgrey;"></span>Carregar Grid</a> -->
-
-<div id="jsGrid"></div> 
+<!-- <p class="table-title">Atendimentos</p> -->
 <hr>
-<p class="table-title">Atendimentos</p>
 
 <table>
+  <caption></caption>
   <colgroup>
     <col style="text-align: center;" >
-    <col style="text-align: center;">
-    <col style="text-align: justify; width: 400px;">
-    <col style="text-align: justify; width: 400px" >
+    <col style="text-align: left;">
+    <col style="text-align: left; width: 400px;">
+    <col style="text-align: left; width: 400px" >
   </colgroup>
   <thead>
     <tr>
       <th>&nbsp;</th>
-      <th><a  href='javascript:OrdenaData(arrayAtendimentos)' title="Clique aqui para inverter ordenação"><img src="/global/images/iconfinder_Arrows_thin_arrow_up_down_directions_6588514.png">Data</a></th>
+      <th><a  href='javascript:OrdenaData(arrayAtendimentos)' title="Clique aqui para inverter ordenação"><img src="/global/images/iconfinder_24-Arrow-direction-pointer-up-down_4510656.png">Data</a></th>
       <th>Queixa</th>
       <th>Evolução</th>
     </tr>

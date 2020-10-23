@@ -38,12 +38,12 @@ let btnGravarAtendimento;
 
 let atendimento = new Atendimento();
 
-async function CriaTelaAtendimento(){
-  let retorno = await GetHtmlMain('view-atendimentos-inclusao.html');
+async function IncluiAtendimento(){
+  let retorno = await GetHtmlMain('view-atendimentos-formulario.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
   let nomePaciente = document.querySelector('.button-link-image p');
-  nomePaciente.textContent = arrayPacienteBd[indexPacienteBd].nome + ' - atendimento nº XXX';
+  nomePaciente.textContent = arrayPacienteBd[indexPacienteBd].nome;
   idPaciente = arrayPacienteBd[indexPacienteBd].id_paciente;
   profissional = document.querySelector('#profissional');
   dataAtendimento = document.querySelector('#data-atendimento');
@@ -97,7 +97,9 @@ else {
 if (isEmpty(evolucaoQuadro.value)) alertEvolucao='evolução';
 else atendimento.evolucao = evolucaoQuadro.value;
 atendimento.tratamentoanterior = tratamentosAnteriores.value;
-if (alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertTrajetodor=='' && alertTipodor=='' && alertEvolucao=='' && alertAgravante=='' && alertAtenuante=='') GravaAtendimento(atendimento);
+if (alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertTrajetodor=='' && alertTipodor=='' && alertEvolucao=='' && alertAgravante=='' && alertAtenuante=='') {
+  GravaAtendimento(atendimento);
+}  
 else MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${alertData} - ${alertHorario} - ${alertDuracao} - ${alertQueixa} - ${alertIntensidade} - ${alertTrajetodor} - ${alertTipodor} - ${alertEvolucao} - ${alertAgravante} - ${alertAtenuante}`);
 }
 
@@ -108,7 +110,7 @@ async function GravaAtendimento(atendimento){
     case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
     case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
   }
-  setTimeout( ()=> { RetornaTelaAtendimentoMaster(); }, 3500);
+  setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 3500);
 };
 
 function IntensidadeDorChecked(intensidade){
@@ -119,7 +121,4 @@ function IntensidadeDorChecked(intensidade){
   return dorNumber;
 }
 
-function RetornaTelaAtendimentoMaster(){
-  CriaTelaAtendimentoMaster(indexPacienteBd);
-}
 
