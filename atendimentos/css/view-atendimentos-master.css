@@ -42,12 +42,13 @@ h2 {
   font-size: 1.5rem;
 }
 
-.incluir-atendimento {
+.incluir-tratamento {
   margin-block-start: 10px;
   font-size: 80%;
 }
 
-.desabilitar-incluir-atendimento a{
+.desabilitar-incluir-tratamento a{
+  margin-block-start: 10px;
   color: rgb(66, 66, 66);
   font-size: 80%;
   text-decoration: none;
