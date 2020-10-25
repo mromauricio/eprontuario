@@ -5,8 +5,9 @@
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
 class Atendimento {
-  constructor(id_paciente, titulotratamento, status,  data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
+  constructor(id_paciente, id_tratamento, titulotratamento, status,  data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
     this.id_paciente = id_paciente;
+    this.id_tratamento = id_tratamento;
     this.titulotratamento = titulotratamento;
     this.status = status;
     this.data = data;
@@ -25,6 +26,8 @@ class Atendimento {
   }
 }
 let idPaciente;
+let idProfissional;
+let idTratamento;
 let tituloTratamento;
 let status;
 let dataAtendimento;
@@ -44,13 +47,15 @@ let btnGravarAtendimento;
 
 let atendimento = new Atendimento();
 
-async function IncluiTratamento(id_paciente){
+async function IncluiTratamentoAtendimento(acao, id_paciente, id_tratamento){
   let retorno = await GetHtmlMain('view-atendimentos-inclusao.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
   let nomePaciente = document.querySelector('.button-link-image p');
   nomePaciente.textContent = arrayPacienteBd[indexPacienteBd].nome;
   idPaciente = id_paciente;
+  idProfissional =  1;     // MOCK - id virá do login
+  idTratamento = 0;
   tituloTratamento = document.querySelector('#titulo-tratamento');
   status = document.querySelector('#status');
   dataAtendimento = document.querySelector('#data-atendimento');
@@ -68,20 +73,33 @@ async function IncluiTratamento(id_paciente){
   tratamentosAnteriores = document.querySelector('#tratamentos-anteriores');
 
   btnGravarAtendimento = document.querySelector('#gravar-atendimento');
-  btnGravarAtendimento.addEventListener('click', ProcessaInclusaoAtendimento);
+  if (acao == 1) btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
+  if (acao == 2) {
+    idTratamento = id_tratamento;
+    let retornoTratamento = await GetTratamento(id_tratamento);
+    if (retornoTratamento.length > 0){
+      tituloTratamento.value = retornoTratamento[0].descricao;
+      status.value = retornoTratamento[0].status;
+      btnGravarAtendimento.addEventListener('click', ProcessaInclusaoAtendimento);
+    }
+  }
 }
 
 function ProcessaInclusaoAtendimento(){
-  id_paciente = idPaciente;
-  id_profissional =  1;     // MOCK - id virá do login
-  let atendimento = ValidaAtendimento (id_paciente, id_profissional);
+ let atendimento = ValidaAtendimento (idPaciente, idProfissional, idTratamento);
+ if (atendimento) GravaAtendimento(atendimento);
+}
+
+function ProcessaInclusaoTratamento(){
+  let atendimento = ValidaAtendimento (idPaciente, idProfissional);
   if (atendimento) GravaTratamento(atendimento)
 }
 
-function ValidaAtendimento(id_paciente, id_profissional){
+function ValidaAtendimento(id_paciente, id_profissional, id_tratamento){
   let alertTitulo='', alertData='', alertHorario='' , alertDuracao='', alertQuadroGeral='', alertQueixa='', alertIntensidade='', alertTrajetodor='', alertTipodor='', alertEvolucao='', alertAgravante='', alertAtenuante='';
   atendimento.id_paciente = id_paciente;
   atendimento.id_profissional = id_profissional; 
+  atendimento.id_tratamento = id_tratamento;
   if (isEmpty(tituloTratamento.value)) alertTitulo='título tratamento';
   else atendimento.titulotratamento = tituloTratamento.value;
   atendimento.status = status.value;
@@ -127,6 +145,16 @@ function ValidaAtendimento(id_paciente, id_profissional){
 
 async function GravaTratamento(atendimento){
   let retorno = await PostTratamento(JSON.stringify(atendimento)); 
+  switch (retorno){
+    case 0: MsgCenterText('success','Atendimento salvo!', ''); break;
+    case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
+    case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
+  }
+  setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
+};
+
+async function GravaAtendimento(atendimento){
+  let retorno = await PostAtendimento(JSON.stringify(atendimento)); 
   switch (retorno){
     case 0: MsgCenterText('success','Atendimento salvo!', ''); break;
     case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    

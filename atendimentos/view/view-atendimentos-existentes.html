@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/atendimentos/css/view-atendimentos.existentes.css">
 
 <div class="button-link-image">
-  <a href='javascript:CriaTelaAtendimentoMaster(id_paciente)'> <img src='/global/images/iconfinder_multimedia-18_2849818.png'>Voltar para visão geral do paciente</a>
+  <a href='javascript:CriaTelaAtendimentoMaster(indexPacienteBd)'> <img src='/global/images/iconfinder_multimedia-18_2849818.png'>Voltar para visão geral do paciente</a>
   <p></p>
 </div>
 <hr>
@@ -23,11 +23,28 @@
       <option>Concluído</option>
     </select>
   </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card card-8">
+        <h6>Estatística Quantitativa</h6>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-9">
+        <h6>Gráfico</h6>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-10">
+        <h6>Estatística Qualititativa</h6>
+      </div>
+    </div>
+  </div>
 </form>
 
 <hr>
-<div class="incluir-tratamento button-link-image" >  
-  <a href='javascript:IncluiAtendimento(${id_paciente},${id_tratamento})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>
+<div class="incluir-atendimento button-link-image" >  
 </div>
 <hr>
 
@@ -38,6 +55,7 @@
     <col style="text-align: left">
     <col style="text-align: center ">
     <col style="text-align: left" >
+    <col >
   </colgroup>
   <thead>
     <tr>
@@ -45,6 +63,7 @@
       <th><a  href='javascript:OrdenaDataAtendimentos(arrayAtendimentosTemp)' title="Clique aqui para inverter ordenação"><img src="/global/images/iconfinder_24-Arrow-direction-pointer-up-down_4510656.png">Data</a></th>
       <th>Queixa principal</th>
       <th>Evolução</th>
+      <th>Atendido por</th>
     </tr>
   </thead>
   <tbody>

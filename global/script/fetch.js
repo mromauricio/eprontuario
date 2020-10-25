@@ -8,6 +8,20 @@ return  status_code
 5       500 Internal Server Error
 */
 
+
+async function GetHtmlMain(html) { 
+  try {
+    let response = await fetch(`../view/${html}`);
+    let data = await response.text();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      }
+  } catch (error) {console.log(error); return 5;};
+}
+
+
+// PACIENTES //////////////////
 async function PostPaciente (data){
  let url =  new URL('http://localhost:9001/pacientes');
   try {
@@ -145,19 +159,25 @@ async function GetRegistro(registro) {
     } catch (error) {console.log(error);};
 }
 
-async function GetHtmlMain(html) { 
-  try {
-    let response = await fetch(`../view/${html}`);
-    let data = await response.text();
-    switch (response.status) {  
-      case 200: return data;
-      case 404: return 2;
-      }
-  } catch (error) {console.log(error); return 5;};
-}
-
+// ATENDIMENTOS /////////////
 async function PostTratamento (data){
   let url =  new URL('http://localhost:9001/atendimentos/tratamento');
+   try {
+     let response = await fetch(url, {
+       method: 'POST',
+       headers: {'Content-Type': 'application/json;charset=utf-8'},
+       body: data
+     })
+     switch (response.status){
+       case 201: return 0;
+       case 406: return 3;
+       case 500: return 5;  
+       }
+   } catch (error) {console.log(error); return 1;}
+ }
+
+ async function PostAtendimento (data){
+  let url =  new URL('http://localhost:9001/atendimentos/atendimento');
    try {
      let response = await fetch(url, {
        method: 'POST',
@@ -206,6 +226,21 @@ async function PostTratamento (data){
  async function GetAtendimentosTratamento (id_tratamento){
   let url =  new URL('http://localhost:9001/atendimentos');
   url.href += (`/?tratamento=${id_tratamento}`);
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      case 406: return 3;
+      case 500: return 5;
+    }
+   } catch (error) {console.log(error);};
+ }
+
+ async function GetTratamento (id_tratamento){
+  let url =  new URL('http://localhost:9001/atendimentos/tratamento');
+  url.href += (`/?id_tratamento=${id_tratamento}`);
   try {
     let response = await fetch(url);
     let data = await response.json();

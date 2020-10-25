@@ -53,7 +53,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
   const headCard = document.querySelector('.card-2 h6'); 
   headCard.textContent = nome; 
   const pCard = document.querySelector('.card-2 p');
-  btnIncluirPaciente = document.querySelector('.incluir-tratamento');
+  btnIncluirTratamento = document.querySelector('.incluir-tratamento');
   if (!ativo) {
     sCard = document.createElement('span');
     sCard.textContent = `Paciente não habilitado para novos atendimentos`;  
@@ -61,8 +61,8 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
     const btnAlert = document.querySelector('.spinner');
     btnAlert.setAttribute('class',"spinner-grow spinner-grow-sm");
     setTimeout( ()=> { btnAlert.removeAttribute('class'); }, 5000);
-    btnIncluirPaciente.innerHTML = `<a href='#'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`
-    btnIncluirPaciente.setAttribute('class','desabilitar-incluir-tratamento');
+    btnIncluirTratamento.innerHTML = `<a href='#'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`
+    btnIncluirTratamento.setAttribute('class','desabilitar-incluir-tratamento');
   }
   else {  
     let idade = CalculaIdade(nascimento);          //
@@ -76,7 +76,8 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
         pCard.textContent = idade;
       }
     }
-    btnIncluirPaciente.innerHTML = `<a href='javascript:IncluiTratamento(${id_paciente})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`;
+    let acao = 1;
+    btnIncluirTratamento.innerHTML = `<a href='javascript:IncluiTratamentoAtendimento(${acao},${id_paciente})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`;
   }
 }
 

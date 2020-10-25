@@ -9,7 +9,7 @@ async function SelecionaTratamento(id_tratamento){
   if (retorno.length>0) ExibeTratamento(retorno);
 }
 
-let id_atendimento, id_paciente, id_profissional, arrayAtendimentosTemp;
+let id_paciente, arrayAtendimentosTemp;
 
 async function ExibeTratamento(data){
   id_paciente = data[0].id_paciente;
@@ -22,15 +22,17 @@ async function ExibeTratamento(data){
   nomePaciente.textContent = data[0].paciente;
   let titulo = document.querySelector('#titulo-tratamento');
   titulo.setAttribute('disabled'," ");
-  titulo.setAttribute('style','background-color: #333;color: rgba(245, 245, 245, 0.801');
+  titulo.setAttribute('style','background-color: #333; color: rgba(245, 245, 245, 0.801); border-color: #777');
   titulo.value = data[0].titulotratamento;
   let status = document.querySelector('#status');
   status.setAttribute('disabled'," ");
-  status.setAttribute('style','background-color: #333;color: rgba(245, 245, 245, 0.801');
+  status.setAttribute('style','background-color: #333; color: rgba(245, 245, 245, 0.801); border-color: #777');
+  btnIncluirAtendimento = document.querySelector('.incluir-atendimento');
+  let acao = 2;
+  btnIncluirAtendimento.innerHTML = `<a href='javascript:IncluiTratamentoAtendimento(${acao},${id_paciente},${data[0].id_tratamento})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
   status.value = data[0].status;
   MontaTabelaAtendimentos(data);
   arrayAtendimentosTemp = data;
-  
 }
 
 function MontaTabelaAtendimentos(data){
@@ -56,6 +58,9 @@ function MontaTabelaAtendimentos(data){
     const rowCol4 = document.createElement('td');
     rowCol4.innerText = `${arr[index].evolucao}`;
     tr.appendChild(rowCol4);
+    const rowCol5 = document.createElement('td');
+    rowCol5.innerText = `${arr[index].profissional}`;
+    tr.appendChild(rowCol5);
   });
 }
 
