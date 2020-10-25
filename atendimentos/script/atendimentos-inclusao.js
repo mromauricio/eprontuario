@@ -5,7 +5,8 @@
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
 class Atendimento {
-  constructor(id_paciente, id_tratamento, titulotratamento, status,  data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
+  constructor(id_atendimento, id_paciente, id_tratamento, titulotratamento, status,  data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
+    this.id_atendimento = id_atendimento;
     this.id_paciente = id_paciente;
     this.id_tratamento = id_tratamento;
     this.titulotratamento = titulotratamento;
@@ -25,6 +26,7 @@ class Atendimento {
     this.tratamentoanterior = tratamentoanterior;
   }
 }
+let idAtendimento;
 let idPaciente;
 let idProfissional;
 let idTratamento;
@@ -47,15 +49,16 @@ let btnGravarAtendimento;
 
 let atendimento = new Atendimento();
 
-async function IncluiTratamentoAtendimento(acao, id_paciente, id_tratamento){
+async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, id_atendimento){
   let retorno = await GetHtmlMain('view-atendimentos-inclusao.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
   let nomePaciente = document.querySelector('.button-link-image p');
   nomePaciente.textContent = arrayPacienteBd[indexPacienteBd].nome;
   idPaciente = id_paciente;
+  idTratamento = id_tratamento;
+  idAtendimento = id_atendimento;
   idProfissional =  1;     // MOCK - id virá do login
-  idTratamento = 0;
   tituloTratamento = document.querySelector('#titulo-tratamento');
   status = document.querySelector('#status');
   dataAtendimento = document.querySelector('#data-atendimento');
@@ -75,7 +78,6 @@ async function IncluiTratamentoAtendimento(acao, id_paciente, id_tratamento){
   btnGravarAtendimento = document.querySelector('#gravar-atendimento');
   if (acao == 1) btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
   if (acao == 2) {
-    idTratamento = id_tratamento;
     let retornoTratamento = await GetTratamento(id_tratamento);
     if (retornoTratamento.length > 0){
       tituloTratamento.value = retornoTratamento[0].descricao;
@@ -83,6 +85,31 @@ async function IncluiTratamentoAtendimento(acao, id_paciente, id_tratamento){
       btnGravarAtendimento.addEventListener('click', ProcessaInclusaoAtendimento);
     }
   }
+  if (acao == 3) {
+    let data = await GetAtendimento(id_atendimento);
+    console.log(data[0])
+    tituloTratamento.value = data[0].titulotratamento;
+    status.value = data[0].status;
+    dataAtendimento.value = data[0].data.substring(0,10);
+    horarioAtendimento.value = data[0].horario;
+    duracaoAtendimento.value = data[0].duracao;
+    profissional.value = data[0].profissional;
+    quadroGeral.value = data[0].quadrogeral;
+    queixa.value = data[0].queixa;
+    trajetoDor.value = data[0].trajetodor;
+    intensidadeDor.children[data[0].intensidadedor].children[0].checked = true;
+    tipoDor.value = data[0].tipodor;
+    evolucaoQuadro.value = data[0].evolucao;
+    fatoresAgravantes.value = data[0].agravante;
+    fatoresAtenuantes.value = data[0].atenuante;
+    tratamentosAnteriores.value = data[0].tratamentoanterior;
+    btnGravarAtendimento.addEventListener('click', ProcessaAlteracaoAtendimento);
+  }
+}
+
+function ProcessaAlteracaoAtendimento(){
+  let atendimento = ValidaAtendimento (idPaciente, idProfissional, idTratamento, idAtendimento);
+  if (atendimento) AlteraAtendimento(atendimento)
 }
 
 function ProcessaInclusaoAtendimento(){
@@ -95,11 +122,12 @@ function ProcessaInclusaoTratamento(){
   if (atendimento) GravaTratamento(atendimento)
 }
 
-function ValidaAtendimento(id_paciente, id_profissional, id_tratamento){
+function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atendimento){
   let alertTitulo='', alertData='', alertHorario='' , alertDuracao='', alertQuadroGeral='', alertQueixa='', alertIntensidade='', alertTrajetodor='', alertTipodor='', alertEvolucao='', alertAgravante='', alertAtenuante='';
   atendimento.id_paciente = id_paciente;
   atendimento.id_profissional = id_profissional; 
   atendimento.id_tratamento = id_tratamento;
+  atendimento.id_atendimento = id_atendimento;
   if (isEmpty(tituloTratamento.value)) alertTitulo='título tratamento';
   else atendimento.titulotratamento = tituloTratamento.value;
   atendimento.status = status.value;
@@ -163,11 +191,19 @@ async function GravaAtendimento(atendimento){
   setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
 };
 
+async function AlteraAtendimento(atendimento){
+  let retorno = await PutAtendimento(JSON.stringify(atendimento)); 
+  switch (retorno){
+    case 0: MsgCenterText('success','Atendimento salvo!', ''); break;
+    case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
+    case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
+  }
+  setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
+};
+
 function IntensidadeDorChecked(intensidade){
   let dorNumber = 99;
-  for (i=0; i<=10; i++){
-    if ( intensidade.children[i].children[0].checked ) dorNumber = i;
-  }
+  for (i=0; i<=10; i++)  if (intensidade.children[i].children[0].checked) dorNumber = i;
   return dorNumber;
 }
 

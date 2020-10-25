@@ -253,6 +253,21 @@ async function PostTratamento (data){
    } catch (error) {console.log(error);};
  }
 
+ async function GetAtendimento (id_atendimento){
+  let url =  new URL('http://localhost:9001/atendimentos/atendimento');
+  url.href += (`/?id_atendimento=${id_atendimento}`);
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      case 406: return 3;
+      case 500: return 5;
+    }
+   } catch (error) {console.log(error);};
+ }
+
 //////// Fetch example////
 
 function PutCpfServer(){  // TEMP

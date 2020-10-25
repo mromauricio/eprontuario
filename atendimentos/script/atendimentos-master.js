@@ -77,7 +77,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
       }
     }
     let acao = 1;
-    btnIncluirTratamento.innerHTML = `<a href='javascript:IncluiTratamentoAtendimento(${acao},${id_paciente})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`;
+    btnIncluirTratamento.innerHTML = `<a href='javascript:ManipulaTratamentoAtendimento(${acao},${id_paciente})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`;
   }
 }
 
