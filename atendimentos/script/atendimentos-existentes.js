@@ -59,8 +59,12 @@ function MontaTabelaAtendimentos(data){
     rowCol4.innerText = `${arr[index].evolucao}`;
     tr.appendChild(rowCol4);
     const rowCol5 = document.createElement('td');
-    rowCol5.innerText = `${arr[index].profissional}`;
+    rowCol5.setAttribute('style','text-align: center');
+    rowCol5.innerText = `${arr[index].intensidadedor}`;
     tr.appendChild(rowCol5);
+    const rowCol6 = document.createElement('td');
+    rowCol6.innerText = `${arr[index].profissional}`;
+    tr.appendChild(rowCol6);
   });
 }
 

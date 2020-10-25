@@ -15,5 +15,9 @@
 }
 
 .table-atendimentos thead th:nth-child(5) {
-  width: 19%;
+  width: 4%;
+}
+
+.table-atendimentos thead th:nth-child(6) {
+  width: 15%;
 }
