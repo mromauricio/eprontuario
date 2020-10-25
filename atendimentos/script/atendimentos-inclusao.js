@@ -5,13 +5,16 @@
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
 class Atendimento {
-  constructor(id_paciente, id_profissional, data, horario, duracao,  queixa, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
+  constructor(id_paciente, titulotratamento, status,  data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
     this.id_paciente = id_paciente;
-    this.id_profissional = id_profissional;
+    this.titulotratamento = titulotratamento;
+    this.status = status;
     this.data = data;
     this.horario = horario;
     this.duracao = duracao;
+    this.id_profissional = id_profissional;
     this.queixa = queixa;
+    this.quadrogeral = quadrogeral;
     this.trajetodor = trajetodor;
     this.intensidadedor = intensidadedor;
     this.tipodor = tipodor;
@@ -22,11 +25,14 @@ class Atendimento {
   }
 }
 let idPaciente;
+let tituloTratamento;
+let status;
 let dataAtendimento;
 let horarioAtendimento;
 let duracaoAtendimento;
 let profissional;
 let queixa;
+let quadroGeral;
 let trajetoDor;
 let intensidadeDor;
 let tipoDor;
@@ -38,17 +44,20 @@ let btnGravarAtendimento;
 
 let atendimento = new Atendimento();
 
-async function IncluiAtendimento(id_paciente){
-  let retorno = await GetHtmlMain('view-atendimentos-formulario.html');
+async function IncluiTratamento(id_paciente){
+  let retorno = await GetHtmlMain('view-atendimentos-inclusao.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
   let nomePaciente = document.querySelector('.button-link-image p');
   nomePaciente.textContent = arrayPacienteBd[indexPacienteBd].nome;
   idPaciente = id_paciente;
-  profissional = document.querySelector('#profissional');
+  tituloTratamento = document.querySelector('#titulo-tratamento');
+  status = document.querySelector('#status');
   dataAtendimento = document.querySelector('#data-atendimento');
   horarioAtendimento = document.querySelector('#horario-atendimento');
   duracaoAtendimento = document.querySelector('#duracao-atendimento');
+  profissional = document.querySelector('#profissional');
+  quadroGeral = document.querySelector('#quadro-geral');
   queixa = document.querySelector('#queixa');
   trajetoDor = document.querySelector('#trajeto-dor');
   intensidadeDor = document.querySelector('#intensidade-dor');
@@ -63,24 +72,27 @@ async function IncluiAtendimento(id_paciente){
 }
 
 function ProcessaInclusaoAtendimento(){
-  id_atendimento = 0; // id_atendimento é autoincrement
   id_paciente = idPaciente;
-  id_profissional =  1;
-  let atendimento = ValidaAtendimento (id_atendimento, id_paciente, id_profissional);
-  if (atendimento) GravaAtendimento(atendimento)
+  id_profissional =  1;     // MOCK - id virá do login
+  let atendimento = ValidaAtendimento (id_paciente, id_profissional);
+  if (atendimento) GravaTratamento(atendimento)
 }
 
-function ValidaAtendimento(id_atendimento, id_paciente, id_profissional){
-  atendimento.id_atendimento = id_atendimento;
+function ValidaAtendimento(id_paciente, id_profissional){
+  let alertTitulo='', alertData='', alertHorario='' , alertDuracao='', alertQuadroGeral='', alertQueixa='', alertIntensidade='', alertTrajetodor='', alertTipodor='', alertEvolucao='', alertAgravante='', alertAtenuante='';
   atendimento.id_paciente = id_paciente;
-  atendimento.id_profissional = id_profissional; // MOCK - id virá do login
-  let alertData='', alertHorario='' , alertDuracao='', alertQueixa='', alertIntensidade='', alertTrajetodor='', alertTipodor='', alertEvolucao='', alertAgravante='', alertAtenuante='';
+  atendimento.id_profissional = id_profissional; 
+  if (isEmpty(tituloTratamento.value)) alertTitulo='título tratamento';
+  else atendimento.titulotratamento = tituloTratamento.value;
+  atendimento.status = status.value;
   if (dataAtendimento.value=='' || CalculaDiferencaDiasAtendimento(dataAtendimento.value) < 0) alertData='data';
   else atendimento.data = dataAtendimento.value;
   if (horarioAtendimento.value=='') alertHorario='horário';
   else atendimento.horario = horarioAtendimento.value;
   if (duracaoAtendimento.value=='') alertDuracao='duração';
   else atendimento.duracao = duracaoAtendimento.value;
+  if (isEmpty(quadroGeral.value)) alertQuadroGeral='quadro geral';
+  else atendimento.quadrogeral = quadroGeral.value;
   if (isEmpty(queixa.value)) alertQueixa='queixa';
   else atendimento.queixa = queixa.value;
   if (IntensidadeDorChecked(intensidadeDor) == 99) alertIntensidade='intensidade'
@@ -104,17 +116,17 @@ function ValidaAtendimento(id_atendimento, id_paciente, id_profissional){
   if (isEmpty(evolucaoQuadro.value)) alertEvolucao='evolução';
   else atendimento.evolucao = evolucaoQuadro.value;
   atendimento.tratamentoanterior = tratamentosAnteriores.value;
-  if (alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertTrajetodor=='' && alertTipodor=='' && alertEvolucao=='' && alertAgravante=='' && alertAtenuante=='') {
+  if (alertTitulo=='' && alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertTrajetodor=='' && alertTipodor=='' && alertEvolucao=='' && alertAgravante=='' && alertAtenuante=='') {
     return atendimento;
   }  
   else {
-    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${alertData} - ${alertHorario} - ${alertDuracao} - ${alertQueixa} - ${alertIntensidade} - ${alertTrajetodor} - ${alertTipodor} - ${alertEvolucao} - ${alertAgravante} - ${alertAtenuante}`);
+    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${alertTitulo} ${alertData} ${alertHorario} ${alertDuracao} ${alertQueixa} ${alertQuadroGeral} ${alertIntensidade}  ${alertTrajetodor}  ${alertTipodor}  ${alertEvolucao}  ${alertAgravante}  ${alertAtenuante}`);
     return false;
   }
 }  
 
-async function GravaAtendimento(atendimento){
-  let retorno = await PostAtendimento(JSON.stringify(atendimento)); 
+async function GravaTratamento(atendimento){
+  let retorno = await PostTratamento(JSON.stringify(atendimento)); 
   switch (retorno){
     case 0: MsgCenterText('success','Atendimento salvo!', ''); break;
     case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    

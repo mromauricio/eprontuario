@@ -5,12 +5,24 @@
 <link rel="stylesheet" href="/atendimentos/css/view-atendimentos-inclusao.css">
 
 <div class="button-link-image">
-  <!-- <a href='javascript:RetornaTelaAtendimentoMaster()'> <img src='/global/images/iconfinder_multimedia-18_2849818.png'>Voltar para visão geral do paciente</a> -->
   <a href='javascript:CriaTelaAtendimentoMaster(indexPacienteBd)'> <img src='/global/images/iconfinder_multimedia-18_2849818.png'>Voltar para visão geral do paciente</a>
   <p></p>
 </div>
 <hr>
 <form class="form-atendimento-inclusao">
+  <div class="form-group">
+    <label for="titulo-tratamento">Título tratamento</label>
+    <input type="text" required class="form-control form-control-sm col-6" id="titulo-tratamento"></input>
+  </div>
+  <div class="form-group">
+    <label for="status">Status</label>
+    <select class="form-control form-control-sm col-2" id="status">
+      <option>Em curso</option>
+      <option>Condicionado</option>
+      <option>Concluído</option>
+    </select>
+  </div>
+  <hr>
   <div class="form-row">
     <div class="col-auto" style="margin-bottom: 10px">
       <label for="data-atendimento">Data do atendimento</label>
@@ -30,6 +42,10 @@
     <input type="text" required  maxlength="255"  class="form-control form-control-sm col-6" id="profissional" placeholder="VIRÁ PREENCHIDO DO LOGIN" disabled style="background-color: #333; border-color: #777;">
   </div>
   <hr>
+  <div class="form-group">
+    <label for="quadro-geral">Quadro geral</label>
+    <textarea rows="1" class="form-control form-control-sm col-6" id="quadro-geral"></textarea>
+  </div>
   <div class="form-group">
     <label for="queixa">Queixa principal</label>
     <textarea rows="1" class="form-control form-control-sm col-6" id="queixa"></textarea>

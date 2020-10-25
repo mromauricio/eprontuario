@@ -156,8 +156,8 @@ async function GetHtmlMain(html) {
   } catch (error) {console.log(error); return 5;};
 }
 
-async function PostAtendimento (data){
-  let url =  new URL('http://localhost:9001/atendimentos');
+async function PostTratamento (data){
+  let url =  new URL('http://localhost:9001/atendimentos/tratamento');
    try {
      let response = await fetch(url, {
        method: 'POST',
@@ -188,7 +188,7 @@ async function PostAtendimento (data){
    } catch (error) {console.log(error); return 1;}
  }
 
- async function GetAtendimentosPaciente (id_paciente){
+ async function GetTratamentosPaciente (id_paciente){
   let url =  new URL('http://localhost:9001/atendimentos/paciente');
   url.href += (`/?id=${id_paciente}`);
   try {
@@ -203,9 +203,9 @@ async function PostAtendimento (data){
    } catch (error) {console.log(error);};
  }
 
- async function GetAtendimento (id_paciente, id_atendimento){
-  let url =  new URL('http://localhost:9001/atendimentos/atendimento');
-  url.href += (`/?paciente=${id_paciente}&atendimento=${id_atendimento}`);
+ async function GetAtendimentosTratamento (id_tratamento){
+  let url =  new URL('http://localhost:9001/atendimentos');
+  url.href += (`/?tratamento=${id_tratamento}`);
   try {
     let response = await fetch(url);
     let data = await response.json();

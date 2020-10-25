@@ -12,7 +12,7 @@ async function CriaTelaAtendimentoMaster(index){
   if (retorno.length>0) { 
     tagMain.innerHTML = retorno;
     ExibePacienteAtendimento(arrayPacienteBd[index]);
-    // ExibeAtendimentosAnteriores(arrayPacienteBd[index].id_paciente)
+    ExibeTratamentos(arrayPacienteBd[index].id_paciente)
   }  
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
 }
@@ -76,7 +76,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
         pCard.textContent = idade;
       }
     }
-    btnIncluirPaciente.innerHTML = `<a href='javascript:IncluiAtendimento(${id_paciente})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`;
+    btnIncluirPaciente.innerHTML = `<a href='javascript:IncluiTratamento(${id_paciente})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`;
   }
 }
 
@@ -143,52 +143,82 @@ function PreencheCard7(medicamento){
   pCard.appendChild(sCard)
 }
 
-// let arrayAtendimentos;
-// async function ExibeAtendimentosAnteriores(id_paciente){
-//   let retorno = await GetAtendimentosPaciente(id_paciente);
-//   if (retorno.length>0) {
-//     MontaTabelaAtendimentosAnteriores(retorno);
-//     arrayAtendimentos = retorno;
-//   }
-//   else {
-//     const theadClean = document.querySelector('thead');
-//     theadClean.setAttribute('class','clean');
-//     const caption = document.querySelector('caption');
-//     caption.innerText = 'Não existem atendimentos para este paciente'
-//   }
-// }
+let arrayTratamentos, arrayTemp;
+async function ExibeTratamentos(id_paciente){
+  let retorno = await GetTratamentosPaciente(id_paciente);
+  if (retorno.length>0) {
+    MontaTabelaTratamentos(retorno);
+    arrayTratamentos = retorno;
+    arrayTemp = arrayTratamentos;
+  }
+  else {
+    const theadClean = document.querySelector('thead');
+    theadClean.setAttribute('class','clean');
+    const caption = document.querySelector('caption');
+    caption.innerText = 'Não existe registro de tratamento para este paciente'
+  }
+}
 
-// function MontaTabelaAtendimentosAnteriores(data){
-//   const bodyAtendimentos = document.querySelector('tbody');
-//   data.forEach( (item, index, arr) => { 
-//     const tr = document.createElement('tr');
-//     bodyAtendimentos.appendChild(tr);
-//     const rowCol1 = document.createElement('td');
-//     rowCol1.innerHTML = `<a href='javascript:VaiParaAtendimento(${arr[index].id_paciente}, ${arr[index].id_atendimento})' title="Clique e vá para o atendimento"  ><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a>`
-//     rowCol1.setAttribute('style','text-align: center');
-//     tr.appendChild(rowCol1);
-//     const rowCol2 = document.createElement('td');
-//     if (arr[index].data.length>8){
-//         let dataTemp = arr[index].data.substring(0,10).split('-');
-//         arr[index].data = `${dataTemp[2]}.${dataTemp[1]}.${dataTemp[0].substring(2,4)}`;
-//     }    
-//     rowCol2.innerText = `${arr[index].data}`;
-//     rowCol2.setAttribute('style','text-align: left');
-//     tr.appendChild(rowCol2);
-//     const rowCol3 = document.createElement('td');
-//     rowCol3.innerText = `${arr[index].queixa}`;
-//     tr.appendChild(rowCol3);
-//     const rowCol4 = document.createElement('td');
-//     rowCol4.innerText = `${arr[index].evolucao}`;
-//     tr.appendChild(rowCol4);
-//   });
-// }
+let statusTable = 'Todos';
+function MontaTabelaTratamentos(data){
+  const thStatus = document.querySelector('#status-table');
+  thStatus.innerHTML = `<a  href='javascript:FiltraStatus(arrayTratamentos)' title="Clique aqui para filtrar por status"><img src="/global/images/iconfinder_arrow_20_393260.png"> ${statusTable}</a>`;
+  const bodyAtendimentos = document.querySelector('tbody');
+  data.forEach( (item, index, arr) => { 
+    const tr = document.createElement('tr');
+    bodyAtendimentos.appendChild(tr);
+    const rowCol1 = document.createElement('td');
+    rowCol1.innerHTML = `<a href='javascript:SelecionaTratamento(${arr[index].id_tratamento})' title="Clique e vá para o tratamento"  ><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a>`
+    rowCol1.setAttribute('style','text-align: center');
+    tr.appendChild(rowCol1);
+    const rowCol2 = document.createElement('td');
+    if (arr[index].datalog.length>8){
+        let dataTemp = arr[index].datalog.substring(0,10).split('-');
+        arr[index].datalog = `${dataTemp[2]}.${dataTemp[1]}.${dataTemp[0].substring(2,4)}`;
+    }    
+    rowCol2.innerText = `${arr[index].datalog}`;
+    rowCol2.setAttribute('style','text-align: left');
+    tr.appendChild(rowCol2);
+    const rowCol3 = document.createElement('td');
+    rowCol3.innerText = `${arr[index].status}`;
+    tr.appendChild(rowCol3);
+    const rowCol4 = document.createElement('td');
+    rowCol4.innerText = `${arr[index].descricao}`;
+    tr.appendChild(rowCol4);
+  });
+}
 
-// function OrdenaData(arrayAtendimentos){
-//   const tableOldBody = document.querySelector('tbody');
-//   tableOldBody.remove()
-//   const tableNewBody = document.createElement('tbody');
-//   const table = document.querySelector('table');
-//   table.appendChild(tableNewBody);
-//   MontaTabelaAtendimentosAnteriores(arrayAtendimentos.reverse())
-// }
+function OrdenaData(arrayTemp){
+  const tableOldBody = document.querySelector('tbody');
+  tableOldBody.remove()
+  const tableNewBody = document.createElement('tbody');
+  const table = document.querySelector('table');
+  table.appendChild(tableNewBody);
+  MontaTabelaTratamentos(arrayTemp.reverse())
+}
+
+function FiltraStatus(arrayTratamentos){
+  const tableOldBody = document.querySelector('tbody');
+  tableOldBody.remove()
+  const tableNewBody = document.createElement('tbody');
+  const table = document.querySelector('table');
+  table.appendChild(tableNewBody);
+  if (statusTable=='Todos'){
+    arrayTemp = arrayTratamentos.filter(arrayTratamentos => arrayTratamentos.status=='Em curso');
+    statusTable='Em curso';
+    MontaTabelaTratamentos(arrayTemp);
+  } else if (statusTable=='Em curso'){
+    arrayTemp = arrayTratamentos.filter(arrayTratamentos => arrayTratamentos.status=='Condicionado');
+    statusTable='Condicionado';
+    MontaTabelaTratamentos(arrayTemp);
+  } else if (statusTable=='Condicionado'){
+    arrayTemp = arrayTratamentos.filter(arrayTratamentos => arrayTratamentos.status=='Concluído');
+    statusTable='Concluído';
+    MontaTabelaTratamentos(arrayTemp);
+  } else if (statusTable=='Concluído'){
+    arrayTemp = arrayTratamentos;
+    statusTable='Todos';
+    MontaTabelaTratamentos(arrayTemp);
+  }
+}
+
