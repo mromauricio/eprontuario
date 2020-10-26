@@ -9,6 +9,8 @@ return  status_code
 */
 
 
+
+
 async function GetHtmlMain(html) { 
   try {
     let response = await fetch(`../view/${html}`);

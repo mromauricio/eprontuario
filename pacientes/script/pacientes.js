@@ -60,7 +60,6 @@ $('#form-pacientes').w2form({
 
 //w2ui['form'].off('*');
 
-
 let cameFromDb = false;
 let idDb = 0;
 let returnGetNome;
@@ -93,8 +92,6 @@ let tempInfoAtivo = document.querySelector('#ativo');
 
 let buttonGravar = document.querySelector('#gravar');
 let buttonDescartar = document.querySelector('#descartar');
-
-
 
 class Paciente {
   constructor(nome, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,genero,
@@ -542,41 +539,41 @@ function ShowDataGetNome(data){
 async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
 
-(isEmpty(tempInfoNome.value)) ? alertNome = `\n[Nome não informado]` : alertNome = '';
+(isEmpty(tempInfoNome.value)) ? alertNome = `Nome não informado` : alertNome = '';
 
 alertResponsavel = '';
 alertCpfresp = '';
 if (tempInfoMenor.checked)
 {
-  if (isEmpty(tempInfoResponsavel.value)) alertResponsavel = `\n[Responsável não informado]`;
+  if (isEmpty(tempInfoResponsavel.value)) alertResponsavel = `Responsável não informado`;
   else alertResponsavel = '';
-  if (tempInfoCpfresp.value.length != 14 && tempInfoCpfresp.value.length != 0) alertCpfresp = `\n[CPF resp. ${tempInfoCpfresp.value}]`;
-  else if (isEmpty(tempInfoCpfresp.value)) alertCpfresp = `\n[CPF resp. não informado]`;
-  else if (tempInfoCpfresp.value==tempInfoCpf.value) alertCpfresp = `\n[CPF do responsável igual do paciente]`;
+  if (tempInfoCpfresp.value.length != 14 && tempInfoCpfresp.value.length != 0) alertCpfresp = `CPF resp. ${tempInfoCpfresp.value}`;
+  else if (isEmpty(tempInfoCpfresp.value)) alertCpfresp = `CPF resp. não informado`;
+  else if (tempInfoCpfresp.value==tempInfoCpf.value) alertCpfresp = `CPF do responsável igual do paciente`;
   else  alertCpfresp = ''; 
 }
 
-if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `\n[CPF ${tempInfoCpf.value}]`;
-else if (isEmpty(tempInfoCpf.value) && tempInfoMenor.checked==false) alertCpf = `\n[CPF não informado]`;
-else if (tempInfoCpf.value.length != 0 && await ValidaExistenciaCpfDB(tempInfoCpf.value)!=0 ) alertCpf = `\n[CPF pertence a outro paciente]`;
+if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `CPF ${tempInfoCpf.value}`;
+else if (isEmpty(tempInfoCpf.value) && tempInfoMenor.checked==false) alertCpf = `CPF não informado`;
+else if (tempInfoCpf.value.length != 0 && await ValidaExistenciaCpfDB(tempInfoCpf.value)!=0 ) alertCpf = `CPF pertence a outro paciente`;
 else alertCpf = ''; 
 
 
-if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0 )  alertCns = `\n[CNS ${tempInfoCns.value}]`;
-else if (tempInfoCns.value.length != 0 && await ValidaExistenciaCnsDB(tempInfoCns.value)!=0 ) alertCns = `\n[CNS pertence a outro paciente]`;
+if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0 )  alertCns = `CNS ${tempInfoCns.value}`;
+else if (tempInfoCns.value.length != 0 && await ValidaExistenciaCnsDB(tempInfoCns.value)!=0 ) alertCns = `CNS pertence a outro paciente`;
 else alertCns = ''; 
 
-if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0)  alertRegistro = `\n[Registro ${tempInfoRegistro.value}]`;
-else if (tempInfoRegistro.value.length != 0 && await ValidaExistenciaRegistroDB(tempInfoRegistro.value)!=0 ) {alertRegistro = `\n[Registro pertence a outro paciente]`;}  
+if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0)  alertRegistro = `Registro ${tempInfoRegistro.value}`;
+else if (tempInfoRegistro.value.length != 0 && await ValidaExistenciaRegistroDB(tempInfoRegistro.value)!=0 ) {alertRegistro = `Registro pertence a outro paciente`;}  
 else alertRegistro = '';  
 
-if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) alertTel = `\n[Tel. ${tempInfoTel.value}]`;
+if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) alertTel = `Tel. ${tempInfoTel.value}`;
 else alertTel = ''; 
 
-if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0)  alertCel = `\n[Cel. ${tempInfoCel.value}]`;
+if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0)  alertCel = `Cel. ${tempInfoCel.value}`;
 else alertCel = '';   
 
-if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) alertCep = `\n[CEP ${tempInfoCep.value}]`;
+if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) alertCep = `CEP ${tempInfoCep.value}`;
 else alertCep = ''; 
 
 if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
@@ -625,7 +622,7 @@ else {
 }
 
 
- 
+
  
 
 

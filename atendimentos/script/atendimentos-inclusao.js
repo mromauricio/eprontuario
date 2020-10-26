@@ -155,20 +155,20 @@ function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atend
   atendimento.id_profissional = id_profissional; 
   atendimento.id_tratamento = id_tratamento;
   atendimento.id_atendimento = id_atendimento;
-  if (isEmpty(tituloTratamento.value)) alertTitulo='título tratamento';
+  if (isEmpty(tituloTratamento.value)) alertTitulo='Título tratamento';
   else atendimento.titulotratamento = tituloTratamento.value;
   atendimento.status = status.value;
-  if (dataAtendimento.value=='' || CalculaDiferencaDiasAtendimento(dataAtendimento.value) < 0) alertData='data';
+  if (dataAtendimento.value=='' || CalculaDiferencaDiasAtendimento(dataAtendimento.value) < 0) alertData='Data';
   else atendimento.data = dataAtendimento.value;
-  if (horarioAtendimento.value=='') alertHorario='horário';
+  if (horarioAtendimento.value=='') alertHorario='Horário';
   else atendimento.horario = horarioAtendimento.value;
-  if (duracaoAtendimento.value=='') alertDuracao='duração';
+  if (duracaoAtendimento.value=='') alertDuracao='Duração';
   else atendimento.duracao = duracaoAtendimento.value;
-  if (isEmpty(queixa.value)) alertQueixa='queixa';
+  if (isEmpty(queixa.value)) alertQueixa='Queixa';
   else atendimento.queixa = queixa.value;
-  if (IntensidadeDorChecked(intensidadeDor) == 99) alertIntensidade='intensidade'
+  if (IntensidadeDorChecked(intensidadeDor) == 99) alertIntensidade='Intensidade'
   else atendimento.intensidadedor = IntensidadeDorChecked(intensidadeDor);
-  if (isEmpty(evolucaoQuadro.value)) alertEvolucao='evolução';
+  if (isEmpty(evolucaoQuadro.value)) alertEvolucao='Evolução';
   else atendimento.evolucao = evolucaoQuadro.value;
   atendimento.quadrogeral = quadroGeral.value;
   atendimento.trajetodor = trajetoDor.value;
@@ -183,7 +183,7 @@ function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atend
     return atendimento;
   }  
   else {
-    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${alertTitulo} ${alertData} ${alertHorario} ${alertDuracao} ${alertQueixa} ${alertIntensidade}   ${alertEvolucao}`);
+    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: \n${alertTitulo} \n${alertData} \n${alertHorario} \n${alertDuracao} \n${alertQueixa} \n${alertIntensidade}  \n${alertEvolucao}`);
     return false;
   }
 }  

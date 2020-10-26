@@ -53,6 +53,9 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
   const headCard = document.querySelector('.card-2 h6'); 
   headCard.textContent = nome; 
   const pCard = document.querySelector('.card-2 p');
+  const aCard = document.querySelector('.card-2 a');
+  aCard.innerHTML = `<a href='javascript:VaiParaCadastroPaciente(${id_paciente})' >Atalho para o cadastro do paciente</a>`;
+
   btnIncluirTratamento = document.querySelector('.incluir-tratamento');
   if (!ativo) {
     sCard = document.createElement('span');
@@ -222,4 +225,21 @@ function FiltraStatus(arrayTratamentos){
     MontaTabelaTratamentos(arrayTemp);
   }
 }
+
+async function VaiParaCadastroPaciente(id_paciente){
+  document.location.href = '/pacientes/html/pacientes.html';
+  // let paciente = await GetPaciente(id_paciente)
+  // ShowDataGetNome(paciente[0])
+}
+
+
+// async function VaiParaCadastroPaciente(id_paciente){
+//   let retorno = await GetHtmlMain('view-pacientes.html');
+//   if (retorno.length>0) { 
+//     tagMain.innerHTML = retorno;
+//     console.log('CHEGUEI AQUI')
+//     console.log(tempInfoNome)
+//   }  
+//   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
+// }
 

@@ -45,7 +45,8 @@ Swal.fire({
   position: 'center',
   icon: type,
   title: title,
-  text: message,
+  // text: message,
+  html: '<sweet-text>' + message + '</sweet-text>',
   showConfirmButton: true
 })
 }
@@ -74,7 +75,7 @@ async function MsgCenterYesNo(type, title, message, buttonYes, buttonNo){
     position: 'center',
     icon: type,
     title: title,
-    html: '<pre>' + message + '</pre>',
+    html: '<pre style="text-align: center;">' + message + '</pre>',
     confirmButtonText: buttonYes,
     showConfirmButton: true,
     showCancelButton: true,

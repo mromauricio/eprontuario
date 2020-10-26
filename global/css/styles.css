@@ -20,6 +20,21 @@ a b:hover {
   text-align: left;
 }
 
+/* SWEETALERT2 */
+sweet-text {
+  text-align: center;
+  font-size: 110%;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  color: #888;
+  white-space: pre-line;
+   /*  white-space: pre-wrap;     For line break \n and tabs \t: */
+}
+pre{
+  font-size: 110%;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  color: #888;
+}
+
 
 body {
   color: #777;
