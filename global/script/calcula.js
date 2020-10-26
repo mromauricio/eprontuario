@@ -44,3 +44,8 @@ async function AtualizaDataLog(id_paciente){
   if (retorno == 0) return true
   if (retorno == 2 || retorno == 3 || retorno == 5) return false
 }
+
+function Hoje(){
+  let dt = new Date();
+  return `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()}`
+}

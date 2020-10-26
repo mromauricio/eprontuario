@@ -61,6 +61,7 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   idProfissional =  1;     // MOCK - id virá do login
   tituloTratamento = document.querySelector('#titulo-tratamento');
   status = document.querySelector('#status');
+  dataTratamento = document.querySelector('#data-tratamento');
   dataAtendimento = document.querySelector('#data-atendimento');
   horarioAtendimento = document.querySelector('#horario-atendimento');
   duracaoAtendimento = document.querySelector('#duracao-atendimento');
@@ -76,12 +77,18 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   tratamentosAnteriores = document.querySelector('#tratamentos-anteriores');
 
   btnGravarAtendimento = document.querySelector('#gravar-atendimento');
-  if (acao == 1) btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
+  if (acao == 1) {
+    dataTratamento.value = Hoje();  // /global/scripts/calcula.js
+    dataAtendimento.value = Hoje();
+    btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
+  }
   if (acao == 2) {
+    dataAtendimento.value = Hoje();
     let retornoTratamento = await GetTratamento(id_tratamento);
     if (retornoTratamento.length > 0){
       tituloTratamento.value = retornoTratamento[0].descricao;
       status.value = retornoTratamento[0].status;
+      dataTratamento.value = retornoTratamento[0].datalog.substring(0,10);
       btnGravarAtendimento.addEventListener('click', ProcessaInclusaoAtendimento);
     }
   }
@@ -90,6 +97,7 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
     console.log(data[0])
     tituloTratamento.value = data[0].titulotratamento;
     status.value = data[0].status;
+    dataTratamento.value = data[0].datalog.substring(0,10);
     dataAtendimento.value = data[0].data.substring(0,10);
     horarioAtendimento.value = data[0].horario;
     duracaoAtendimento.value = data[0].duracao;
@@ -206,6 +214,5 @@ function IntensidadeDorChecked(intensidade){
   for (i=0; i<=10; i++)  if (intensidade.children[i].children[0].checked) dorNumber = i;
   return dorNumber;
 }
-
 
 

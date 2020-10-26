@@ -1,3 +1,19 @@
+.data-tratamento{
+  margin-inline-start: -875px;
+}
+#data-tratamento{
+  background-color: #333; 
+  /* color: rgba(245, 245, 245, 0.801);  */
+  border-color: #777;
+  width: 140px;
+}
+
+/* background-color: #333; border-color: #777; */
+
+#status{
+  width: 110px;
+}
+
 .button-link-image{
   margin-block-start: -10px;
   margin-inline-start: -1px;
