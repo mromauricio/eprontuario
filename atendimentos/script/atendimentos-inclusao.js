@@ -5,12 +5,13 @@
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
 class Atendimento {
-  constructor(id_atendimento, id_paciente, id_tratamento, titulotratamento, status,  data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
+  constructor(id_atendimento, id_paciente, id_tratamento, titulotratamento, status, preenchido, data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
     this.id_atendimento = id_atendimento;
     this.id_paciente = id_paciente;
     this.id_tratamento = id_tratamento;
     this.titulotratamento = titulotratamento;
     this.status = status;
+    this.preenchido = preenchido;
     this.data = data;
     this.horario = horario;
     this.duracao = duracao;
@@ -75,8 +76,9 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   fatoresAgravantes = document.querySelector('#fatores-agravantes');
   fatoresAtenuantes = document.querySelector('#fatores-atenuantes');
   tratamentosAnteriores = document.querySelector('#tratamentos-anteriores');
-
   btnGravarAtendimento = document.querySelector('#gravar-atendimento');
+  btnDescartarAtendimento = document.querySelector('#descartar-atendimento');
+  btnDescartarAtendimento.addEventListener('click', () => {  CriaTelaAtendimentoMaster(indexPacienteBd) } );
   if (acao == 1) {
     dataTratamento.value = Hoje();  // /global/scripts/calcula.js
     dataAtendimento.value = Hoje();
@@ -94,7 +96,6 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   }
   if (acao == 3) {
     let data = await GetAtendimento(id_atendimento);
-    console.log(data[0])
     tituloTratamento.value = data[0].titulotratamento;
     status.value = data[0].status;
     dataTratamento.value = data[0].datalog.substring(0,10);
@@ -115,23 +116,41 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   }
 }
 
-function ProcessaAlteracaoAtendimento(){
+async function ProcessaAlteracaoAtendimento(){
   let atendimento = ValidaAtendimento (idPaciente, idProfissional, idTratamento, idAtendimento);
-  if (atendimento) AlteraAtendimento(atendimento)
+  if (atendimento) { 
+    if (atendimento.preenchido=='Completo') AlteraAtendimento(atendimento)
+    else {
+      let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
+      if (resultModal.isConfirmed) AlteraAtendimento(atendimento)
+    }
+  }
 }
 
-function ProcessaInclusaoAtendimento(){
+async function ProcessaInclusaoAtendimento(){
  let atendimento = ValidaAtendimento (idPaciente, idProfissional, idTratamento);
- if (atendimento) GravaAtendimento(atendimento);
+ if (atendimento) { 
+  if (atendimento.preenchido=='Completo') GravaAtendimento(atendimento)
+  else {
+    let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
+    if (resultModal.isConfirmed) GravaAtendimento(atendimento)
+  }
+}
 }
 
-function ProcessaInclusaoTratamento(){
+async function ProcessaInclusaoTratamento(){
   let atendimento = ValidaAtendimento (idPaciente, idProfissional);
-  if (atendimento) GravaTratamento(atendimento)
+  if (atendimento) { 
+    if (atendimento.preenchido=='Completo') GravaTratamento(atendimento)
+    else {
+      let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
+      if (resultModal.isConfirmed) GravaTratamento(atendimento)
+    }
+  }
 }
 
 function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atendimento){
-  let alertTitulo='', alertData='', alertHorario='' , alertDuracao='', alertQuadroGeral='', alertQueixa='', alertIntensidade='', alertTrajetodor='', alertTipodor='', alertEvolucao='', alertAgravante='', alertAtenuante='';
+  let alertTitulo='', alertData='', alertHorario='' , alertDuracao='',  alertQueixa='', alertIntensidade='', alertEvolucao='';
   atendimento.id_paciente = id_paciente;
   atendimento.id_profissional = id_profissional; 
   atendimento.id_tratamento = id_tratamento;
@@ -145,36 +164,26 @@ function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atend
   else atendimento.horario = horarioAtendimento.value;
   if (duracaoAtendimento.value=='') alertDuracao='duração';
   else atendimento.duracao = duracaoAtendimento.value;
-  if (isEmpty(quadroGeral.value)) alertQuadroGeral='quadro geral';
-  else atendimento.quadrogeral = quadroGeral.value;
   if (isEmpty(queixa.value)) alertQueixa='queixa';
   else atendimento.queixa = queixa.value;
   if (IntensidadeDorChecked(intensidadeDor) == 99) alertIntensidade='intensidade'
   else atendimento.intensidadedor = IntensidadeDorChecked(intensidadeDor);
-  if (IntensidadeDorChecked(intensidadeDor) == 0){
-    atendimento.trajetodor = trajetoDor.value;
-    atendimento.tipodor = tipoDor.value;
-    atendimento.agravante = fatoresAgravantes.value;
-    atendimento.atenuante = fatoresAtenuantes.value;
-  }
-  else {
-    if (isEmpty(trajetoDor.value)) alertTrajetodor='trajeto dor';
-    else atendimento.trajetodor = trajetoDor.value;
-    if (isEmpty(tipoDor.value)) alertTipodor='tipo dor';
-    else atendimento.tipodor = tipoDor.value;
-    if (isEmpty(fatoresAgravantes.value)) alertAgravante='agravantes';
-    else atendimento.agravante = fatoresAgravantes.value;
-    if (isEmpty(fatoresAtenuantes.value)) alertAtenuante='atenuantes';
-    else atendimento.atenuante = fatoresAtenuantes.value;
-  }
   if (isEmpty(evolucaoQuadro.value)) alertEvolucao='evolução';
   else atendimento.evolucao = evolucaoQuadro.value;
+  atendimento.quadrogeral = quadroGeral.value;
+  atendimento.trajetodor = trajetoDor.value;
+  atendimento.tipodor = tipoDor.value;
+  atendimento.agravante = fatoresAgravantes.value;
+  atendimento.atenuante = fatoresAtenuantes.value;
   atendimento.tratamentoanterior = tratamentosAnteriores.value;
-  if (alertTitulo=='' && alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertTrajetodor=='' && alertTipodor=='' && alertEvolucao=='' && alertAgravante=='' && alertAtenuante=='') {
+  if (isEmpty(quadroGeral.value) || isEmpty(trajetoDor.value) || isEmpty(tipoDor.value) || isEmpty(fatoresAgravantes.value) || isEmpty(fatoresAtenuantes.value) ){
+    atendimento.preenchido = 'Pendente'; 
+  } else  atendimento.preenchido = 'Completo';
+  if (alertTitulo=='' && alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertEvolucao=='') {
     return atendimento;
   }  
   else {
-    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${alertTitulo} ${alertData} ${alertHorario} ${alertDuracao} ${alertQueixa} ${alertQuadroGeral} ${alertIntensidade}  ${alertTrajetodor}  ${alertTipodor}  ${alertEvolucao}  ${alertAgravante}  ${alertAtenuante}`);
+    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${alertTitulo} ${alertData} ${alertHorario} ${alertDuracao} ${alertQueixa} ${alertIntensidade}   ${alertEvolucao}`);
     return false;
   }
 }  

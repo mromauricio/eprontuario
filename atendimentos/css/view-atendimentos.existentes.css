@@ -13,17 +13,21 @@
 }
 
 .table-atendimentos thead th:nth-child(3) {
-  width: 35%;
+  width: 9%;
 }
 
 .table-atendimentos thead th:nth-child(4) {
-  width: 35%;
+  width: 30%;
 }
 
 .table-atendimentos thead th:nth-child(5) {
-  width: 4%;
+  width: 30%;
 }
 
 .table-atendimentos thead th:nth-child(6) {
-  width: 15%;
+  width: 4%;
+}
+
+.table-atendimentos thead th:nth-child(7) {
+  width: 16%;
 }

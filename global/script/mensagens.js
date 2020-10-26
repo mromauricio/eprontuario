@@ -68,6 +68,23 @@ let result = await Swal.fire({
 return result
 }
 
+async function MsgCenterYesNo(type, title, message, buttonYes, buttonNo){
+  let result = await Swal.fire({
+    width: 600,
+    position: 'center',
+    icon: type,
+    title: title,
+    html: '<pre>' + message + '</pre>',
+    confirmButtonText: buttonYes,
+    showConfirmButton: true,
+    showCancelButton: true,
+    cancelButtonText: buttonNo,
+    focusCancel: true,
+    focusConfirm: false
+  })
+  return result
+  }
+
 async function MsgHomonio(htmlData){
 let result = await Swal.fire({
   width: 800,

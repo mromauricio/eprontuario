@@ -14,6 +14,22 @@
   width: 110px;
 }
 
+#descartar-atendimento{
+  margin-inline-start: 30%;
+}
+
+pre {
+  text-align: center;
+  font-size: 110%;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  color: #888;
+}
+
+/* sweet-title {
+  text-align: center;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+} */
+
 .button-link-image{
   margin-block-start: -10px;
   margin-inline-start: -1px;

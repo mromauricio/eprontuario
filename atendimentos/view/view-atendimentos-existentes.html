@@ -15,13 +15,19 @@
     <label for="titulo-tratamento">Título tratamento</label>
     <input type="text" required class="form-control form-control-sm col-6" id="titulo-tratamento"></input>
   </div>
-  <div class="form-group">
-    <label for="status">Status</label>
-    <select class="form-control form-control-sm col-2" id="status">
-      <option>Em curso</option>
-      <option>Condicionado</option>
-      <option>Concluído</option>
-    </select>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="status">Status</label>
+      <select class="form-control form-control-sm col-2" id="status">
+        <option>Em curso</option>
+        <option>Condicionado</option>
+        <option>Concluído</option>
+      </select>
+    </div>
+    <div class="col data-tratamento">
+      <label for="data-abertura">Data abertura</label>
+      <input type="date" class="form-control form-control-sm col-2 text-align-center" id="data-tratamento" disabled>
+    </div>
   </div>
 
   <div class="row">
@@ -37,7 +43,7 @@
     </div>
     <div class="col-md-4">
       <div class="card card-10">
-        <h6>Estatística Qualititativa</h6>
+        <h6>Estatística Qualitativa</h6>
       </div>
     </div>
   </div>
@@ -53,6 +59,7 @@
   <colgroup>
     <col style="text-align: center" >
     <col style="text-align: left">
+    <col >
     <col style="text-align: center ">
     <col style="text-align: left" >
     <col style="text-align: center ">
@@ -62,6 +69,7 @@
     <tr>
       <th>&nbsp;</th>
       <th><a  href='javascript:OrdenaDataAtendimentos(arrayAtendimentosTemp)' title="Clique aqui para inverter ordenação"><img src="/global/images/iconfinder_24-Arrow-direction-pointer-up-down_4510656.png">Data</a></th>
+      <th id="preenchido-table"></th>
       <th>Queixa principal</th>
       <th>Evolução</th>
       <th>Dor</th>

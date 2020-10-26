@@ -163,7 +163,7 @@ async function ExibeTratamentos(id_paciente){
 let statusTable = 'Todos';
 function MontaTabelaTratamentos(data){
   const thStatus = document.querySelector('#status-table');
-  thStatus.innerHTML = `<a  href='javascript:FiltraStatus(arrayTratamentos)' title="Clique aqui para filtrar por status"><img src="/global/images/iconfinder_arrow_20_393260.png"> ${statusTable}</a>`;
+  thStatus.innerHTML = `<a href='javascript:FiltraStatus(arrayTratamentos)' title="Clique aqui para filtrar por status"><img src="/global/images/iconfinder_arrow_20_393260.png"> ${statusTable}</a>`;
   const bodyAtendimentos = document.querySelector('tbody');
   data.forEach( (item, index, arr) => { 
     const tr = document.createElement('tr');
