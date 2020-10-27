@@ -5,7 +5,7 @@
 
 $('#form-pacientes').w2form({ 
   name   : 'form',
-  header : `HEADER do formulário - [exibir nome do paciente e data da atualização mais recente, em vermelho se maior que 90 dias]`,
+  header : 'HEADER',
   url    : 'http://localhost:9001/pacientes',
   tabs: [
       { id: 'tab1', caption: 'Dados'  },
@@ -18,7 +18,8 @@ $('#form-pacientes').w2form({
       { field: 'menor', type: 'checkbox',  html: { caption: 'Menor de idade', page: 0, column: 0 } },
       { field: 'nacionalidade', type: 'text',  html: { caption: 'Nacionalidade', page: 0, column: 0 } },
       { field: 'datanascimento', type: 'date', html: { caption: 'Data nascimento', page: 0, column: 0 } },
-      { field: 'genero', type: 'text',  html: { caption: 'Gênero', page: 0, column: 0 } },
+      { field: 'genero', type: 'list',  html: { caption: 'Gênero', page: 0, column: 0, attr: 'style="width: 40px;"' },
+        options: { items: ['Feminino', 'Masculino'] } },
       { field: 'cpf', type: 'text', html: { caption: 'CPF', page: 0, column: 1, group:'Documentos'} },
       { field: 'cns', type: 'text',  html: { caption: 'CNS', page: 0, column: 1 } },
       { field: 'registro', type: 'text',  html: { caption: 'Registro', page: 0, column: 1 } },
@@ -31,7 +32,8 @@ $('#form-pacientes').w2form({
       { field: 'endereco', type: 'text', html: { caption: 'Rua e n༠', page: 0, column: 1, group: 'Endereço' } },
       { field: 'bairro', type: 'text', html: { caption: 'Bairro', page: 0, column: 1 } },
       { field: 'cep', type: 'text', html: { caption: 'CEP', page: 0, column: 1 } },
-      { field: 'uf', type: 'text', html: { caption: 'UF', page: 0, column: 1 } },
+      { field: 'uf', type: 'list', html: { caption: 'UF', page: 0, column: 1 },
+        options: { items: ['   ','Acre','Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Brasília', 'Ceará', 'Espírito Santo', 'Goiás','Maranhão', 'Mato Grosso', 'Mato Grosso do Sul', 'Minas Gerais', 'Pará', 'Paraíba', 'Paraná', 'Pernambuco', 'Piauí','Rio de Janeiro', 'Rio Grande do Norte', 'Rio Grande do Sul', 'Rondônia', 'Roraima', 'Santa Catarina', 'São Paulo', 'Sergipe', 'Tocantis' ] } },
       { field: 'cidade', type: 'text', html: { caption: 'Cidade', page: 0, column: 1 } },
 
       { field: 'historico', type: 'textarea', html: { caption: 'Histórico', page: 0, column: 0, group: 'Histórico clínico', attr: 'placeholder="Acontecimentos relevantes em ordem cronológica"' } },
@@ -39,9 +41,9 @@ $('#form-pacientes').w2form({
       { field: 'medicamento', type: 'textarea', html: { caption: 'Medicamentos', page: 0, column: 1, attr: 'placeholder="Medicamentos de uso regular"' } },
       { field: 'trauma', type: 'textarea', html: { caption: 'Traumas', page: 0, column: 1, attr: 'placeholder="Trauma por mais simples que seja pode influenciar"'} },
 
-      { field: 'ativo',  type: 'checkbox', html: { caption: 'Ativo', page: 0, column: 0, group: 'Habilitado para atendimento'} },
-
-      
+      { field: 'ativo',  type: 'checkbox', html: { caption: 'Ativo', page: 0, column: 0, group: 'Configurações'} },
+      { field: 'formulario',  type: 'list', html: { caption: 'Formulário padrâo', page: 0, column: 0 },
+        options: { items: [' ','Fisioterapêutico', 'Fisioterapêutico infantil', 'Osteopático', 'Osteopático infantil'] } },
       
       { field: 'pdf', type: 'checkbox', html: { caption: 'Anexar PDF', page: 2 } },
       { field: 'imagem', type: 'checkbox', html: { caption: 'Anexar JPG/PNG', page: 2 } },
@@ -58,7 +60,6 @@ $('#form-pacientes').w2form({
  // }   
 });
 
-//w2ui['form'].off('*');
 
 let cameFromDb = false;
 let idDb = 0;
@@ -89,6 +90,7 @@ let tempInfoMedicamento = document.querySelector('#medicamento');
 let tempInfoCirurgia = document.querySelector('#cirurgia');
 let tempInfoTrauma = document.querySelector('#trauma');
 let tempInfoAtivo = document.querySelector('#ativo');
+let tempInfoFormulario = document.querySelector('#formulario');
 
 let buttonGravar = document.querySelector('#gravar');
 let buttonDescartar = document.querySelector('#descartar');
@@ -96,7 +98,7 @@ let buttonDescartar = document.querySelector('#descartar');
 class Paciente {
   constructor(nome, menor, responsavel, cpfresp, cpf, cns, registro, nacionalidade, nascimento,genero,
     tel, cel, whatsapp, email, endereco, cep, bairro, uf, cidade, historico, medicamento, cirurgia,
-    trauma, ativo){
+    trauma, ativo, formulario){
     this.nome = nome;
     this.menor = menor;
     this.responsavel = responsavel;
@@ -121,6 +123,7 @@ class Paciente {
     this.cirurgia = cirurgia;
     this.trauma = trauma;
     this.ativo = ativo;
+    this.formulario = formulario;
   }
 }
 
@@ -277,51 +280,53 @@ tempInfoNome.focus();
 
 function DisableAll(){
   tempInfoMenor.setAttribute('disabled'," ");
-  tempInfoMenor.setAttribute('style','background-color: #333');
+  tempInfoMenor.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoResponsavel.setAttribute('disabled'," ");
-  tempInfoResponsavel.setAttribute('style','background-color: #333');
+  tempInfoResponsavel.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoCpfresp.setAttribute('disabled'," ");
-  tempInfoCpfresp.setAttribute('style','background-color: #333');
+  tempInfoCpfresp.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoCpf.setAttribute('disabled'," ");
-  tempInfoCpf.setAttribute('style','background-color: #333')
+  tempInfoCpf.setAttribute('style','background-color: #333; border-color: #777')
   tempInfoCns.setAttribute('disabled'," ");
-  tempInfoCns.setAttribute('style','background-color: #333');
+  tempInfoCns.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoRegistro.setAttribute('disabled'," ");
-  tempInfoRegistro.setAttribute('style','background-color: #333');
+  tempInfoRegistro.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoNacionalidade.setAttribute('disabled'," ");
-  tempInfoNacionalidade.setAttribute('style','background-color: #333');
+  tempInfoNacionalidade.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoNascimento.setAttribute('disabled'," ");
-  tempInfoNascimento.setAttribute('style','background-color: #333');
+  tempInfoNascimento.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoGenero.setAttribute('disabled'," ");
-  tempInfoGenero.setAttribute('style','background-color: #333');
+  tempInfoGenero.setAttribute('style','width: 80px; border-color: #777'); // backgroud-color on w2ui-1.5.rc1.css  line 1449
   tempInfoTel.setAttribute('disabled'," ");
-  tempInfoTel.setAttribute('style','background-color: #333');
+  tempInfoTel.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoCel.setAttribute('disabled'," ");
-  tempInfoCel.setAttribute('style','background-color: #333');
+  tempInfoCel.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoWhatsapp.setAttribute('disabled'," ");
-  tempInfoWhatsapp.setAttribute('style','background-color: #333');
+  tempInfoWhatsapp.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoEmail.setAttribute('disabled'," ");
-  tempInfoEmail.setAttribute('style','background-color: #333');
+  tempInfoEmail.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoEndereco.setAttribute('disabled'," ");
-  tempInfoEndereco.setAttribute('style','background-color: #333');
+  tempInfoEndereco.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoCep.setAttribute('disabled'," ");
-  tempInfoCep.setAttribute('style','background-color: #333');
+  tempInfoCep.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoBairro.setAttribute('disabled'," ");
-  tempInfoBairro.setAttribute('style','background-color: #333');
+  tempInfoBairro.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoUf.setAttribute('disabled'," ");
-  tempInfoUf.setAttribute('style','background-color: #333');
+  tempInfoUf.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoCidade.setAttribute('disabled'," ");
-  tempInfoCidade.setAttribute('style','background-color: #333');
+  tempInfoCidade.setAttribute('style','background-color: #333; border-color: #777');
   tempInfoHistorico.setAttribute('disabled'," ");
-  tempInfoHistorico.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  tempInfoHistorico.setAttribute('style','background-color: #333; width: 300px; height:60px; border-color: #777');
   tempInfoMedicamento.setAttribute('disabled'," ");
-  tempInfoMedicamento.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  tempInfoMedicamento.setAttribute('style','background-color: #333; width: 300px; height:60px; border-color: #777');
   tempInfoCirurgia.setAttribute('disabled'," ");
-  tempInfoCirurgia.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  tempInfoCirurgia.setAttribute('style','background-color: #333; width: 300px; height:60px; border-color: #777');
   tempInfoTrauma.setAttribute('disabled'," ");
-  tempInfoTrauma.setAttribute('style','background-color: #333; width: 300px; height:150px');
+  tempInfoTrauma.setAttribute('style','background-color: #333; width: 300px; height:60px; border-color: #777');
   tempInfoAtivo.setAttribute('disabled'," ");
-  tempInfoAtivo.setAttribute('style','background-color: #333');
+  tempInfoAtivo.setAttribute('style','background-color: #333; border-color: #777');
+  tempInfoFormulario.setAttribute('disabled'," ");
+  tempInfoFormulario.setAttribute('style','background-color: #333; border-color: #777; width: 150px');
   buttonGravar.setAttribute('disabled'," ");
   buttonDescartar.setAttribute('disabled'," ");
 }
@@ -352,15 +357,15 @@ function ClearData(){
   tempInfoMedicamento.value = '';
   tempInfoCirurgia.value = '';
   tempInfoTrauma.value = '';
+  tempInfoFormulario.value = '';
 }
-
 
 async function SearchRegister(){
   tempInfoNome.value = tempInfoNome.value.toUpperCase();
   headerForm.textContent = tempInfoNome.value;
   EnableAll(); 
   ClearDataMinusNome();
-  let data = await GetNome(tempInfoNome.value);
+  let data = await GetNome(tempInfoNome.value);  // +'%' para buscar a partir de
   if (data.length>0){ 
     cameFromDb = true;
     returnGetNome = data;
@@ -410,6 +415,7 @@ function EnableAll(){
   tempInfoNascimento.removeAttribute('style');
   tempInfoGenero.removeAttribute('disabled');
   tempInfoGenero.removeAttribute('style');
+  tempInfoGenero.setAttribute('style','width: 80px');
   tempInfoTel.removeAttribute('disabled');
   tempInfoTel.removeAttribute('style');
   tempInfoCel.removeAttribute('disabled');
@@ -430,18 +436,20 @@ function EnableAll(){
   tempInfoCidade.removeAttribute('style');
   tempInfoHistorico.removeAttribute('disabled');
   tempInfoHistorico.removeAttribute('style');
-  tempInfoHistorico.setAttribute('style','width: 300px; height:150px');
+  tempInfoHistorico.setAttribute('style','width: 300px; height:60px');
   tempInfoMedicamento.removeAttribute('disabled');
   tempInfoMedicamento.removeAttribute('style');
-  tempInfoMedicamento.setAttribute('style','width: 300px; height:150px');
+  tempInfoMedicamento.setAttribute('style','width: 300px; height:60px');
   tempInfoCirurgia.removeAttribute('disabled');
   tempInfoCirurgia.removeAttribute('style');
-  tempInfoCirurgia.setAttribute('style','width: 300px; height:150px');
+  tempInfoCirurgia.setAttribute('style','width: 300px; height:60px');
   tempInfoTrauma.removeAttribute('disabled');
   tempInfoTrauma.removeAttribute('style');
-  tempInfoTrauma.setAttribute('style','width: 300px; height:150px');
+  tempInfoTrauma.setAttribute('style','width: 300px; height:60px');
   tempInfoAtivo.removeAttribute('disabled');
   tempInfoAtivo.removeAttribute('style');
+  tempInfoFormulario.removeAttribute('disabled');
+  tempInfoFormulario.setAttribute('style','width: 150px;');
   buttonGravar.removeAttribute('disabled');
   buttonDescartar.removeAttribute('disabled');
 }
@@ -496,51 +504,43 @@ function ShowDataGetNome(data){
     tempInfoCpfresp.setAttribute('style','background-color: #333');
   }
   tempInfoResponsavel.value = data.responsavel;
-
   tempInfoCpfresp.value = data.cpfresp;
-
   tempInfoCpf.value = data.cpf;
-  
   tempInfoCns.value = data.cns;
   if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0) tempInfoCns.setAttribute('style','color: red;');
-
   tempInfoRegistro.value = data.registro;
   if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0) tempInfoRegistro.setAttribute('style','color: red;');  
-
   tempInfoNacionalidade.value = data.nacionalidade;
-  tempInfoNascimento.value = data.nascimento;
+  let dataTemp = data.nascimento.substring(0,10).split('-');
+  tempInfoNascimento.value  = `${dataTemp[2]}/${dataTemp[1]}/${dataTemp[0]}`;
   tempInfoGenero.value = data.genero;
-
   tempInfoTel.value = data.tel;
   if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) tempInfoTel.setAttribute('style','color: red;');  
-
   tempInfoCel.value = data.cel;
   if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0) tempInfoCel.setAttribute('style','color: red;');   
-  
   (data.whatsapp) ? tempInfoWhatsapp.checked=true : tempInfoWhatsapp.checked=false
   tempInfoEmail.value = data.email;
   tempInfoEndereco.value = data.endereco;
-
   tempInfoCep.value = data.cep;
   if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) tempInfoCep.setAttribute('style','color: red;'); 
-  
   tempInfoBairro.value = data.bairro;
   tempInfoUf.value = data.uf;
   tempInfoCidade.value = data.cidade;
-
   tempInfoHistorico.value = data.historico;
   tempInfoMedicamento.value = data.medicamento;
   tempInfoCirurgia.value = data.cirurgia;
   tempInfoTrauma.value = data.trauma;
   (data.ativo) ? tempInfoAtivo.checked=true : tempInfoAtivo.checked=false
   if (!tempInfoAtivo.checked) MsgCenterButtonOkText('info','Ativo está desmarcado.',`Não será possível incluir atendimentos.`); 
+  if (data.id_formulario == 10) tempInfoFormulario.value = 'Fisioterapêutico';
+  if (data.id_formulario == 11) tempInfoFormulario.value = 'Fisioterapêutico infantil';
+  if (data.id_formulario == 20) tempInfoFormulario.value = 'Osteopático';
+  if (data.id_formulario == 21) tempInfoFormulario.value = 'Osteopático infantil';  
  }
 
 async function GravaLocalInfo(){  
 let alertNome, alertResponsavel, alertCpfresp,alertCpf, alertCns, alertRegistro, alertTel, alertCel, alertCep; 
-
 (isEmpty(tempInfoNome.value)) ? alertNome = `Nome não informado` : alertNome = '';
-
 alertResponsavel = '';
 alertCpfresp = '';
 if (tempInfoMenor.checked)
@@ -552,30 +552,26 @@ if (tempInfoMenor.checked)
   else if (tempInfoCpfresp.value==tempInfoCpf.value) alertCpfresp = `CPF do responsável igual do paciente`;
   else  alertCpfresp = ''; 
 }
-
 if (tempInfoCpf.value.length != 14 && tempInfoCpf.value.length != 0)  alertCpf = `CPF ${tempInfoCpf.value}`;
 else if (isEmpty(tempInfoCpf.value) && tempInfoMenor.checked==false) alertCpf = `CPF não informado`;
 else if (tempInfoCpf.value.length != 0 && await ValidaExistenciaCpfDB(tempInfoCpf.value)!=0 ) alertCpf = `CPF pertence a outro paciente`;
 else alertCpf = ''; 
-
-
 if (tempInfoCns.value.length != 18 && tempInfoCns.value.length != 0 )  alertCns = `CNS ${tempInfoCns.value}`;
 else if (tempInfoCns.value.length != 0 && await ValidaExistenciaCnsDB(tempInfoCns.value)!=0 ) alertCns = `CNS pertence a outro paciente`;
 else alertCns = ''; 
-
 if (tempInfoRegistro.value.length != 9 && tempInfoRegistro.value.length != 0)  alertRegistro = `Registro ${tempInfoRegistro.value}`;
 else if (tempInfoRegistro.value.length != 0 && await ValidaExistenciaRegistroDB(tempInfoRegistro.value)!=0 ) {alertRegistro = `Registro pertence a outro paciente`;}  
 else alertRegistro = '';  
-
 if (tempInfoTel.value.length !=14 && tempInfoTel.value.length != 0) alertTel = `Tel. ${tempInfoTel.value}`;
 else alertTel = ''; 
-
 if (tempInfoCel.value.length !=15 && tempInfoCel.value.length != 0)  alertCel = `Cel. ${tempInfoCel.value}`;
 else alertCel = '';   
-
 if (tempInfoCep.value.length !=9 && tempInfoCep.value.length != 0) alertCep = `CEP ${tempInfoCep.value}`;
 else alertCep = ''; 
-
+if (tempInfoFormulario.value == 'Fisioterapêutico') tempInfoFormulario.value = 10;
+if (tempInfoFormulario.value == 'Fisioterapêutico infantil') tempInfoFormulario.value = 11;
+if (tempInfoFormulario.value == 'Osteopático') tempInfoFormulario.value = 20;
+if (tempInfoFormulario.value == 'Osteopático infantil') tempInfoFormulario.value = 21;  
 if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
   { 
   MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: \n${alertNome} \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
@@ -594,7 +590,7 @@ else {
     tempInfoEndereco.value, tempInfoCep.value, tempInfoBairro.value, 
     tempInfoUf.value, tempInfoCidade.value, tempInfoHistorico.value,
     tempInfoMedicamento.value, tempInfoCirurgia.value, tempInfoTrauma.value,
-    tempInfoAtivo.checked);
+    tempInfoAtivo.checked, tempInfoFormulario.value);
   if (cameFromDb){
     let retorno = await PutPaciente(idDb, JSON.stringify(paciente)); // fetch.js
     switch (retorno){

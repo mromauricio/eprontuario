@@ -36,18 +36,18 @@ var w2utils = (function ($) {
         version  : '1.5.RC1',
         settings : {
             "locale"            : "en-us",
-            "dateFormat"        : "m/d/yyyy",
+            "dateFormat"        : "d/m/yyyy",
             "timeFormat"        : "hh:mi pm",
-            "datetimeFormat"    : "m/d/yyyy|hh:mi pm",
+            "datetimeFormat"    : "d/m/yyyy|hh:mi pm",
             "currencyPrefix"    : "$",
             "currencySuffix"    : "",
             "currencyPrecision" : 2,
             "groupSymbol"       : ",",
             "decimalSymbol"     : ".",
-            "shortmonths"       : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            "fullmonths"        : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-            "shortdays"         : ["M", "T", "W", "T", "F", "S", "S"],
-            "fulldays"          : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "shortmonths"       : ["Jan", "Feb", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+            "fullmonths"        : ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+            "shortdays"         : ["S", "T", "Q", "Q", "S", "S", "D"],
+            "fulldays"          : ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"],
             "weekStarts"        : "M",        // can be "M" for Monday or "S" for Sunday
             "dataType"          : 'HTTPJSON', // can be HTTP, HTTPJSON, RESTFULL, RESTFULLJSON, JSON (case sensitive)
             "phrases"           : {},         // empty object for english phrases

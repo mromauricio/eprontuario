@@ -1445,7 +1445,8 @@ background-color: rgb(97, 95, 95);  /* MRO */
 .w2ui-select[readonly],
 .w2ui-select[disabled] {
   background-image: none;
-  background-color: #f1f1f1 !important;
+  /* background-color: #f1f1f1 !important; */
+  background-color: #333 !important;  /* MRO */
   color: #777 !important;
 }
 /*
