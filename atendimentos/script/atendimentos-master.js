@@ -8,9 +8,7 @@
 async function CriaTelaAtendimentoMaster(index, atalho){
   indexPacienteBd = index;
   Swal.close(); 
-  let retorno;
-  if (atalho) retorno = await GetHtmlMain('../../view/view-atendimentos-master.html');
-  else retorno = await GetHtmlMain('view-atendimentos-master.html');
+  let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-master.html');
   if (retorno.length>0) { 
     tagMain.innerHTML = retorno;
     ExibePacienteAtendimento(arrayPacienteBd[index]);

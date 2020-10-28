@@ -52,7 +52,7 @@ let btnGravarAtendimento;
 let atendimento = new Atendimento();
 
 async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, id_atendimento, id_formulario){
-  let retorno = await GetHtmlMain('view-atendimentos-inclusao.html');
+  let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-inclusao.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
   let nomePaciente = document.querySelector('.button-link-image p');

@@ -9,10 +9,9 @@ return  status_code
 */
 
 
-
 async function GetHtmlMain(html) { 
   try {
-    let response = await fetch(`../view/${html}`);
+    let response = await fetch(html);
     let data = await response.text();
     switch (response.status) {  
       case 200: return data;
@@ -20,7 +19,6 @@ async function GetHtmlMain(html) {
       }
   } catch (error) {console.log(error); return 5;};
 }
-
 
 // Endpoint PACIENTES //////////////////
 async function PostPaciente (data){

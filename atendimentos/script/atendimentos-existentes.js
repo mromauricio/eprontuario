@@ -13,7 +13,7 @@ let id_paciente, arrayAtendimentos, arrayAtendimentosTemp;
 
 async function ExibeTratamento(data){
   id_paciente = data[0].id_paciente;
-  let retorno = await GetHtmlMain('view-atendimentos-existentes.html');
+  let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-existentes.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
   let nomePaciente = document.querySelector('.button-link-image p');
