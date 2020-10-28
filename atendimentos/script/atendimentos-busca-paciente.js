@@ -24,6 +24,19 @@ function ClearSearch(){
   idNome.value='';
 }
 
+window.addEventListener('load', async function(event) {
+  const urlParams = new URLSearchParams(window.location.search)
+  let id = urlParams.get('atalho')
+  if (id){
+    let retorno = await GetPaciente(id);
+    if (retorno.length==1) {
+      arrayPacienteBd = retorno;
+      CriaTelaAtendimentoMaster(retorno.length - 1, true);
+    }  
+  } 
+  });
+
+
 idCpf.addEventListener('keyup', async function(event){
   if (event.keyCode === 13) {
     event.preventDefault();

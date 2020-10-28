@@ -5,10 +5,11 @@
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
 class Atendimento {
-  constructor(id_atendimento, id_paciente, id_tratamento, titulotratamento, status, preenchido, data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
+  constructor(id_atendimento, id_paciente, id_tratamento, id_formulario, titulotratamento, status, preenchido, data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
     this.id_atendimento = id_atendimento;
     this.id_paciente = id_paciente;
     this.id_tratamento = id_tratamento;
+    this.id_formulario = id_formulario;
     this.titulotratamento = titulotratamento;
     this.status = status;
     this.preenchido = preenchido;
@@ -31,6 +32,7 @@ let idAtendimento;
 let idPaciente;
 let idProfissional;
 let idTratamento;
+let idFormulario;
 let tituloTratamento;
 let status;
 let dataAtendimento;

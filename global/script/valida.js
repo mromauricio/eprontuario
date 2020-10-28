@@ -1,5 +1,7 @@
 /// MÁSCARAS
 $(document).ready(function () { 
+  let $nasc = $('#datanascimento');
+  $nasc.mask('00/00/0000', {reverse: false});
   let $cpf = $('#cpf');
   $cpf.mask('000.000.000-00', {reverse: false});
   let $cpfresp = $('#cpfresp');

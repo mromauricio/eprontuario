@@ -5,10 +5,12 @@
 // Valida...  (/global/script/valida.js)
 // ...Master  (/atendimentos/script/atendimentos-master.js)
 
-async function CriaTelaAtendimentoMaster(index){
+async function CriaTelaAtendimentoMaster(index, atalho){
   indexPacienteBd = index;
   Swal.close(); 
-  let retorno = await GetHtmlMain('view-atendimentos-master.html');
+  let retorno;
+  if (atalho) retorno = await GetHtmlMain('../../view/view-atendimentos-master.html');
+  else retorno = await GetHtmlMain('view-atendimentos-master.html');
   if (retorno.length>0) { 
     tagMain.innerHTML = retorno;
     ExibePacienteAtendimento(arrayPacienteBd[index]);
@@ -54,7 +56,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
   headCard.textContent = nome; 
   const pCard = document.querySelector('.card-2 p');
   const aCard = document.querySelector('.card-2 a');
-  aCard.innerHTML = `<a href='javascript:VaiParaCadastroPaciente(${id_paciente})' >Atalho para o cadastro do paciente</a>`;
+  aCard.innerHTML = `<a href = /pacientes/html/pacientes.html/?atalho=${id_paciente} >Atalho para o cadastro do paciente</a>`;
 
   btnIncluirTratamento = document.querySelector('.incluir-tratamento');
   if (!ativo) {
@@ -73,7 +75,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
     pCard.textContent = idade;
     if (diasLog>=180) {
       let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
-      if (resultModal.isConfirmed) document.location.href = "/pacientes/html/pacientes.html";
+      if (resultModal.isConfirmed) document.location = `/pacientes/html/pacientes.html/?id=${id_paciente} `;
       else if (resultModal.isDenied) { 
         (AtualizaDataLog(id_paciente)) ? MsgTop('success', 'Data do cadastro foi atualizada!') : MsgTop('error', 'Falha na atualização da data!');  // global/script/calcula.js
         pCard.textContent = idade;
@@ -225,21 +227,4 @@ function FiltraStatus(arrayTratamentos){
     MontaTabelaTratamentos(arrayTemp);
   }
 }
-
-async function VaiParaCadastroPaciente(id_paciente){
-  document.location.href = '/pacientes/html/pacientes.html';
-  // let paciente = await GetPaciente(id_paciente)
-  // ShowDataGetNome(paciente[0])
-}
-
-
-// async function VaiParaCadastroPaciente(id_paciente){
-//   let retorno = await GetHtmlMain('view-pacientes.html');
-//   if (retorno.length>0) { 
-//     tagMain.innerHTML = retorno;
-//     console.log('CHEGUEI AQUI')
-//     console.log(tempInfoNome)
-//   }  
-//   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
-// }
 
