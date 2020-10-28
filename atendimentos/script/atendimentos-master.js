@@ -20,8 +20,8 @@ async function CriaTelaAtendimentoMaster(index, atalho){
 }
 
 function ExibePacienteAtendimento(data){
-  PreencheCard1(data.cpfresp, data.responsavel, data.cpf, data.cns, data.registro);
-  PreencheCard2(data.nascimento,data.datalog,data.nome,data.ativo,data.id_paciente);
+  PreencheCard1(data.cpfresp, data.cpf, data.cns, data.registro);
+  PreencheCard2(data.nascimento,data.datalog,data.nome,data.ativo,data.id_paciente, data.id_formulario);
   PreencheCard3(data.cel,data.whatsapp,data.tel,data.email);
   PreencheCard4(data.historico);
   PreencheCard5(data.cirurgia);
@@ -29,7 +29,7 @@ function ExibePacienteAtendimento(data){
   PreencheCard7(data.medicamento);
 }
 
-function PreencheCard1(cpfresp,responsavel,cpf,cns,registro){
+function PreencheCard1(cpfresp, cpf, cns, registro){
   const headCard = document.querySelector('.card-1');
   const p1Card = document.createElement('p');
   (cpf) ? p1Card.textContent = `CPF.......: `: p1Card.textContent = `CPF resp: `
@@ -51,7 +51,7 @@ function PreencheCard1(cpfresp,responsavel,cpf,cns,registro){
   p3Card.appendChild(s3Card)
 }
 
-async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
+async function PreencheCard2(nascimento, datalog, nome, ativo, id_paciente, id_formulario){
   const headCard = document.querySelector('.card-2 h6'); 
   headCard.textContent = nome; 
   const pCard = document.querySelector('.card-2 p');
@@ -82,7 +82,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
       }
     }
     let acao = 1;
-    btnIncluirTratamento.innerHTML = `<a href='javascript:ManipulaTratamentoAtendimento(${acao},${id_paciente})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`;
+    btnIncluirTratamento.innerHTML = `<a href='javascript:ManipulaTratamentoAtendimento(${acao},${id_paciente},0,0,${id_formulario})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`;
   }
 }
 

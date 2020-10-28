@@ -32,7 +32,6 @@ let idAtendimento;
 let idPaciente;
 let idProfissional;
 let idTratamento;
-let idFormulario;
 let tituloTratamento;
 let status;
 let dataAtendimento;
@@ -52,7 +51,7 @@ let btnGravarAtendimento;
 
 let atendimento = new Atendimento();
 
-async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, id_atendimento){
+async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, id_atendimento, id_formulario){
   let retorno = await GetHtmlMain('view-atendimentos-inclusao.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
@@ -65,6 +64,7 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   tituloTratamento = document.querySelector('#titulo-tratamento');
   status = document.querySelector('#status');
   dataTratamento = document.querySelector('#data-tratamento');
+  formulario = document.querySelector('#formulario');
   dataAtendimento = document.querySelector('#data-atendimento');
   horarioAtendimento = document.querySelector('#horario-atendimento');
   duracaoAtendimento = document.querySelector('#duracao-atendimento');
@@ -84,10 +84,20 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   if (acao == 1) {
     dataTratamento.value = Hoje();  // /global/scripts/calcula.js
     dataAtendimento.value = Hoje();
+    if (id_formulario == 10) formulario.value = 'Fisioterapêutico';
+    if (id_formulario == 11) formulario.value = 'Fisioterapêutico infantil';
+    if (id_formulario == 20) formulario.value = 'Osteopático';
+    if (id_formulario == 21) formulario.value = 'Osteopático infantil';
+
     btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
   }
   if (acao == 2) {
     dataAtendimento.value = Hoje();
+    retornoPaciente = await GetPaciente(id_paciente);
+    if (retornoPaciente[0].id_formulario == 10) formulario.value = 'Fisioterapêutico';
+    if (retornoPaciente[0].id_formulario == 11) formulario.value = 'Fisioterapêutico infantil';
+    if (retornoPaciente[0].id_formulario == 20) formulario.value = 'Osteopático';
+    if (retornoPaciente[0].id_formulario == 21) formulario.value = 'Osteopático infantil';
     let retornoTratamento = await GetTratamento(id_tratamento);
     if (retornoTratamento.length > 0){
       tituloTratamento.value = retornoTratamento[0].descricao;
@@ -101,6 +111,7 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
     tituloTratamento.value = data[0].titulotratamento;
     status.value = data[0].status;
     dataTratamento.value = data[0].datalog.substring(0,10);
+    formulario.value = data[0].formulario;
     dataAtendimento.value = data[0].data.substring(0,10);
     horarioAtendimento.value = data[0].horario;
     duracaoAtendimento.value = data[0].duracao;
@@ -159,6 +170,10 @@ function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atend
   atendimento.id_atendimento = id_atendimento;
   if (isEmpty(tituloTratamento.value)) alertTitulo='Título tratamento';
   else atendimento.titulotratamento = tituloTratamento.value;
+  if (formulario.value == 'Fisioterapêutico') atendimento.id_formulario = 10;
+  if (formulario.value == 'Fisioterapêutico infantil') atendimento.id_formulario = 11;
+  if (formulario.value == 'Osteopático') atendimento.id_formulario = 20;
+  if (formulario.value == 'Osteopático infantil') atendimento.id_formulario = 21;
   atendimento.status = status.value;
   if (dataAtendimento.value=='' || CalculaDiferencaDiasAtendimento(dataAtendimento.value) < 0) alertData='Data';
   else atendimento.data = dataAtendimento.value;
