@@ -22,7 +22,7 @@ async function GetHtmlMain(html) {
 }
 
 
-// PACIENTES //////////////////
+// Endpoint PACIENTES //////////////////
 async function PostPaciente (data){
  let url =  new URL('http://localhost:9001/pacientes');
   try {
@@ -160,7 +160,7 @@ async function GetRegistro(registro) {
     } catch (error) {console.log(error);};
 }
 
-// ATENDIMENTOS /////////////
+// Endpoint ATENDIMENTOS /////////////
 async function PostTratamento (data){
   let url =  new URL('http://localhost:9001/atendimentos/tratamento');
    try {
@@ -257,6 +257,21 @@ async function PostTratamento (data){
  async function GetAtendimento (id_atendimento){
   let url =  new URL('http://localhost:9001/atendimentos/atendimento');
   url.href += (`/?id_atendimento=${id_atendimento}`);
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      case 406: return 3;
+      case 500: return 5;
+    }
+   } catch (error) {console.log(error);};
+ }
+
+///// Endpoint FORMULARIOS
+async function GetFormularios(){
+  let url =  new URL('http://localhost:9001/formularios/lista');
   try {
     let response = await fetch(url);
     let data = await response.json();

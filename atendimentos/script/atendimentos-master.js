@@ -75,7 +75,7 @@ async function PreencheCard2(nascimento,datalog,nome,ativo,id_paciente){
     pCard.textContent = idade;
     if (diasLog>=180) {
       let resultModal = await MsgCenterButtonsText('info','Cadastro desatualizado', `Última alteração faz ${diasLog} dias`);
-      if (resultModal.isConfirmed) document.location = `/pacientes/html/pacientes.html/?id=${id_paciente} `;
+      if (resultModal.isConfirmed) document.location = `/pacientes/html/pacientes.html/?atalho=${id_paciente}`;
       else if (resultModal.isDenied) { 
         (AtualizaDataLog(id_paciente)) ? MsgTop('success', 'Data do cadastro foi atualizada!') : MsgTop('error', 'Falha na atualização da data!');  // global/script/calcula.js
         pCard.textContent = idade;
