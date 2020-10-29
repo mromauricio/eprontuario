@@ -267,6 +267,21 @@ async function PostTratamento (data){
    } catch (error) {console.log(error);};
  }
 
+ async function GetQuadroGeral (id_tratamento){
+  let url =  new URL('http://localhost:9001/atendimentos/quadrogeral');
+  url.href += (`/?id_tratamento=${id_tratamento}`);
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+    switch (response.status) {  
+      case 200: return data;
+      case 404: return 2;
+      case 406: return 3;
+      case 500: return 5;
+    }
+   } catch (error) {console.log(error);};
+ }
+
 ///// Endpoint FORMULARIOS
 async function GetFormularios(){
   let url =  new URL('http://localhost:9001/formularios/lista');

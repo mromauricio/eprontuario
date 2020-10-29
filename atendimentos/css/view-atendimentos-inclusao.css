@@ -27,12 +27,13 @@
   font-size: 80%;
 }
 
-.button-link-image a {
+.button-link-image a, a small {
   color: black;
   text-decoration: none;
 }
-.button-link-image a:hover {
+.button-link-image a:hover, a:hover small {
   color: cyan;
+  text-decoration: none;
 }
 .button-link-image p {
   margin-top: 5px;

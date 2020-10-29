@@ -40,6 +40,7 @@ let duracaoAtendimento;
 let profissional;
 let queixa;
 let quadroGeral;
+let ultimoQuadroGeral;
 let trajetoDor;
 let intensidadeDor;
 let tipoDor;
@@ -63,13 +64,14 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   idProfissional =  1;     // MOCK - id virá do login
   tituloTratamento = document.querySelector('#titulo-tratamento');
   status = document.querySelector('#status');
-  dataTratamento = document.querySelector('#data-tratamento');
-  formulario = document.querySelector('#formulario');
+  let dataTratamento = document.querySelector('#data-tratamento');
+  let formulario = document.querySelector('#formulario');
   dataAtendimento = document.querySelector('#data-atendimento');
   horarioAtendimento = document.querySelector('#horario-atendimento');
   duracaoAtendimento = document.querySelector('#duracao-atendimento');
   profissional = document.querySelector('#profissional');
   quadroGeral = document.querySelector('#quadro-geral');
+  btnCopiaQuadroGeral = document.querySelector('.copia-quadro-geral');
   queixa = document.querySelector('#queixa');
   trajetoDor = document.querySelector('#trajeto-dor');
   intensidadeDor = document.querySelector('#intensidade-dor');
@@ -92,8 +94,15 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
     btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
   }
   if (acao == 2) {
-    dataAtendimento.value = Hoje();
+    let idUltimoAtendimento = await GetQuadroGeral(id_tratamento);
+    if (idUltimoAtendimento[0].ultimo) {
+      btnCopiaQuadroGeral.removeAttribute('style');
+      btnCopiaQuadroGeral.nextElementSibling.removeAttribute('style');
+      let ultimoAtendimento = await GetAtendimento(idUltimoAtendimento[0].ultimo)
+      ultimoQuadroGeral = ultimoAtendimento[0].quadrogeral;
+    } 
     retornoPaciente = await GetPaciente(id_paciente);
+    dataAtendimento.value = Hoje();
     if (retornoPaciente[0].id_formulario == 10) formulario.value = 'Fisioterapêutico';
     if (retornoPaciente[0].id_formulario == 11) formulario.value = 'Fisioterapêutico infantil';
     if (retornoPaciente[0].id_formulario == 20) formulario.value = 'Osteopático';
@@ -127,6 +136,11 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
     tratamentosAnteriores.value = data[0].tratamentoanterior;
     btnGravarAtendimento.addEventListener('click', ProcessaAlteracaoAtendimento);
   }
+}
+
+
+function CopiaQuadroGeral(){
+  quadroGeral.value = ultimoQuadroGeral
 }
 
 async function ProcessaAlteracaoAtendimento(){
