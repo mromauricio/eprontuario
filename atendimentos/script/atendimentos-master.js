@@ -54,7 +54,7 @@ async function PreencheCard2(nascimento, datalog, nome, ativo, id_paciente, id_f
   headCard.textContent = nome; 
   const pCard = document.querySelector('.card-2 p');
   const aCard = document.querySelector('.card-2 a');
-  aCard.innerHTML = `<a href = /pacientes/html/pacientes.html/?atalho=${id_paciente} >Atalho para o cadastro do paciente</a>`;
+  aCard.innerHTML = `<a href = /pacientes/html/pacientes.html/?atalho=${id_paciente} >Precisa mudar dados cadastrais deste paciente?</a>`;
 
   btnIncluirTratamento = document.querySelector('.incluir-tratamento');
   if (!ativo) {

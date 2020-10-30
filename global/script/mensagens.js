@@ -103,7 +103,7 @@ return result
 async function MsgSearch(htmlData){
 let result = await Swal.fire({
   width: 800,
-  title: 'Escolha opção desejada:',
+  title: 'Selecione o paciente desejado:',
   icon: 'info',
   html: htmlData,
   showConfirmButton: false,

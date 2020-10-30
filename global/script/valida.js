@@ -6,6 +6,8 @@ $(document).ready(function () {
   $cpf.mask('000.000.000-00', {reverse: false});
   let $cpfresp = $('#cpfresp');
   $cpfresp.mask('000.000.000-00', {reverse: false});
+  let $cpfcpfresp = $('#cpfcpfresp');
+  $cpfcpfresp.mask('000.000.000-00', {reverse: false});
   let $cns = $('#cns');
   $cns.mask('000.0000.0000.0000', {reverse: false});
   let $registro = $('#registro');
