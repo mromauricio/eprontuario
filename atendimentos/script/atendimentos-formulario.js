@@ -28,6 +28,7 @@ class Atendimento {
     this.tratamentoanterior = tratamentoanterior;
   }
 }
+
 let idAtendimento;
 let idPaciente;
 let idProfissional;
@@ -50,10 +51,14 @@ let fatoresAtenuantes;
 let tratamentosAnteriores;
 let btnGravarAtendimento;
 
-let atendimento = new Atendimento();
+
+// TESTE TABS
+let tabHome, contentHome;
+let tabProfile, contentProfile;
+let tabContact, contentContact;
 
 async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, id_atendimento, id_formulario){
-  let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-inclusao.html');
+  let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-formulario.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
   let nomePaciente = document.querySelector('.button-link-image p');
@@ -136,7 +141,50 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
     tratamentosAnteriores.value = data[0].tratamentoanterior;
     btnGravarAtendimento.addEventListener('click', ProcessaAlteracaoAtendimento);
   }
+
+  // TESTE TABS
+// tabs = document.querySelector('.nav-tabs');
+// console.log (tabs.children[0].children[0].className,'  ',tabs.children[0].children[0].hash )
+// console.log (tabs.children[1].children[0])
+// console.log (tabs.children[2].children[0])
+// childElementCount: 3 
+// children: HTMLCollection 
+
+tabHome = document.querySelector('#home-tab');
+contentHome = document.querySelector('#home');
+tabProfile = document.querySelector('#profile-tab');
+contentProfile = document.querySelector('#profile');
+tabContact = document.querySelector('#contact-tab');
+contentContact = document.querySelector('#contact');
+tabProfile.addEventListener('click', function () {
+  this.setAttribute('class','nav-link active');
+  contentProfile.setAttribute('class','tab-pane fade show active');
+  tabHome.setAttribute('class','nav-link'); 
+  contentHome.setAttribute('class','tab-pane fade');
+  tabContact.setAttribute('class','nav-link'); 
+  contentContact.setAttribute('class','tab-pane fade');
+});
+tabHome.addEventListener('click', function () {
+  this.setAttribute('class','nav-link active');
+  contentHome.setAttribute('class','tab-pane fade show active');
+  tabProfile.setAttribute('class','nav-link'); 
+  contentProfile.setAttribute('class','tab-pane fade');
+  tabContact.setAttribute('class','nav-link'); 
+  contentContact.setAttribute('class','tab-pane fade');
+});
+tabContact.addEventListener('click', function () {
+  this.setAttribute('class','nav-link active');
+  contentContact.setAttribute('class','tab-pane fade show active');
+  tabProfile.setAttribute('class','nav-link'); 
+  contentProfile.setAttribute('class','tab-pane fade');
+  tabHome.setAttribute('class','nav-link'); 
+  contentHome.setAttribute('class','tab-pane fade');
+});
+
+
+//////////////////
 }
+
 
 
 function CopiaQuadroGeral(){
@@ -175,6 +223,8 @@ async function ProcessaInclusaoTratamento(){
     }
   }
 }
+
+let atendimento = new Atendimento();
 
 function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atendimento){
   let alertTitulo='', alertData='', alertHorario='' , alertDuracao='',  alertQueixa='', alertIntensidade='', alertEvolucao='';

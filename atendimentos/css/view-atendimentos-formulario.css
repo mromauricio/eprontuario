@@ -18,6 +18,15 @@
   margin-inline-start: 30%;
 }
 
+.nav-link{
+  color: black;
+  font-weight: 600;
+}
+
+a:hover{
+  color: cyan;
+  text-decoration: none;
+}
 
 
 .button-link-image{

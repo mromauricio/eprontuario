@@ -176,6 +176,11 @@ table {
   width: 100%;
 }
 
+caption{
+  caption-side:top;
+  color: #777;
+  font-size: 115%;
+}
 
 thead th:nth-child(1) {
   width: 4%;
