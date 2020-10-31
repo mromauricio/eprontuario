@@ -19,8 +19,8 @@
 }
 
 .nav-link{
-  color: black;
-  font-weight: 600;
+  color: #777;
+  /* font-weight: 600; */
 }
 
 a:hover{
