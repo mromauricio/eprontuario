@@ -302,9 +302,10 @@ async function SearchRegister(){
     returnGetNome = data;
     let modalData='';  
     data.forEach( (item, index, arr) => { 
-      if (arr[index].cpf == null) modalData += (`<a href='javascript:selecionaPaciente(${index})'><b>${arr[index].nome} CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
-      else modalData += (`<a href='javascript:selecionaPaciente(${index})'><b>${arr[index].nome} CPF ${arr[index].cpf}</b></a>  <br>`);  
+      if (arr[index].cpf == null) modalData += (`<a href='javascript:selecionaPaciente(${index})'>${arr[index].nome} CPF resp. ${arr[index].cpfresp}<b></b></a>  <br>`);  
+      else modalData += (`<a href='javascript:selecionaPaciente(${index})'>${arr[index].nome} CPF ${arr[index].cpf}<b></b></a>  <br>`);  
     });
+    modalData += (`<a href='javascript:incluirHomonio()'><b><small>Deseja incluir homônimo?<small><b> </a>`);
     let resultModal = await MsgHomonio(modalData);
     if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
       cameFromDb = false; 
@@ -323,6 +324,13 @@ async function SearchRegister(){
     idDb = 0;
     tempInfoAtivo.checked = true;   
   }
+}
+
+function incluirHomonio(){
+  Swal.close();
+  cameFromDb = false; 
+  idDb = 0;
+  tempInfoAtivo.checked = true;
 }
 
 function selecionaPaciente(index){

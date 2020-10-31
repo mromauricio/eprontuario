@@ -7,12 +7,14 @@ color: #888;
 /* Modal */
 a b {  
   font-size: 80%;
-  text-decoration: underline;
+  text-decoration: none;
   text-align: left;
 }
 a b:hover {
   color: #3085d6;
 }
+
+
 .swal2-header{
   font-size: 80%;
 }
@@ -34,6 +36,7 @@ pre{
   font-family: Verdana, Arial, Helvetica, sans-serif;
   color: #888;
 }
+
 
 
 body {

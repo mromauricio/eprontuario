@@ -89,13 +89,13 @@ async function MsgCenterYesNo(type, title, message, buttonYes, buttonNo){
 async function MsgHomonio(htmlData){
 let result = await Swal.fire({
   width: 800,
-  title: 'Escolha opção desejada:',
+  title: 'Selecione o paciente desejado:',
   icon: 'info',
   html: htmlData,
   showCancelButton: true,
+  showConfirmButton: false,
   focusConfirm: false,
-  confirmButtonText: 'Incluir homônino',
-  cancelButtonText: 'Voltar'
+  cancelButtonText: 'Buscar outro nome'
 })
 return result
 }

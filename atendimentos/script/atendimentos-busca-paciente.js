@@ -156,8 +156,8 @@ idNome.addEventListener('keyup', async function(event){
       if (retorno.length>1) {
         let modalData='';
         retorno.forEach( (item, index, arr) => { 
-          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'><b>${arr[index].nome} CPF resp. ${arr[index].cpfresp}</b></a>  <br>`);  
-          else modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'><b>${arr[index].nome} CPF ${arr[index].cpf}</b></a>  <br>`);  
+          if (arr[index].cpf == null) modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'>${arr[index].nome} CPF resp. ${arr[index].cpfresp}<b></b></a>  <br>`);  
+          else modalData += (`<a href='javascript:CriaTelaAtendimentoMaster(${index})'>${arr[index].nome} CPF ${arr[index].cpf}<b></b></a>  <br>`);  
         });
         let resultModal = await MsgSearch(modalData);
         if (resultModal.dismiss=="close" || resultModal.dismiss=="cancel" || resultModal.dismiss=="backdrop" || resultModal.dismiss=="esc") {
@@ -165,7 +165,7 @@ idNome.addEventListener('keyup', async function(event){
         }
       }
       else if (retorno.length == 1) CriaTelaAtendimentoMaster(retorno.length - 1);
-      else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
+      else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Dica: preencha apenas o primeiro nome.');
       else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
     }  
  }
