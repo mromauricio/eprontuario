@@ -12,10 +12,9 @@ async function SelecionaTratamento(id_tratamento){
 let id_paciente, arrayAtendimentos, arrayAtendimentosTemp;
 
 async function ExibeTratamento(data){
-  id_paciente = data[0].id_paciente;
   let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-existentes.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
-  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
+  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contate o Suporte TI.');
   let nomePaciente = document.querySelector('.button-link-image p');
   let titulo = document.querySelector('#titulo-tratamento');
   let status = document.querySelector('#status');
@@ -30,7 +29,7 @@ async function ExibeTratamento(data){
   status.value = data[0].status;
   dataAberturaTratamento.value = data[0].datalog.substring(0,10);
   let acao = 2;
-  btnIncluirAtendimento.innerHTML = `<a href='javascript:ManipulaTratamentoAtendimento(${acao},${id_paciente},${data[0].id_tratamento})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
+  btnIncluirAtendimento.innerHTML = `<a href='javascript:ManipulaTratamentoAtendimento(${acao},${data[0].id_paciente},${data[0].id_tratamento})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
   MontaTabelaAtendimentos(data);
   arrayAtendimentos = data;
   arrayAtendimentosTemp = data;
@@ -64,15 +63,8 @@ function MontaTabelaAtendimentos(data){
     rowCol4.innerText = `${arr[index].queixa}`;
     tr.appendChild(rowCol4);
     const rowCol5 = document.createElement('td');
-    rowCol5.innerText = `${arr[index].evolucao}`;
+    rowCol5.innerText = `${arr[index].profissional}`;
     tr.appendChild(rowCol5);
-    const rowCol6 = document.createElement('td');
-    rowCol6.setAttribute('style','text-align: center');
-    rowCol6.innerText = `${arr[index].intensidadedor}`;
-    tr.appendChild(rowCol6);
-    const rowCol7 = document.createElement('td');
-    rowCol7.innerText = `${arr[index].profissional}`;
-    tr.appendChild(rowCol7);
   });
 }
 

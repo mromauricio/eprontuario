@@ -8,7 +8,6 @@
   <a href='javascript:CriaTelaAtendimentoMaster(indexPacienteBd)'> <img src='/global/images/iconfinder_multimedia-18_2849818.png'>Voltar para visão geral do paciente</a>
   <p></p>
 </div>
-<hr>
 <form class="form-atendimento-inclusao">
   <div class="form-group">
     <label for="titulo-tratamento">Título tratamento</label>
@@ -30,16 +29,6 @@
   </div>
   <hr>
   <div class="form-row">
-    <div class="col-auto">
-      <label for="formulario">Formulário</label>
-      <select class="form-control form-control-sm" id="formulario">
-        <option>Padrão</option>
-        <option>Fisioterapêutico</option>
-        <option>Fisioterapêutico infantil</option>
-        <option>Osteopático</option>
-        <option>Osteopático infantil</option>
-      </select>
-    </div>
     <div class="col-auto" style="margin-bottom: 10px">
       <label for="data-atendimento">Data do atendimento</label>
       <input type="date" required class="form-control form-control-sm text-align-center" id="data-atendimento">
@@ -52,26 +41,48 @@
       <label for="duracao-atendimento">Duração(m)</label>
       <input type="number" required min="1" max="240" class="form-control form-control-sm" id="duracao-atendimento" placeholder="minutos">
     </div>
+    <div class="col-auto">
+      <label for="formulario">Formulário</label>
+      <select title="É possível pré determinar o formulário padrão no cadastro do paciente" class="form-control form-control-sm" id="formulario">
+        <option></option>
+        <option>Fisioterapêutico</option>
+        <option>Fisioterapêutico infantil</option>
+        <option>Osteopático</option>
+        <option>Osteopático infantil</option>
+      </select>
+    </div>
   </div>
   <div class="form-group">
     <label for="profissional">Profissional</label>
     <input type="text" required  maxlength="255"  class="form-control form-control-sm col-6" id="profissional" placeholder="VIRÁ PREENCHIDO DO LOGIN" disabled style="background-color: #333; border-color: #777;">
   </div>
-  <hr>
+  <p id="instrucao"></p>
 <!--  -->
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+      <a   class="nav-link " id="tab1a" data-toggle="tab" href="#tab1a" role="tab" aria-controls="tab1a" aria-selected="true">Coleta de dados</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Relação com outros sistemas</a>
+      <a class="nav-link " id="tab1b" data-toggle="tab" href="#tab1b" role="tab" aria-controls="tab1b" aria-selected="true">Coleta de dados</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Exame Físico</a>
+      <a  class="nav-link" id="tab2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Relação com outros sistemas</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a  class="nav-link" id="tab3" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Exame Físico</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a  class="nav-link" id="tab4" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="true">Conduta</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a  class="nav-link" id="tab5" data-toggle="tab" href="#tab5" role="tab" aria-controls="tab5" aria-selected="false">Orientação</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a  class="nav-link" id="tab6" data-toggle="tab" href="#tab6" role="tab" aria-controls="tab6" aria-selected="false">Encaminhamento</a>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="tab-pane fade" id="content1a" role="tabpanel" aria-labelledby="content1a">
             <div class="form-group">
               <label for="quadro-geral">Quadro geral</label>
               <a  href='javascript:CopiaQuadroGeral()'> <img class="copia-quadro-geral"  title="Clique aqui para copiar o quadro geral do último atendimento" src='/global/images/iconfinder_document_file_paper_page-03_2850903.png' style="display: none; margin-inline-start: 1em;"><small class="copia-quadro-geral" style="display: none;">copia quadro geral do antendimento anterior</small></a>
@@ -89,9 +100,6 @@
               <label for="tipo-dor">Tipo da dor</label>
               <textarea rows="1" class="form-control form-control-sm col-6" id="tipo-dor" ></textarea>
             </div>
-    </div>
-    <!--  -->
-    <div  class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="form-group" >
               <div class="well well-sm text-left"> 
                 <h3 style="margin-inline-start: 0px;">Intensidade &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10</h3>
@@ -147,13 +155,6 @@
               <label for="tipo-dor">Indicação do local</label>
               <img class="corpo-humano"  src="/global/images/corpo-humano.png" id="boneco">
             </div>
-    </div>
-    <!--  -->
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-            <div class="form-group">
-              <label for="evolucao-quadro">Evolução do quadro</label>
-              <textarea rows="1" class="form-control form-control-sm col-6" id="evolucao-quadro" ></textarea>
-            </div>
             <div class="form-group">
               <label for="fatores-agravantes">Fatores agravantes ( + )</label>
               <textarea rows="1" class="form-control form-control-sm col-6" id="fatores-agravantes" ></textarea>
@@ -163,16 +164,65 @@
               <textarea rows="1" class="form-control form-control-sm col-6" id="fatores-atenuantes" ></textarea>
             </div>
             <div class="form-group">
-              <label for="tratamentos-anteriores">Tratamentos anteriores</label>
+              <label for="tratamentos-anteriores">Tratamentos com terceiros</label>
               <textarea rows="1" class="form-control form-control-sm col-6" id="tratamentos-anteriores" ></textarea>
             </div>
+    </div>
+    <div class="tab-pane fade " id="content1b" role="tabpanel" aria-labelledby="content1b" >
+      <div class="form-group">
+        <label for="relato-resp">Relato do responsável</label>
+        <textarea rows="1" class="form-control form-control-sm col-6" id="relato-resp"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="avaliacao">Avaliação</label>
+        <textarea rows="1" class="form-control form-control-sm col-6" id="avaliacao" ></textarea>
+      </div>
+    </div>
+    <!--  -->
+    <div  class="tab-pane fade" id="content2" role="tabpanel" aria-labelledby="content2">
+      <div class="form-row">
+        <div class="col-auto" style="margin-bottom: 10px">
+          <label for="text-cardiologico" style="margin-block-start: 0.2rem"  >Cardiológico</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input position-static" type="checkbox" id="check-cardiologico" value="option1" aria-label="...">
+        </div>
+        <div class="col">
+          <input type="text" required class="form-control form-control-sm col-6" id="text-cardiologico">
+        </div>
+      </div>  
+      <div class="form-row">
+        <div class="col-auto" >
+          <label for="text-vascular" style="margin-block-start: 0.2rem; margin-inline-start: 1.5rem;"  >Vascular</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input position-static" type="checkbox" id="check-vascular" value="option1" aria-label="...">
+        </div>
+        <div class="col">
+          <input type="text" required class="form-control form-control-sm col-6" id="text-vascular">
+        </div>
+      </div>  
+    </div>
+    <!--  -->
+    <div class="tab-pane fade" id="content3" role="tabpanel" aria-labelledby="content3">
+      <p>CONTENT 3</p>
+    </div>
+    <div class="tab-pane fade" id="content4" role="tabpanel" aria-labelledby="content4">
+      <p>CONTENT 4</p>
+    </div>
+    <div class="tab-pane fade" id="content5" role="tabpanel" aria-labelledby="content5">
+      <p>CONTENT 5</p>
+    </div>
+    <div class="tab-pane fade" id="content6" role="tabpanel" aria-labelledby="content6">
+      <p>CONTENT 6</p>
     </div>
   </div>
 <!--  -->
 </form>
-<hr>
 <button type="button" class="btn btn-primary btn-sm" id="gravar-atendimento">Salvar</button>
-<button type="button" class="btn btn-secondary btn-sm" id="descartar-atendimento">Descartar alterações</button>
+<div>
+  <button type="button" class="btn btn-secondary btn-sm" id="descartar-atendimento">Descartar alterações</button>
+</div>
 
 
 

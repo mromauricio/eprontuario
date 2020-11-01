@@ -462,7 +462,7 @@ else {
       }
       case 2: MsgCenterButtonOkText('error','ID não localizado.', 'Preencha novamente o nome.'); break;    
       case 3: MsgCenterButtonOkText('error','CPF do responsável!', 'Não pode ser igual ao do paciente.'); break;   
-      case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI.'); break;  
+      case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI.'); break;  
       }
     }
   else {  
@@ -470,7 +470,7 @@ else {
     switch (retorno){
       case 0: MsgCenter('success','Dados enviados!', false); break;
       case 3: MsgCenterButtonOkText('error','CPF do responsável não pode ser igual ao do paciente', 'Corrija'); break;    
-      case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
+      case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI'); break;      
     }
   }
   ClearData();

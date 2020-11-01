@@ -47,5 +47,9 @@ async function AtualizaDataLog(id_paciente){
 
 function Hoje(){
   let dt = new Date();
-  return `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()}`
+  let dd = dt.getDate(); 
+  let mm = dt.getMonth()+1; 
+  if (dd <= 9) dd = `0${dd}`
+  if (mm <=9 ) mm = `0${mm}`
+  return `${dt.getFullYear()}-${mm}-${dd}`
 }

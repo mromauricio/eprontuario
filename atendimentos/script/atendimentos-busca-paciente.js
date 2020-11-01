@@ -63,7 +63,7 @@ idCpfCpfresp.addEventListener('keyup', async function(event){
       }  
       else if (retorno.length == 1) CriaTelaAtendimentoMaster(retorno.length - 1);
       else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
-      else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
+      else  MsgCenterButtonText('error','Erro no servidor!', 'Contate o Suporte TI'); 
     }  
   }
 }); 
@@ -107,7 +107,7 @@ idCpfCpfresp.addEventListener('keyup', async function(event){
 //       }  
 //       else if (retorno.length == 1) CriaTelaAtendimentoMaster(retorno.length - 1);
 //       else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Confira o nome informado.');
-//       else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
+//       else  MsgCenterButtonText('error','Erro no servidor!', 'Contate o Suporte TI'); 
 //     }  
 //  }
 // });
@@ -166,7 +166,7 @@ idNome.addEventListener('keyup', async function(event){
       }
       else if (retorno.length == 1) CriaTelaAtendimentoMaster(retorno.length - 1);
       else if (retorno == 2 || retorno == 4) MsgCenterText('info','Paciente não localizado!','Dica: preencha apenas o primeiro nome.');
-      else  MsgCenterButtonText('error','Erro no servidor!', 'Contacte o Suporte TI'); 
+      else  MsgCenterButtonText('error','Erro no servidor!', 'Contate o Suporte TI'); 
     }  
  }
 });

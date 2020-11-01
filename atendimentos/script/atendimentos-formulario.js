@@ -5,7 +5,7 @@
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
 class Atendimento {
-  constructor(id_atendimento, id_paciente, id_tratamento, id_formulario, titulotratamento, status, preenchido, data, horario, duracao, id_profissional,  queixa, quadrogeral, trajetodor, intensidadedor, tipodor, evolucao, agravante, atenuante, tratamentoanterior){
+  constructor(id_atendimento, id_paciente, id_tratamento, id_formulario, titulotratamento, status, preenchido, data, horario, duracao, id_profissional,  queixa, avaliacao, quadrogeral, trajetodor, intensidadedor, tipodor,  agravante, atenuante, tratamentoanterior){
     this.id_atendimento = id_atendimento;
     this.id_paciente = id_paciente;
     this.id_tratamento = id_tratamento;
@@ -18,11 +18,11 @@ class Atendimento {
     this.duracao = duracao;
     this.id_profissional = id_profissional;
     this.queixa = queixa;
+    this.avaliacao = avaliacao;
     this.quadrogeral = quadrogeral;
     this.trajetodor = trajetodor;
     this.intensidadedor = intensidadedor;
     this.tipodor = tipodor;
-    this.evolucao = evolucao;
     this.agravante = agravante;
     this.atenuante = atenuante;
     this.tratamentoanterior = tratamentoanterior;
@@ -33,145 +33,330 @@ let idAtendimento;
 let idPaciente;
 let idProfissional;
 let idTratamento;
+let dataTratamento;
 let tituloTratamento;
+let formulario; 
 let status;
 let dataAtendimento;
 let horarioAtendimento;
 let duracaoAtendimento;
 let profissional;
 let queixa;
+let relato;
+let avaliacao;
 let quadroGeral;
 let ultimoQuadroGeral;
 let trajetoDor;
 let intensidadeDor;
 let tipoDor;
-let evolucaoQuadro;
 let fatoresAgravantes;
 let fatoresAtenuantes;
 let tratamentosAnteriores;
 let btnGravarAtendimento;
 
-// TABS
-let tabHome, contentHome;
-let tabProfile, contentProfile;
-let tabContact, contentContact;
+let tab1a, content1a, tab1b, content1b, tab2, content2, tab3, content3, tab4, content4, tab5, content5, tab6, content6, instrucao;
 
 async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, id_atendimento, id_formulario){
-  let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-formulario.html');
-  if (retorno.length>0) tagMain.innerHTML = retorno;
-  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
-  let nomePaciente = document.querySelector('.button-link-image p');
-  nomePaciente.textContent = arrayPacienteBd[indexPacienteBd].nome;
   idPaciente = id_paciente;
   idTratamento = id_tratamento;
   idAtendimento = id_atendimento;
   idProfissional =  1;     // MOCK - id virá do login
+  let loadTelaOk = await CriaTelaFormularioTratamentoAtendimento();
+  if (loadTelaOk) {
+    if (acao == 1) {
+      dataTratamento.value = Hoje();  // /global/scripts/calcula.js
+      dataAtendimento.value = Hoje();
+      if (id_formulario == null) { formulario.value = ''; habilitaTabsFormulario(formulario.value); } 
+      if (id_formulario == 10)   { formulario.value = 'Fisioterapêutico'; habilitaTabsFormulario(formulario.value); } 
+      if (id_formulario == 11)   { formulario.value = 'Fisioterapêutico infantil'; habilitaTabsFormulario(formulario.value); }  
+      if (id_formulario == 20)   { formulario.value = 'Osteopático'; habilitaTabsFormulario(formulario.value); } 
+      if (id_formulario == 21)   { formulario.value = 'Osteopático infantil'; habilitaTabsFormulario(formulario.value); } 
+      btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
+    }
+    if (acao == 2) {
+      let idUltimoAtendimento = await GetQuadroGeral(id_tratamento);
+      if (idUltimoAtendimento[0].ultimo) {
+        btnCopiaQuadroGeral.removeAttribute('style');
+        btnCopiaQuadroGeral.nextElementSibling.removeAttribute('style');
+        let ultimoAtendimento = await GetAtendimento(idUltimoAtendimento[0].ultimo)
+        ultimoQuadroGeral = ultimoAtendimento[0].quadrogeral;
+      } 
+      dataAtendimento.value = Hoje();
+      retornoPaciente = await GetPaciente(id_paciente);
+      if (retornoPaciente[0].id_formulario == null) { formulario.value = ''; habilitaTabsFormulario(formulario.value); } 
+      if (retornoPaciente[0].id_formulario == 10) { formulario.value = 'Fisioterapêutico'; habilitaTabsFormulario(formulario.value); } 
+      if (retornoPaciente[0].id_formulario == 11) { formulario.value = 'Fisioterapêutico infantil'; habilitaTabsFormulario(formulario.value); }  
+      if (retornoPaciente[0].id_formulario == 20) { formulario.value = 'Osteopático'; habilitaTabsFormulario(formulario.value); } 
+      if (retornoPaciente[0].id_formulario == 21) { formulario.value = 'Osteopático infantil'; habilitaTabsFormulario(formulario.value); } 
+      let retornoTratamento = await GetTratamento(id_tratamento);
+      if (retornoTratamento.length > 0){
+        tituloTratamento.value = retornoTratamento[0].descricao;
+        status.value = retornoTratamento[0].status;
+        dataTratamento.value = retornoTratamento[0].datalog.substring(0,10);
+        btnGravarAtendimento.addEventListener('click', ProcessaInclusaoAtendimento);
+      }
+    }
+    if (acao == 3) {
+      let data = await GetAtendimento(id_atendimento);
+      tituloTratamento.value = data[0].titulotratamento;
+      status.value = data[0].status;
+      dataTratamento.value = data[0].datalog.substring(0,10);
+      dataAtendimento.value = data[0].data.substring(0,10);
+      horarioAtendimento.value = data[0].horario;
+      duracaoAtendimento.value = data[0].duracao;
+      formulario.value = data[0].formulario;
+      if (formulario.value == 'Fisioterapêutico') habilitaTabsFormulario(formulario.value); 
+      if (formulario.value == 'Fisioterapêutico infantil') habilitaTabsFormulario(formulario.value); 
+      if (formulario.value == 'Osteopático') habilitaTabsFormulario(formulario.value); 
+      if (formulario.value == 'Osteopático infantil') habilitaTabsFormulario(formulario.value); 
+      profissional.value = data[0].profissional;
+      quadroGeral.value = data[0].quadrogeral;
+      (formulario.value == 'Fisioterapêutico infantil') ? relato.value = data[0].queixa : queixa.value = data[0].queixa;
+      avaliacao.value = data[0].avaliacao;
+      trajetoDor.value = data[0].trajetodor;
+      if (data[0].intensidadedor == 99) data[0].intensidadedor = 0;
+      intensidadeDor.children[data[0].intensidadedor].children[0].checked = true;
+      tipoDor.value = data[0].tipodor;
+      fatoresAgravantes.value = data[0].agravante;
+      fatoresAtenuantes.value = data[0].atenuante;
+      tratamentosAnteriores.value = data[0].tratamentoanterior;
+      btnGravarAtendimento.addEventListener('click', ProcessaAlteracaoAtendimento);
+    }
+  }
+}
+
+let btnDescartarAtendimento;
+async function CriaTelaFormularioTratamentoAtendimento(){
+  let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-formulario.html');
+  if (retorno.length>0) tagMain.innerHTML = retorno;
+  if (retorno == 2) { 
+    MsgCenterButtonText('error','HTML não localizado.', 'Contate o Suporte TI.');
+    return false;
+  }
+  let nomePaciente = document.querySelector('.button-link-image p');
+  nomePaciente.textContent = arrayPacienteBd[indexPacienteBd].nome;
   tituloTratamento = document.querySelector('#titulo-tratamento');
   status = document.querySelector('#status');
-  let dataTratamento = document.querySelector('#data-tratamento');
-  let formulario = document.querySelector('#formulario');
+  dataTratamento = document.querySelector('#data-tratamento');
+  formulario = document.querySelector('#formulario');
   dataAtendimento = document.querySelector('#data-atendimento');
   horarioAtendimento = document.querySelector('#horario-atendimento');
   duracaoAtendimento = document.querySelector('#duracao-atendimento');
   profissional = document.querySelector('#profissional');
+
+  instrucao = document.querySelector('#instrucao');
+  tab1a = document.querySelector('#tab1a');
+  tab1b = document.querySelector('#tab1b');
+  tab2 = document.querySelector('#tab2');
+  tab3 = document.querySelector('#tab3');
+  tab4 = document.querySelector('#tab4');
+  tab5 = document.querySelector('#tab5');
+  tab6 = document.querySelector('#tab6');
+  content1a = document.querySelector('#content1a');
+  content1b = document.querySelector('#content1b');
+  content2 = document.querySelector('#content2');
+  content3 = document.querySelector('#content3');
+  content4 = document.querySelector('#content4');
+  content5 = document.querySelector('#content5');
+  content6 = document.querySelector('#content6');
+  //tab1a content
   quadroGeral = document.querySelector('#quadro-geral');
   btnCopiaQuadroGeral = document.querySelector('.copia-quadro-geral');
   queixa = document.querySelector('#queixa');
   trajetoDor = document.querySelector('#trajeto-dor');
   intensidadeDor = document.querySelector('#intensidade-dor');
   tipoDor = document.querySelector('#tipo-dor');
-  evolucaoQuadro = document.querySelector('#evolucao-quadro');
   fatoresAgravantes = document.querySelector('#fatores-agravantes');
   fatoresAtenuantes = document.querySelector('#fatores-atenuantes');
   tratamentosAnteriores = document.querySelector('#tratamentos-anteriores');
+  //tab1b content
+  relato = document.querySelector('#relato-resp');
+  avaliacao = document.querySelector('#avaliacao');
+  //tab2
+  cardiologicoCheck = document.querySelector('#check-cardiologico');
+  cardiologicoText = document.querySelector('#text-cardiologico');
+
   btnGravarAtendimento = document.querySelector('#gravar-atendimento');
   btnDescartarAtendimento = document.querySelector('#descartar-atendimento');
-  btnDescartarAtendimento.addEventListener('click', () => {  CriaTelaAtendimentoMaster(indexPacienteBd) } );
-  if (acao == 1) {
-    dataTratamento.value = Hoje();  // /global/scripts/calcula.js
-    dataAtendimento.value = Hoje();
-    if (id_formulario == 10) formulario.value = 'Fisioterapêutico';
-    if (id_formulario == 11) formulario.value = 'Fisioterapêutico infantil';
-    if (id_formulario == 20) formulario.value = 'Osteopático';
-    if (id_formulario == 21) formulario.value = 'Osteopático infantil';
-
-    btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
-  }
-  if (acao == 2) {
-    let idUltimoAtendimento = await GetQuadroGeral(id_tratamento);
-    if (idUltimoAtendimento[0].ultimo) {
-      btnCopiaQuadroGeral.removeAttribute('style');
-      btnCopiaQuadroGeral.nextElementSibling.removeAttribute('style');
-      let ultimoAtendimento = await GetAtendimento(idUltimoAtendimento[0].ultimo)
-      ultimoQuadroGeral = ultimoAtendimento[0].quadrogeral;
-    } 
-    retornoPaciente = await GetPaciente(id_paciente);
-    dataAtendimento.value = Hoje();
-    if (retornoPaciente[0].id_formulario == 10) formulario.value = 'Fisioterapêutico';
-    if (retornoPaciente[0].id_formulario == 11) formulario.value = 'Fisioterapêutico infantil';
-    if (retornoPaciente[0].id_formulario == 20) formulario.value = 'Osteopático';
-    if (retornoPaciente[0].id_formulario == 21) formulario.value = 'Osteopático infantil';
-    let retornoTratamento = await GetTratamento(id_tratamento);
-    if (retornoTratamento.length > 0){
-      tituloTratamento.value = retornoTratamento[0].descricao;
-      status.value = retornoTratamento[0].status;
-      dataTratamento.value = retornoTratamento[0].datalog.substring(0,10);
-      btnGravarAtendimento.addEventListener('click', ProcessaInclusaoAtendimento);
-    }
-  }
-  if (acao == 3) {
-    let data = await GetAtendimento(id_atendimento);
-    tituloTratamento.value = data[0].titulotratamento;
-    status.value = data[0].status;
-    dataTratamento.value = data[0].datalog.substring(0,10);
-    formulario.value = data[0].formulario;
-    dataAtendimento.value = data[0].data.substring(0,10);
-    horarioAtendimento.value = data[0].horario;
-    duracaoAtendimento.value = data[0].duracao;
-    profissional.value = data[0].profissional;
-    quadroGeral.value = data[0].quadrogeral;
-    queixa.value = data[0].queixa;
-    trajetoDor.value = data[0].trajetodor;
-    intensidadeDor.children[data[0].intensidadedor].children[0].checked = true;
-    tipoDor.value = data[0].tipodor;
-    evolucaoQuadro.value = data[0].evolucao;
-    fatoresAgravantes.value = data[0].agravante;
-    fatoresAtenuantes.value = data[0].atenuante;
-    tratamentosAnteriores.value = data[0].tratamentoanterior;
-    btnGravarAtendimento.addEventListener('click', ProcessaAlteracaoAtendimento);
-  }
-  tabHome = document.querySelector('#home-tab');
-  contentHome = document.querySelector('#home');
-  tabProfile = document.querySelector('#profile-tab');
-  contentProfile = document.querySelector('#profile');
-  tabContact = document.querySelector('#contact-tab');
-  contentContact = document.querySelector('#contact');
-  tabProfile.addEventListener('click', function () {
+  // Listeners
+  btnDescartarAtendimento.addEventListener('click', async () => {  
+    let resposta = await MsgCenterYesNo('warning', 'Ao sair as alterações não serão gravadas', 'Deseja sair?', 'Sim', 'Não');
+    if (resposta.isConfirmed){
+      Swal.close();
+      CriaTelaAtendimentoMaster(indexPacienteBd) 
+    } else Swal.close();
+  } );
+  formulario.addEventListener('click', ()=>{ habilitaTabsFormulario(formulario.value);});
+  tab1a.addEventListener('click', ()=> {this.setAttribute('class','nav-link active'); content1a.setAttribute('class','tab-pane fade show active'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab1b.addEventListener('click', ()=> {this.setAttribute('class','nav-link active'); content1b.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab2.addEventListener('click',  ()=> {this.setAttribute('class','nav-link active'); content2.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab3.addEventListener('click',  ()=> {this.setAttribute('class','nav-link active'); content3.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab4.addEventListener('click', function () {
     this.setAttribute('class','nav-link active');
-    contentProfile.setAttribute('class','tab-pane fade show active');
-    tabHome.setAttribute('class','nav-link'); 
-    contentHome.setAttribute('class','tab-pane fade');
-    tabContact.setAttribute('class','nav-link'); 
-    contentContact.setAttribute('class','tab-pane fade');
+    content4.setAttribute('class','tab-pane fade show active');
+    tab1a.setAttribute('class','nav-link'); 
+    content1a.setAttribute('class','tab-pane fade');
+    tab1b.setAttribute('class','nav-link'); 
+    content1b.setAttribute('class','tab-pane fade');
+    tab2.setAttribute('class','nav-link'); 
+    content2.setAttribute('class','tab-pane fade');
+    tab3.setAttribute('class','nav-link'); 
+    content3.setAttribute('class','tab-pane fade');
+    tab5.setAttribute('class','nav-link'); 
+    content5.setAttribute('class','tab-pane fade');
+    tab6.setAttribute('class','nav-link'); 
+    content6.setAttribute('class','tab-pane fade');
   });
-  tabHome.addEventListener('click', function () {
+  tab5.addEventListener('click', function () {
     this.setAttribute('class','nav-link active');
-    contentHome.setAttribute('class','tab-pane fade show active');
-    tabProfile.setAttribute('class','nav-link'); 
-    contentProfile.setAttribute('class','tab-pane fade');
-    tabContact.setAttribute('class','nav-link'); 
-    contentContact.setAttribute('class','tab-pane fade');
+    content5.setAttribute('class','tab-pane fade show active');
+    tab1a.setAttribute('class','nav-link'); 
+    content1a.setAttribute('class','tab-pane fade');
+    tab1b.setAttribute('class','nav-link'); 
+    content1b.setAttribute('class','tab-pane fade');
+    tab2.setAttribute('class','nav-link'); 
+    content2.setAttribute('class','tab-pane fade');
+    tab3.setAttribute('class','nav-link'); 
+    content3.setAttribute('class','tab-pane fade');
+    tab4.setAttribute('class','nav-link'); 
+    content4.setAttribute('class','tab-pane fade');
+    tab6.setAttribute('class','nav-link'); 
+    content6.setAttribute('class','tab-pane fade');
   });
-  tabContact.addEventListener('click', function () {
+  tab6.addEventListener('click', function () {
     this.setAttribute('class','nav-link active');
-    contentContact.setAttribute('class','tab-pane fade show active');
-    tabProfile.setAttribute('class','nav-link'); 
-    contentProfile.setAttribute('class','tab-pane fade');
-    tabHome.setAttribute('class','nav-link'); 
-    contentHome.setAttribute('class','tab-pane fade');
+    content6.setAttribute('class','tab-pane fade show active');
+    tab1a.setAttribute('class','nav-link'); 
+    content1a.setAttribute('class','tab-pane fade');
+    tab1b.setAttribute('class','nav-link'); 
+    content1b.setAttribute('class','tab-pane fade');
+    tab2.setAttribute('class','nav-link'); 
+    content2.setAttribute('class','tab-pane fade');
+    tab3.setAttribute('class','nav-link'); 
+    content3.setAttribute('class','tab-pane fade');
+    tab4.setAttribute('class','nav-link'); 
+    content4.setAttribute('class','tab-pane fade');
+    tab5.setAttribute('class','nav-link'); 
+    content5.setAttribute('class','tab-pane fade');
   });
+  return true;
 }
 
+function habilitaTabsFormulario(formulario){
+  if (formulario == '' ) {
+    instrucao.textContent = 'Instrução: preencha todos os dados acima.';
+    tab1a.setAttribute('style','display: none');
+    tab1a.setAttribute('class','nav-link'); 
+    content1a.setAttribute('class','tab-pane fade');
+    tab1b.setAttribute('style','display: none');
+    tab1b.setAttribute('class','nav-link'); 
+    content1b.setAttribute('class','tab-pane fade');
+    tab2.setAttribute('style','display: none');
+    tab2.setAttribute('class','nav-link'); 
+    content2.setAttribute('class','tab-pane fade');
+    tab3.setAttribute('style','display: none');
+    tab3.setAttribute('class','nav-link'); 
+    content3.setAttribute('class','tab-pane fade');
+    tab4.setAttribute('style','display: none');
+    tab4.setAttribute('class','nav-link'); 
+    content4.setAttribute('class','tab-pane fade');
+    tab5.setAttribute('style','display: none');
+    tab5.setAttribute('class','nav-link'); 
+    content5.setAttribute('class','tab-pane fade');
+    tab6.setAttribute('style','display: none');
+    tab6.setAttribute('class','nav-link'); 
+    content6.setAttribute('class','tab-pane fade');
+    btnGravarAtendimento.setAttribute('style','display: none');
+    btnDescartarAtendimento.setAttribute('style','display: none');
+  }
+  if (formulario == 'Fisioterapêutico' ) {
+    instrucao.textContent = 'Instrução: preencha todas as abas e clique no botão Salvar.';
+    tab1a.removeAttribute('style');
+    tab1a.setAttribute('class','nav-link active');
+    content1a.setAttribute('class','tab-pane fade show active');
+    tab1b.setAttribute('style','display: none');
+    content1b.setAttribute('class','tab-pane fade');
+    tab2.setAttribute('style','display: none');
+    content2.setAttribute('class','tab-pane fade');
+    tab3.removeAttribute('style');
+    content3.setAttribute('class','tab-pane fade');
+    tab4.removeAttribute('style');
+    content4.setAttribute('class','tab-pane fade');
+    tab5.removeAttribute('style');
+    content5.setAttribute('class','tab-pane fade');
+    tab6.removeAttribute('style');
+    content6.setAttribute('class','tab-pane fade');
+    btnGravarAtendimento.removeAttribute('style');
+    btnDescartarAtendimento.removeAttribute('style');
+  }
+  if (formulario == 'Fisioterapêutico infantil' ) {
+    instrucao.textContent = 'Instrução: preencha todas as abas e clique no botão Salvar.';
+    tab1b.removeAttribute('style');
+    tab1b.setAttribute('class','nav-link active');
+    content1b.setAttribute('class','tab-pane fade show active');
+    tab1a.setAttribute('style','display: none');
+    content1a.setAttribute('class','tab-pane fade');
+    tab2.setAttribute('style','display: none');
+    content2.setAttribute('class','tab-pane fade');
+    tab3.setAttribute('style','display: none');
+    content3.setAttribute('class','tab-pane fade');
+    tab4.removeAttribute('style');
+    content4.setAttribute('class','tab-pane fade');
+    tab5.removeAttribute('style');
+    content5.setAttribute('class','tab-pane fade');
+    tab6.removeAttribute('style');
+    content6.setAttribute('class','tab-pane fade');
+    btnGravarAtendimento.removeAttribute('style');
+    btnDescartarAtendimento.removeAttribute('style');
+  }
+  if (formulario == 'Osteopático' ) {
+    instrucao.textContent = 'Instrução: preencha todas as abas e clique no botão Salvar.';
+    tab1a.removeAttribute('style');
+    tab1a.setAttribute('class','nav-link active');
+    content1a.setAttribute('class','tab-pane fade show active');
+    tab1b.setAttribute('style','display: none');
+    content1b.setAttribute('class','tab-pane fade');
+    tab2.removeAttribute('style');
+    content2.setAttribute('class','tab-pane fade');
+    tab3.removeAttribute('style');
+    content3.setAttribute('class','tab-pane fade');
+    tab4.removeAttribute('style');
+    content4.setAttribute('class','tab-pane fade');
+    tab5.removeAttribute('style');
+    content5.setAttribute('class','tab-pane fade');
+    tab6.removeAttribute('style');
+    content6.setAttribute('class','tab-pane fade');
+    btnGravarAtendimento.removeAttribute('style');
+    btnDescartarAtendimento.removeAttribute('style');
+  }
+  if (formulario == 'Osteopático infantil' ) {
+    instrucao.textContent = 'FORMULÁRIO EM DESENVOLVIMENTO!';
+    tab1a.setAttribute('style','display: none');
+    tab1a.setAttribute('class','nav-link'); 
+    content1a.setAttribute('class','tab-pane fade');
+    tab1b.setAttribute('style','display: none');
+    tab1b.setAttribute('class','nav-link'); 
+    content1b.setAttribute('class','tab-pane fade');
+    tab2.setAttribute('style','display: none');
+    tab2.setAttribute('class','nav-link'); 
+    content2.setAttribute('class','tab-pane fade');
+    tab3.setAttribute('style','display: none');
+    tab3.setAttribute('class','nav-link'); 
+    content3.setAttribute('class','tab-pane fade');
+    tab4.setAttribute('style','display: none');
+    tab4.setAttribute('class','nav-link'); 
+    content4.setAttribute('class','tab-pane fade');
+    tab5.setAttribute('style','display: none');
+    tab5.setAttribute('class','nav-link'); 
+    content5.setAttribute('class','tab-pane fade');
+    tab6.setAttribute('style','display: none');
+    tab6.setAttribute('class','nav-link'); 
+    content6.setAttribute('class','tab-pane fade');
+    btnGravarAtendimento.setAttribute('style','display: none');
+    btnDescartarAtendimento.setAttribute('style','display: none');
+  }
+}
+ 
 function CopiaQuadroGeral(){
   quadroGeral.value = ultimoQuadroGeral
 }
@@ -189,7 +374,7 @@ async function ProcessaAlteracaoAtendimento(){
 
 async function ProcessaInclusaoAtendimento(){
  let atendimento = ValidaAtendimento (idPaciente, idProfissional, idTratamento);
- if (atendimento) { 
+ if (atendimento) {  
   if (atendimento.preenchido=='Completo') GravaAtendimento(atendimento)
   else {
     let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
@@ -212,17 +397,13 @@ async function ProcessaInclusaoTratamento(){
 let atendimento = new Atendimento();
 
 function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atendimento){
-  let alertTitulo='', alertData='', alertHorario='' , alertDuracao='',  alertQueixa='', alertIntensidade='', alertEvolucao='';
+  let alertTitulo='', alertData='', alertHorario='' , alertDuracao='';
   atendimento.id_paciente = id_paciente;
   atendimento.id_profissional = id_profissional; 
   atendimento.id_tratamento = id_tratamento;
   atendimento.id_atendimento = id_atendimento;
   if (isEmpty(tituloTratamento.value)) alertTitulo='Título tratamento';
   else atendimento.titulotratamento = tituloTratamento.value;
-  if (formulario.value == 'Fisioterapêutico') atendimento.id_formulario = 10;
-  if (formulario.value == 'Fisioterapêutico infantil') atendimento.id_formulario = 11;
-  if (formulario.value == 'Osteopático') atendimento.id_formulario = 20;
-  if (formulario.value == 'Osteopático infantil') atendimento.id_formulario = 21;
   atendimento.status = status.value;
   if (dataAtendimento.value=='' || CalculaDiferencaDiasAtendimento(dataAtendimento.value) < 0) alertData='Data';
   else atendimento.data = dataAtendimento.value;
@@ -230,26 +411,39 @@ function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atend
   else atendimento.horario = horarioAtendimento.value;
   if (duracaoAtendimento.value=='') alertDuracao='Duração';
   else atendimento.duracao = duracaoAtendimento.value;
-  if (isEmpty(queixa.value)) alertQueixa='Queixa';
-  else atendimento.queixa = queixa.value;
-  if (IntensidadeDorChecked(intensidadeDor) == 99) alertIntensidade='Intensidade'
-  else atendimento.intensidadedor = IntensidadeDorChecked(intensidadeDor);
-  if (isEmpty(evolucaoQuadro.value)) alertEvolucao='Evolução';
-  else atendimento.evolucao = evolucaoQuadro.value;
+  if (formulario.value == 'Fisioterapêutico') atendimento.id_formulario = 10;
+  if (formulario.value == 'Fisioterapêutico infantil') atendimento.id_formulario = 11;
+  if (formulario.value == 'Osteopático') atendimento.id_formulario = 20;
+  if (formulario.value == 'Osteopático infantil') atendimento.id_formulario = 21;
+
+  // TODO DAQUI PRA BAIXO DEPENDERÁ DO TIPO DE FORMULARIO
+  
+  // F, FI e O
+  (formulario.value == 'Fisioterapêutico infantil') ? atendimento.queixa = relato.value : atendimento.queixa = queixa.value;
+  
+  atendimento.avaliacao = avaliacao.value; // FI
+
+  // F e O
+  atendimento.intensidadedor = IntensidadeDorChecked(intensidadeDor);
   atendimento.quadrogeral = quadroGeral.value;
   atendimento.trajetodor = trajetoDor.value;
   atendimento.tipodor = tipoDor.value;
   atendimento.agravante = fatoresAgravantes.value;
   atendimento.atenuante = fatoresAtenuantes.value;
   atendimento.tratamentoanterior = tratamentosAnteriores.value;
-  if (isEmpty(quadroGeral.value) || isEmpty(trajetoDor.value) || isEmpty(tipoDor.value) || isEmpty(fatoresAgravantes.value) || isEmpty(fatoresAtenuantes.value) ){
-    atendimento.preenchido = 'Pendente'; 
-  } else  atendimento.preenchido = 'Completo';
-  if (alertTitulo=='' && alertData=='' && alertHorario=='' && alertDuracao=='' && alertQueixa=='' && alertIntensidade=='' && alertEvolucao=='') {
+  if (formulario.value == 'Fisioterapêutico' || formulario.value == 'Osteopático' ) {
+    if (isEmpty(quadroGeral.value) || isEmpty(trajetoDor.value) || isEmpty(tipoDor.value) || isEmpty(fatoresAgravantes.value) || isEmpty(fatoresAtenuantes.value) ){
+      atendimento.preenchido = 'Pendente'; 
+    } else  atendimento.preenchido = 'Completo';
+  }
+  else atendimento.preenchido = 'Completo'; // TODO REVISAR 
+
+  //  F, FI, O e OI
+  if (alertTitulo=='' && alertData=='' && alertHorario=='' && alertDuracao=='') {
     return atendimento;
   }  
   else {
-    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: \n${alertTitulo} \n${alertData} \n${alertHorario} \n${alertDuracao} \n${alertQueixa} \n${alertIntensidade}  \n${alertEvolucao}`);
+    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: \n${alertTitulo} \n${alertData} \n${alertHorario} \n${alertDuracao} `);
     return false;
   }
 }  
@@ -259,7 +453,7 @@ async function GravaTratamento(atendimento){
   switch (retorno){
     case 0: MsgCenterText('success','Atendimento salvo!', ''); break;
     case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
-    case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
+    case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI'); break;      
   }
   setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
 };
@@ -269,7 +463,7 @@ async function GravaAtendimento(atendimento){
   switch (retorno){
     case 0: MsgCenterText('success','Atendimento salvo!', ''); break;
     case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
-    case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
+    case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI'); break;      
   }
   setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
 };
@@ -279,7 +473,7 @@ async function AlteraAtendimento(atendimento){
   switch (retorno){
     case 0: MsgCenterText('success','Atendimento salvo!', ''); break;
     case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
-    case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contacte o Suporte TI'); break;      
+    case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI'); break;      
   }
   setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
 };

@@ -14,7 +14,7 @@ async function CriaTelaAtendimentoMaster(index, atalho){
     ExibePacienteAtendimento(arrayPacienteBd[index]);
     ExibeTratamentos(arrayPacienteBd[index].id_paciente)
   }  
-  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contacte o Suporte TI.');
+  if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contate o Suporte TI.');
 }
 
 function ExibePacienteAtendimento(data){
