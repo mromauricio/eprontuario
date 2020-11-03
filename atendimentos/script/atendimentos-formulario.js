@@ -5,7 +5,7 @@
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
 class Atendimento {
-  constructor(id_atendimento, id_paciente, id_tratamento, id_formulario, titulotratamento, status, preenchido, data, horario, duracao, id_profissional,  queixa, avaliacao, quadrogeral, trajetodor, intensidadedor, tipodor,  agravante, atenuante, tratamentoanterior){
+  constructor(id_atendimento, id_paciente, id_tratamento, id_formulario, titulotratamento, status, preenchido, data, horario, duracao, id_profissional,  queixa, avaliacao, quadrogeral, trajetodor, intensidadedor, tipodor,  agravante, atenuante, tratamentoanterior, faixaetaria){
     this.id_atendimento = id_atendimento;
     this.id_paciente = id_paciente;
     this.id_tratamento = id_tratamento;
@@ -26,6 +26,7 @@ class Atendimento {
     this.agravante = agravante;
     this.atenuante = atenuante;
     this.tratamentoanterior = tratamentoanterior;
+    this.faixaetaria = faixaetaria;
   }
 }
 
@@ -196,31 +197,31 @@ async function CriaTelaFormularioTratamentoAtendimento(){
   tab6.addEventListener('click',  ()=> {tab6.setAttribute('class','nav-link active'); content6.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); });
   cardiologicoCheck.addEventListener('click', ()=> { (cardiologicoCheck.checked) ? cardiologicoText.removeAttribute('style') : cardiologicoText.setAttribute('style','display: none') });
   vascularCheck.addEventListener('click', ()=> { (vascularCheck.checked) ? vascularText.removeAttribute('style') : vascularText.setAttribute('style','display: none') });
-  btnDescartarAtendimento.addEventListener('click', async () => {  
-    let resposta = await MsgCenterYesNo('warning', 'Ao sair as alterações não serão gravadas', 'Deseja sair?', 'Sim', 'Não');
-    if (resposta.isConfirmed){ Swal.close(); CriaTelaAtendimentoMaster(indexPacienteBd) } 
-    else Swal.close();
-  });
-  btnApagarAtendimento.addEventListener('click', async () => {  
-    let resposta = await MsgCenterYesNo('warning', 'Ao prosseguir este atendimento será excluído em definitivo', 'Deseja prosseguir?', 'Sim', 'Não');
-    if (resposta.isConfirmed){ 
-      Swal.close(); 
-      let resultDelete = await DeleteAtendimento(JSON.stringify({"id_atendimento":idAtendimento}));
-      switch (resultDelete){
-        case 0: MsgCenterText('success','Atendimento apagado!', ''); break;
-        case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
-        case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI'); break;      
-      }
-      setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
-      
-    } 
-    else Swal.close();
-  });
+  btnDescartarAtendimento.addEventListener('click',DescartaAtendimento );
+  btnApagarAtendimento.addEventListener('click', ApagaAtendimento );
   return true;
 }
 
+async function DescartaAtendimento () {
+  let resposta = await MsgCenterYesNo('warning', 'Ao sair as alterações não serão gravadas', 'Deseja sair?', 'Sim', 'Não');
+  if (resposta.isConfirmed){ Swal.close(); CriaTelaAtendimentoMaster(indexPacienteBd) } 
+  else Swal.close();
+}
 
-
+async function ApagaAtendimento (){
+  let resposta = await MsgCenterYesNo('warning', 'Ao prosseguir este atendimento será excluído em definitivo', 'Deseja prosseguir?', 'Sim', 'Não');
+  if (resposta.isConfirmed){ 
+    Swal.close(); 
+    let resultDelete = await DeleteAtendimento(JSON.stringify({"id_atendimento":idAtendimento}));
+    switch (resultDelete){
+      case 0: MsgCenterText('success','Atendimento apagado!', ''); break;
+      case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
+      case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI'); break;      
+    }
+    setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
+  } 
+  else Swal.close();
+}
 
 function habilitaTabsFormulario(formulario){
   if (formulario == '' ) {
@@ -248,6 +249,9 @@ function habilitaTabsFormulario(formulario){
     content6.setAttribute('class','tab-pane fade');
     btnGravarAtendimento.setAttribute('style','display: none');
     btnDescartarAtendimento.setAttribute('style','display: none');
+  } else {
+    btnGravarAtendimento.removeAttribute('style');
+    btnDescartarAtendimento.removeAttribute('style');
   }
   if (formulario == 'Fisioterapêutico' ) {
     instrucao.textContent = 'Instrução: preencha todas as abas e clique no botão Salvar.';
@@ -266,8 +270,6 @@ function habilitaTabsFormulario(formulario){
     content5.setAttribute('class','tab-pane fade');
     tab6.removeAttribute('style');
     content6.setAttribute('class','tab-pane fade');
-    btnGravarAtendimento.removeAttribute('style');
-    btnDescartarAtendimento.removeAttribute('style');
   }
   if (formulario == 'Fisioterapêutico infantil' ) {
     instrucao.textContent = 'Instrução: preencha todas as abas e clique no botão Salvar.';
@@ -286,8 +288,6 @@ function habilitaTabsFormulario(formulario){
     content5.setAttribute('class','tab-pane fade');
     tab6.removeAttribute('style');
     content6.setAttribute('class','tab-pane fade');
-    btnGravarAtendimento.removeAttribute('style');
-    btnDescartarAtendimento.removeAttribute('style');
   }
   if (formulario == 'Osteopático' ) {
     instrucao.textContent = 'Instrução: preencha todas as abas e clique no botão Salvar.';
@@ -306,8 +306,6 @@ function habilitaTabsFormulario(formulario){
     content5.setAttribute('class','tab-pane fade');
     tab6.removeAttribute('style');
     content6.setAttribute('class','tab-pane fade');
-    btnGravarAtendimento.removeAttribute('style');
-    btnDescartarAtendimento.removeAttribute('style');
   }
   if (formulario == 'Osteopático infantil' ) {
     instrucao.textContent = 'FORMULÁRIO EM DESENVOLVIMENTO!';
@@ -332,13 +330,37 @@ function habilitaTabsFormulario(formulario){
     tab6.setAttribute('style','display: none');
     tab6.setAttribute('class','nav-link'); 
     content6.setAttribute('class','tab-pane fade');
-    btnGravarAtendimento.setAttribute('style','display: none');
-    btnDescartarAtendimento.setAttribute('style','display: none');
   }
 }
  
 function CopiaQuadroGeral(){
   quadroGeral.value = ultimoQuadroGeral
+}
+
+async function ProcessaInclusaoTratamento(){
+  let atendimento = ValidaAtendimento (idPaciente, idProfissional);
+  if (atendimento) { 
+    let retornoPaciente = await GetPaciente(idPaciente);
+    atendimento.faixaetaria = CalculaFaixaEtaria(retornoPaciente[0].nascimento.substring(0,10));
+    if (atendimento.preenchido=='Completo') GravaTratamento(atendimento)
+    else {
+      let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
+      if (resultModal.isConfirmed) GravaTratamento(atendimento)
+    }
+  }
+}
+
+async function ProcessaInclusaoAtendimento(){
+ let atendimento = ValidaAtendimento (idPaciente, idProfissional, idTratamento);
+ if (atendimento) {  
+  let retornoPaciente = await GetPaciente(idPaciente);
+  atendimento.faixaetaria = CalculaFaixaEtaria(retornoPaciente[0].nascimento.substring(0,10)); 
+  if (atendimento.preenchido=='Completo') GravaAtendimento(atendimento)
+  else {
+    let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
+    if (resultModal.isConfirmed) GravaAtendimento(atendimento)
+  }
+}
 }
 
 async function ProcessaAlteracaoAtendimento(){
@@ -348,28 +370,6 @@ async function ProcessaAlteracaoAtendimento(){
     else {
       let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
       if (resultModal.isConfirmed) AlteraAtendimento(atendimento)
-    }
-  }
-}
-
-async function ProcessaInclusaoAtendimento(){
- let atendimento = ValidaAtendimento (idPaciente, idProfissional, idTratamento);
- if (atendimento) {  
-  if (atendimento.preenchido=='Completo') GravaAtendimento(atendimento)
-  else {
-    let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
-    if (resultModal.isConfirmed) GravaAtendimento(atendimento)
-  }
-}
-}
-
-async function ProcessaInclusaoTratamento(){
-  let atendimento = ValidaAtendimento (idPaciente, idProfissional);
-  if (atendimento) { 
-    if (atendimento.preenchido=='Completo') GravaTratamento(atendimento)
-    else {
-      let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
-      if (resultModal.isConfirmed) GravaTratamento(atendimento)
     }
   }
 }

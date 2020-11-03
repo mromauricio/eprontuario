@@ -19,6 +19,24 @@ function CalculaIdade(nascimento){
   return age;
 }
 
+function CalculaFaixaEtaria(nascimento){
+  if (!nascimento) return 'indeterminado';
+  let faixaetaria = '';
+  let today = new Date();
+  let years = today.getFullYear()-nascimento.substring(0,4);
+  let months = today.getMonth()+1-nascimento.substring(5,7);
+  let days = today.getDate()-nascimento.substring(8,10);
+  if (days<0)  months = months-1; 
+  if (12+months == 1) years = years-1;
+  if (years >= 65) faixaetaria = 'idoso';
+  else if (years >=18) faixaetaria = 'adulto';
+  else if (years >=12) faixaetaria = 'adolescente';
+  else if (years >=2) faixaetaria = 'criança';
+  else if (years >=0) faixaetaria = 'bebê';
+  return faixaetaria;
+}
+
+
 function CalculaDiferencaDias(datalog){
   let year = datalog.substring(0,4);
   let month = datalog.substring(5,7) - 1;
