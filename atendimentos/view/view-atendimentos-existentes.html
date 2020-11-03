@@ -25,7 +25,7 @@
       </select>
     </div>
     <div class="col-auto">
-      <label for="data-tratamento">Data abertura</label>
+      <label for="data-tratamento">Início do tratamento</label>
       <input type="date" class="form-control form-control-sm text-align-center" id="data-tratamento" disabled>
     </div>
   </div>
@@ -58,17 +58,19 @@
   <caption>Atendimentos:</caption>
   <colgroup>
     <col style="text-align: center" >
-    <col style="text-align: left">
+    <col style="text-align: center">
     <col >
     <col style="text-align: center ">
+    <col >
     <col >
   </colgroup>
   <thead>
     <tr>
       <th>&nbsp;</th>
-      <th><a  href='javascript:OrdenaDataAtendimentos(arrayAtendimentosTemp)' title="Clique aqui para inverter ordenação"><img src="/global/images/iconfinder_24-Arrow-direction-pointer-up-down_4510656.png">Data</a></th>
+      <th><a  href='javascript:OrdenaDataAtendimentos()' title="Clique para inverter ordenação"><img src="/global/images/iconfinder_24-Arrow-direction-pointer-up-down_4510656.png">Realizado</a></th>
       <th id="preenchido-table"></th>
       <th>Queixa principal / Relato do responsável</th>
+      <th id="formulario-table">Todos</th>
       <th>Atendido por</th>
     </tr>
   </thead>

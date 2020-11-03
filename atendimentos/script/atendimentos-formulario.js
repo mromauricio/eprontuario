@@ -53,6 +53,8 @@ let fatoresAgravantes;
 let fatoresAtenuantes;
 let tratamentosAnteriores;
 let btnGravarAtendimento;
+let btnDescartarAtendimento;
+let btnApagarAtendimento;
 
 let tab1a, content1a, tab1b, content1b, tab2, content2, tab3, content3, tab4, content4, tab5, content5, tab6, content6, instrucao;
 
@@ -72,6 +74,7 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
       if (id_formulario == 20)   { formulario.value = 'Osteopático'; habilitaTabsFormulario(formulario.value); } 
       if (id_formulario == 21)   { formulario.value = 'Osteopático infantil'; habilitaTabsFormulario(formulario.value); } 
       btnGravarAtendimento.addEventListener('click', ProcessaInclusaoTratamento);
+      btnApagarAtendimento.setAttribute('style','display: none');
     }
     if (acao == 2) {
       let idUltimoAtendimento = await GetQuadroGeral(id_tratamento);
@@ -94,6 +97,7 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
         status.value = retornoTratamento[0].status;
         dataTratamento.value = retornoTratamento[0].datalog.substring(0,10);
         btnGravarAtendimento.addEventListener('click', ProcessaInclusaoAtendimento);
+        btnApagarAtendimento.setAttribute('style','display: none');
       }
     }
     if (acao == 3) {
@@ -125,7 +129,7 @@ async function ManipulaTratamentoAtendimento(acao, id_paciente, id_tratamento, i
   }
 }
 
-let btnDescartarAtendimento;
+
 async function CriaTelaFormularioTratamentoAtendimento(){
   let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-formulario.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
@@ -175,72 +179,48 @@ async function CriaTelaFormularioTratamentoAtendimento(){
   //tab2
   cardiologicoCheck = document.querySelector('#check-cardiologico');
   cardiologicoText = document.querySelector('#text-cardiologico');
-
+  vascularCheck = document.querySelector('#check-vascular');
+  vascularText = document.querySelector('#text-vascular');
+  //buttons
   btnGravarAtendimento = document.querySelector('#gravar-atendimento');
   btnDescartarAtendimento = document.querySelector('#descartar-atendimento');
+  btnApagarAtendimento = document.querySelector('#apagar-atendimento');
   // Listeners
+  formulario.addEventListener('click', ()=>{ habilitaTabsFormulario(formulario.value);});
+  tab1a.addEventListener('click', ()=> {tab1a.setAttribute('class','nav-link active'); content1a.setAttribute('class','tab-pane fade show active'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab1b.addEventListener('click', ()=> {tab1b.setAttribute('class','nav-link active'); content1b.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab2.addEventListener('click',  ()=> {tab2.setAttribute('class','nav-link active'); content2.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab3.addEventListener('click',  ()=> {tab3.setAttribute('class','nav-link active'); content3.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab4.addEventListener('click',  ()=> {tab4.setAttribute('class','nav-link active'); content4.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab5.addEventListener('click',  ()=> {tab5.setAttribute('class','nav-link active'); content5.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
+  tab6.addEventListener('click',  ()=> {tab6.setAttribute('class','nav-link active'); content6.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); });
+  cardiologicoCheck.addEventListener('click', ()=> { (cardiologicoCheck.checked) ? cardiologicoText.removeAttribute('style') : cardiologicoText.setAttribute('style','display: none') });
+  vascularCheck.addEventListener('click', ()=> { (vascularCheck.checked) ? vascularText.removeAttribute('style') : vascularText.setAttribute('style','display: none') });
   btnDescartarAtendimento.addEventListener('click', async () => {  
     let resposta = await MsgCenterYesNo('warning', 'Ao sair as alterações não serão gravadas', 'Deseja sair?', 'Sim', 'Não');
-    if (resposta.isConfirmed){
-      Swal.close();
-      CriaTelaAtendimentoMaster(indexPacienteBd) 
-    } else Swal.close();
-  } );
-  formulario.addEventListener('click', ()=>{ habilitaTabsFormulario(formulario.value);});
-  tab1a.addEventListener('click', ()=> {this.setAttribute('class','nav-link active'); content1a.setAttribute('class','tab-pane fade show active'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
-  tab1b.addEventListener('click', ()=> {this.setAttribute('class','nav-link active'); content1b.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
-  tab2.addEventListener('click',  ()=> {this.setAttribute('class','nav-link active'); content2.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab3.setAttribute('class','nav-link'); content3.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
-  tab3.addEventListener('click',  ()=> {this.setAttribute('class','nav-link active'); content3.setAttribute('class','tab-pane fade show active'); tab1a.setAttribute('class','nav-link'); content1a.setAttribute('class','tab-pane fade'); tab1b.setAttribute('class','nav-link'); content1b.setAttribute('class','tab-pane fade'); tab2.setAttribute('class','nav-link'); content2.setAttribute('class','tab-pane fade'); tab4.setAttribute('class','nav-link'); content4.setAttribute('class','tab-pane fade'); tab5.setAttribute('class','nav-link'); content5.setAttribute('class','tab-pane fade'); tab6.setAttribute('class','nav-link'); content6.setAttribute('class','tab-pane fade'); });
-  tab4.addEventListener('click', function () {
-    this.setAttribute('class','nav-link active');
-    content4.setAttribute('class','tab-pane fade show active');
-    tab1a.setAttribute('class','nav-link'); 
-    content1a.setAttribute('class','tab-pane fade');
-    tab1b.setAttribute('class','nav-link'); 
-    content1b.setAttribute('class','tab-pane fade');
-    tab2.setAttribute('class','nav-link'); 
-    content2.setAttribute('class','tab-pane fade');
-    tab3.setAttribute('class','nav-link'); 
-    content3.setAttribute('class','tab-pane fade');
-    tab5.setAttribute('class','nav-link'); 
-    content5.setAttribute('class','tab-pane fade');
-    tab6.setAttribute('class','nav-link'); 
-    content6.setAttribute('class','tab-pane fade');
+    if (resposta.isConfirmed){ Swal.close(); CriaTelaAtendimentoMaster(indexPacienteBd) } 
+    else Swal.close();
   });
-  tab5.addEventListener('click', function () {
-    this.setAttribute('class','nav-link active');
-    content5.setAttribute('class','tab-pane fade show active');
-    tab1a.setAttribute('class','nav-link'); 
-    content1a.setAttribute('class','tab-pane fade');
-    tab1b.setAttribute('class','nav-link'); 
-    content1b.setAttribute('class','tab-pane fade');
-    tab2.setAttribute('class','nav-link'); 
-    content2.setAttribute('class','tab-pane fade');
-    tab3.setAttribute('class','nav-link'); 
-    content3.setAttribute('class','tab-pane fade');
-    tab4.setAttribute('class','nav-link'); 
-    content4.setAttribute('class','tab-pane fade');
-    tab6.setAttribute('class','nav-link'); 
-    content6.setAttribute('class','tab-pane fade');
-  });
-  tab6.addEventListener('click', function () {
-    this.setAttribute('class','nav-link active');
-    content6.setAttribute('class','tab-pane fade show active');
-    tab1a.setAttribute('class','nav-link'); 
-    content1a.setAttribute('class','tab-pane fade');
-    tab1b.setAttribute('class','nav-link'); 
-    content1b.setAttribute('class','tab-pane fade');
-    tab2.setAttribute('class','nav-link'); 
-    content2.setAttribute('class','tab-pane fade');
-    tab3.setAttribute('class','nav-link'); 
-    content3.setAttribute('class','tab-pane fade');
-    tab4.setAttribute('class','nav-link'); 
-    content4.setAttribute('class','tab-pane fade');
-    tab5.setAttribute('class','nav-link'); 
-    content5.setAttribute('class','tab-pane fade');
+  btnApagarAtendimento.addEventListener('click', async () => {  
+    let resposta = await MsgCenterYesNo('warning', 'Ao prosseguir este atendimento será excluído em definitivo', 'Deseja prosseguir?', 'Sim', 'Não');
+    if (resposta.isConfirmed){ 
+      Swal.close(); 
+      let resultDelete = await DeleteAtendimento(JSON.stringify({"id_atendimento":idAtendimento}));
+      switch (resultDelete){
+        case 0: MsgCenterText('success','Atendimento apagado!', ''); break;
+        case 3: MsgCenterButtonOkText('error','Regra de negócio violada', 'Corrija'); break;    
+        case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI'); break;      
+      }
+      setTimeout( ()=> { CriaTelaAtendimentoMaster(indexPacienteBd); }, 2500);
+      
+    } 
+    else Swal.close();
   });
   return true;
 }
+
+
+
 
 function habilitaTabsFormulario(formulario){
   if (formulario == '' ) {
@@ -402,7 +382,7 @@ function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atend
   atendimento.id_profissional = id_profissional; 
   atendimento.id_tratamento = id_tratamento;
   atendimento.id_atendimento = id_atendimento;
-  if (isEmpty(tituloTratamento.value)) alertTitulo='Título tratamento';
+  if (isEmpty(tituloTratamento.value)) alertTitulo='Título';
   else atendimento.titulotratamento = tituloTratamento.value;
   atendimento.status = status.value;
   if (dataAtendimento.value=='' || CalculaDiferencaDiasAtendimento(dataAtendimento.value) < 0) alertData='Data';
@@ -436,6 +416,7 @@ function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atend
       atendimento.preenchido = 'Pendente'; 
     } else  atendimento.preenchido = 'Completo';
   }
+  else if (formulario.value == 'Fisioterapêutico infantil' && isEmpty(avaliacao.value)) atendimento.preenchido = 'Pendente';
   else atendimento.preenchido = 'Completo'; // TODO REVISAR 
 
   //  F, FI, O e OI
@@ -443,7 +424,8 @@ function ValidaAtendimento(id_paciente, id_profissional, id_tratamento, id_atend
     return atendimento;
   }  
   else {
-    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: \n${alertTitulo} \n${alertData} \n${alertHorario} \n${alertDuracao} `);
+    let msg = `${alertTitulo} ${alertData} ${alertHorario} ${alertDuracao}`
+    MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${msg.trim()} `);
     return false;
   }
 }  

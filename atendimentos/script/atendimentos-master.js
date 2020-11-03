@@ -166,13 +166,13 @@ async function ExibeTratamentos(id_paciente){
 let statusTable = 'Todos';
 function MontaTabelaTratamentos(data){
   const thStatus = document.querySelector('#status-table');
-  thStatus.innerHTML = `<a href='javascript:FiltraStatus(arrayTratamentos)' title="Clique aqui para filtrar por status"><img src="/global/images/iconfinder_arrow_20_393260.png"> ${statusTable}</a>`;
+  thStatus.innerHTML = `<a href='javascript:FiltraStatus(arrayTratamentos)' title="Clique até aparecer o status desejado"><img src="/global/images/iconfinder_arrow_20_393260.png"> ${statusTable}</a>`;
   const bodyAtendimentos = document.querySelector('tbody');
   data.forEach( (item, index, arr) => { 
     const tr = document.createElement('tr');
     bodyAtendimentos.appendChild(tr);
     const rowCol1 = document.createElement('td');
-    rowCol1.innerHTML = `<a href='javascript:SelecionaTratamento(${arr[index].id_tratamento})' title="Clique e vá para o tratamento"  ><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a>`
+    rowCol1.innerHTML = `<a href='javascript:SelecionaTratamento(${arr[index].id_tratamento},${arr[index].id_paciente})' title="Clique para ver e editar o tratamento"  ><img src='/global/images/iconfinder_document_file_paper_page-14_2850894.png' ></a>`
     rowCol1.setAttribute('style','text-align: center');
     tr.appendChild(rowCol1);
     const rowCol2 = document.createElement('td');
@@ -181,7 +181,7 @@ function MontaTabelaTratamentos(data){
         arr[index].datalog = `${dataTemp[2]}.${dataTemp[1]}.${dataTemp[0].substring(2,4)}`;
     }    
     rowCol2.innerText = `${arr[index].datalog}`;
-    rowCol2.setAttribute('style','text-align: left');
+    rowCol2.setAttribute('style','padding-left: 11px;');
     tr.appendChild(rowCol2);
     const rowCol3 = document.createElement('td');
     rowCol3.innerText = `${arr[index].status}`;

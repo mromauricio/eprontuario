@@ -432,9 +432,9 @@ if (tempInfoFormulario.value == 'Fisioterapêutico') tempInfoFormulario.value = 
 if (tempInfoFormulario.value == 'Fisioterapêutico infantil') tempInfoFormulario.value = 11;
 if (tempInfoFormulario.value == 'Osteopático') tempInfoFormulario.value = 20;
 if (tempInfoFormulario.value == 'Osteopático infantil') tempInfoFormulario.value = 21;  
-if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') 
-  { 
-  MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: \n${alertNome} \n${alertResponsavel} \n${alertCpfresp} \n${alertCpf} \n${alertCns} \n${alertRegistro} \n${alertTel} \n${alertCel} \n${alertCep}`);
+if (alertNome!=''||alertResponsavel!=''||alertCpfresp!=''||alertCpf!=''||alertCns!=''||alertRegistro!=''||alertTel!=''||alertCel!=''||alertCep!='') { 
+  let msg = `${alertNome} ${alertResponsavel} ${alertCpfresp} ${alertCpf} ${alertCns} ${alertRegistro} ${alertTel} ${alertCel} ${alertCep}`
+  MsgCenterButtonOkText('warning','Dados inconsistentes!',`Corrija: ${msg.trim()} `);
   if (alertResponsavel!='') tempInfoResponsavel.focus();
   else if (alertCpfresp!='') tempInfoCpfresp.focus();
   else if (alertCpf!='')   tempInfoCpf.focus(); 

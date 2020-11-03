@@ -221,6 +221,22 @@ async function PostTratamento (data){
    } catch (error) {console.log(error); return 1;}
  }
 
+ async function DeleteAtendimento (data){
+  let url =  new URL('http://localhost:9001/atendimentos');
+   try {
+     let response = await fetch(url, {
+       method: 'DELETE',
+       headers: {'Content-Type': 'application/json;charset=utf-8'},
+       body: data
+     })
+     switch (response.status){
+       case 200: return 0;
+       case 406: return 3;
+       case 500: return 5;  
+       }
+   } catch (error) {console.log(error); return 1;}
+ }
+
  async function GetTratamentosPaciente (id_paciente){
   let url =  new URL('http://localhost:9001/atendimentos/paciente');
   url.href += (`/?id=${id_paciente}`);
