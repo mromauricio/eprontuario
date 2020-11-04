@@ -468,7 +468,7 @@ else {
   else {  
     let retorno = await PostPaciente(JSON.stringify(paciente)); // global/script/fetch.js
     switch (retorno){
-      case 0: MsgCenter('success','Dados enviados!', false); break;
+      case 0: MsgCenter('success','Dados salvos!', false); break;
       case 3: MsgCenterButtonOkText('error','CPF do responsável não pode ser igual ao do paciente', 'Corrija'); break;    
       case 5: MsgCenterButtonOkText('error','Erro no servidor!', 'Contate o Suporte TI'); break;      
     }
