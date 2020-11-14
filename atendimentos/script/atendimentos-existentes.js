@@ -4,6 +4,8 @@
 // Valida... (/global/script/valida.js)
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
+console.log('ESTOU AQUI')
+
 async function SelecionaTratamento(id_tratamento, id_paciente){
   let retorno = await GetAtendimentosTratamento(id_tratamento);
   if (retorno) ExibeTratamento(retorno, id_tratamento, id_paciente);
