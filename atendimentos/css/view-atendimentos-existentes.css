@@ -31,3 +31,7 @@
 .clean{
   display: none;
 }
+
+.desabilitar-incluir-tratamento a:hover{
+  color: rgb(66, 66, 66);
+}

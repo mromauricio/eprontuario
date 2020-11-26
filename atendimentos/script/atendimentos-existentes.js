@@ -5,12 +5,15 @@
 // ...Master (/atendimentos/script/atendimentos-master.js)
 
 async function SelecionaTratamento(id_tratamento, id_paciente){
-  let retorno = await GetAtendimentosTratamento(id_tratamento);
-  if (retorno) ExibeTratamento(retorno, id_tratamento, id_paciente);
+  let paciente = await GetPaciente(id_paciente);
+  let tratamento = await GetTratamento(id_tratamento);
+  let atendimentos = await GetAtendimentosTratamento(id_tratamento);
+  ExibeTratamento(atendimentos, paciente, tratamento);
 }
 
-let id_paciente, arrayAtendimentosOriginal, arrayAtendimentosFiltrado, preenchidoTable, formularioTable;
-async function ExibeTratamento(data, id_tratamento, id_paciente){
+let arrayAtendimentosOriginal, arrayAtendimentosFiltrado, preenchidoTable, formularioTable;
+
+async function ExibeTratamento(atendimentos, paciente, tratamento){
   let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-existentes.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contate o Suporte TI.');
@@ -23,32 +26,32 @@ async function ExibeTratamento(data, id_tratamento, id_paciente){
   titulo.setAttribute('style','background-color: #333; color: rgba(245, 245, 245, 0.801); border-color: #777');
   status.setAttribute('disabled'," ");
   status.setAttribute('style','background-color: #333; color: rgba(245, 245, 245, 0.801); border-color: #777');
-  if (data == 2) {
-    let retornoGetPaciente = await GetPaciente(id_paciente);
-    nomePaciente.textContent = retornoGetPaciente[0].nome;
-    let retornoGetTratamento = await GetTratamento(id_tratamento);
-    titulo.value = retornoGetTratamento[0].descricao;
-    status.value = retornoGetTratamento[0].status;
-    dataAberturaTratamento.value = retornoGetTratamento[0].datalog.substring(0,10);
+  let acao = 2;
+  if (paciente[0].ativo) btnIncluirAtendimento.innerHTML = `<a href='javascript:ManipulaTratamentoAtendimento(${acao},${paciente[0].id_paciente},${tratamento[0].id_tratamento})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
+  else {
+    btnIncluirAtendimento.innerHTML = `<a href='#'  title='Paciente não está habilitado para inclusão de atendimentos. Isto pode ser modificado no cadastro.'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png'>Incluir atendimento</a>`;
+    btnIncluirAtendimento.setAttribute('class','desabilitar-incluir-tratamento');
+  }
+  if (atendimentos == 2) {
+    nomePaciente.textContent = paciente[0].nome;
+    titulo.value = tratamento[0].descricao;
+    status.value = tratamento[0].status;
+    dataAberturaTratamento.value = tratamento[0].datalog.substring(0,10);
     const theadClean = document.querySelector('thead');
     theadClean.setAttribute('class','clean');
     const caption = document.querySelector('caption');
     caption.innerText = 'Nenhum atendimento foi registrado'
   }else {
-    nomePaciente.textContent = data[0].paciente;
-    titulo.value = data[0].titulotratamento;
-    status.value = data[0].status;
-    dataAberturaTratamento.value = data[0].datalog.substring(0,10);
+    nomePaciente.textContent = atendimentos[0].paciente;
+    titulo.value = atendimentos[0].titulotratamento;
+    status.value = atendimentos[0].status;
+    dataAberturaTratamento.value = atendimentos[0].datalog.substring(0,10);
     preenchidoTable = 'Todos';
     formularioTable = 'Todos';
-    MontaTabelaAtendimentos(data);
-    arrayAtendimentosOriginal = data;
-    arrayAtendimentosFiltrado = data;
+    MontaTabelaAtendimentos(atendimentos);
+    arrayAtendimentosOriginal = atendimentos;
+    arrayAtendimentosFiltrado = atendimentos;
   }
-  let acao = 2;
-  // btnIncluirAtendimento.innerHTML = `<a href='javascript:ManipulaTratamentoAtendimento(${acao},${data[0].id_paciente},${data[0].id_tratamento})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
-  btnIncluirAtendimento.innerHTML = `<a href='javascript:ManipulaTratamentoAtendimento(${acao},${id_paciente},${id_tratamento})'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir atendimento</a>`;
- 
 }
 
 function MontaTabelaAtendimentos(data){

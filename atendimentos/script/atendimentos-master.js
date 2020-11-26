@@ -64,7 +64,7 @@ async function PreencheCard2(nascimento, datalog, nome, ativo, id_paciente, id_f
     const btnAlert = document.querySelector('.spinner');
     btnAlert.setAttribute('class',"spinner-grow spinner-grow-sm");
     setTimeout( ()=> { btnAlert.removeAttribute('class'); }, 5000);
-    btnIncluirTratamento.innerHTML = `<a href='#'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`
+    btnIncluirTratamento.innerHTML = `<a href='#' title='Paciente não está habilitado para inclusão de tratamentos. Isto pode ser modificado no cadastro.'><img src='/global/images/iconfinder_document_file_paper_page-10_2850898.png' >Incluir tratamento</a>`
     btnIncluirTratamento.setAttribute('class','desabilitar-incluir-tratamento');
   }
   else {  
