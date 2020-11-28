@@ -8,12 +8,12 @@ async function SelecionaTratamento(id_tratamento, id_paciente){
   let paciente = await GetPaciente(id_paciente);
   let tratamento = await GetTratamento(id_tratamento);
   let atendimentos = await GetAtendimentosTratamento(id_tratamento);
-  ExibeTratamento(atendimentos, paciente, tratamento);
+  ExibeTratamento(paciente, tratamento, atendimentos);
 }
 
 let arrayAtendimentosOriginal, arrayAtendimentosFiltrado, preenchidoTable, formularioTable;
 
-async function ExibeTratamento(atendimentos, paciente, tratamento){
+async function ExibeTratamento(paciente, tratamento, atendimentos){
   let retorno = await GetHtmlMain('/atendimentos/view/view-atendimentos-existentes.html');
   if (retorno.length>0) tagMain.innerHTML = retorno;
   if (retorno == 2) MsgCenterButtonText('error','HTML não localizado.', 'Contate o Suporte TI.');
