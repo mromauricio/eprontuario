@@ -78,7 +78,7 @@ async function PutAtualizaDataPaciente (data){
 async function GetNome(nome){  
   // let url =  new URL('http://localhost:9001/pacientes/nome');
   // let url =  new URL('http://ec2-18-228-154-187.sa-east-1.compute.amazonaws.com:9001/pacientes/nome');
-  let url =  new URL('http://18.228.154.187:9001/pacientes/nome');
+  let url =  new URL('https://18.228.154.187:9001/pacientes/nome');
   url.href += (`/?nome=${nome}`);
   try {
     let response = await fetch(url);
