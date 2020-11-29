@@ -359,7 +359,8 @@ async function ProcessaInclusaoTratamento(){
   let atendimento = ValidaAtendimento (idPaciente, idProfissional);
   if (atendimento) { 
     let retornoPaciente = await GetPaciente(idPaciente);
-    atendimento.faixaetaria = CalculaFaixaEtaria(retornoPaciente[0].nascimento.substring(0,10));
+    if (retornoPaciente[0].nascimento) atendimento.faixaetaria = CalculaFaixaEtaria(retornoPaciente[0].nascimento.substring(0,10)); 
+    else atendimento.faixaetaria = 'indeterminado';
     if (atendimento.preenchido=='Completo') GravaTratamento(atendimento)
     else {
       let resultModal = await MsgCenterYesNo('warning','O formulário não foi preenchido totalmente!', 'O que deseja fazer?','Salvar mesmo assim','Preencher agora');
