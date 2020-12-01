@@ -87,10 +87,8 @@ async function GetNome(nome){
   try {
     let response = await fetch(url, {
       method: 'GET',
-      headers: [
-        ['Access-Control-Request-Method','GET'],
-        ['Access-Control-Request-Headers','false']
-      ]
+      headers: 
+        ['Access-Control-Request-Method','GET']
     });
     let data = await response.json();
     switch (response.status) {  
