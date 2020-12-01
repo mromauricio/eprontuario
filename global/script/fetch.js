@@ -85,7 +85,10 @@ async function GetNome(nome){
   // let url =  new URL('https://172.31.10.255/pacientes/nome');
   url.href += (`/?nome=${nome}`);
   try {
-    let response = await fetch(url);
+    let response = await fetch(url, {
+      method: 'GET',
+      headers: {'Access-Control-Request-Method':'GET', 'Access-Control-Allow-Credentials':'false'}
+    });
     let data = await response.json();
     switch (response.status) {  
       case 200: return data;
