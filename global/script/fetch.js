@@ -87,7 +87,7 @@ async function GetNome(name){
     let response = await fetch(url, {
       method: "GET",
       headers: [ ["Content-Type", "application/json"] ],
-      credentials: "omit"
+      credentials: "include" 
     });
     let data = await response.json();
     switch (response.status) {  
