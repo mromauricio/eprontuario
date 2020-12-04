@@ -77,12 +77,12 @@ async function PutAtualizaDataPaciente (data){
   } catch (error) {console.log(error); return 1;}
 }
 
-async function GetNome(nome){  
+async function GetNome(name){  
   // let url =  new URL('http://localhost:9001/pacientes/nome');
   // let url =  new URL('http://ec2-52-67-193-227.sa-east-1.compute.amazonaws.com:9001/pacientes/nome');
   let url =  new URL('https://52.67.73.92:9001/pacientes/nome');
   // let url =  new URL('https://172.31.10.255:9001/pacientes/nome');
-  url.href += (`/?nome=${nome}`);
+  url.href += (`/?nome=${name}`);
   try {
     let response = await fetch(url, {
       method: "GET",
